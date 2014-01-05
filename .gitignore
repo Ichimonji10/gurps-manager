@@ -1,0 +1,7 @@
+# compiled python code
+*.pyc
+# vim swapfiles
+*.swp
+*.swo
+# sqlite db
+sqlite/*
