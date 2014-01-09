@@ -1,0 +1,35 @@
+[epydoc]
+# For the "epydoc" documentation generator.
+# See: http://epydoc.sourceforge.net/manual-usage.html
+# See: `man epydoc`
+
+name: GURPS Manager
+
+# A boolean value indicating that Epydoc should show a tracaback in case of
+# unexpected error. By default don't show tracebacks
+debug: 0
+
+# The type of output that should be generated. Should be one of: html, text,
+# latex, dvi, ps, pdf.
+output: html
+
+# An integer indicating how verbose epydoc should be.  The default value is 0;
+# negative values will supress warnings and errors; positive values will give
+# more verbose output.
+verbosity: 1
+
+# The default markup language for docstrings, for modules that do not define
+# __docformat__. Defaults to epytext.
+docformat: restructuredtext
+
+# The format for showing inheritance objects. It should be one of: 'grouped',
+# 'listed', 'included'.
+inheritance: listed
+
+# The list of graph types that should be automatically included in the output.
+# Graphs are generated using the Graphviz "dot" executable. Graph types include:
+# "classtree", "callgraph", "umlclass".  Use "all" to include all graph types.
+graph: classtree
+
+# Whether or not to include a frames-based table of contents.
+frames: no
