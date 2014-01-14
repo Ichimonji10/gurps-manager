@@ -7,6 +7,11 @@ https://github.com/Ichimonji10/gurps-manager.git. gurps-manager is written using
 the Django web app framework. For more on Django, read the excellent `Django
 documentation`_.
 
+This document contains commands that should be run from a shell (command line).
+Your shell's current working directory should be the root directory of this
+repository. That is, you should ``cd`` to the directory containing this
+document.
+
 Deployment Guide
 ================
 
@@ -19,19 +24,17 @@ Install the following:
 
 * django-extensions
 * django (version 1.6)
-* python
+* python (version 3)
 * python-django-tables2
 * python-factory_boy
 
-When following these deployment guides, you will be instructed to perform
-actions at the command line. It is assumed that your command-line client's
-current working directory is the root directory if this repository.
+TODO: Is django-extensions available under python 3?
 
 Development Setup
 -----------------
 
 This setup is easy to accomplish. It is suitable for development work, but it
-should __not__ be used in a production environment.
+should *not* be used in a production environment.
 
 You do not need to install any additional software for this setup.
 
@@ -51,13 +54,93 @@ Production Setup
 This setup is harder to accomplish. It is suitable for a small production
 environment.
 
+Prerequisites
+~~~~~~~~~~~~~
+
 Install the following additional software:
 
 * lighttpd
 * mysql
-* python-flup
+* python-gunicorn
 
-TODO: flesh out this section
+Web Server
+~~~~~~~~~~
+
+Back up your current lighttpd config files. Then, customize and install new
+config files::
+
+    # cp /etc/lighttpd/ /etc/lighttpd.old/
+    $ vi configs/lighttpd.conf
+    $ vi configs/proxy.conf
+    # cp -t /etc/lighttpd/ configs/lighttpd.conf configs/proxy.conf
+    # systemctl start lighttpd
+
+The lighttpd config files make several important assumtions. For example, they
+make assumptions about where the repository has been cloned to (``/srv/http/``)
+and which user the web server should run as. Look them over carefully before
+installing them.
+
+At this point, the web server should be capable of serving up static files. This
+is despite the fact that the django application is not yet working. To determine
+whether lighttpd is working, create a file in the ``static`` directory, and
+attempt to fetch it::
+
+    $ echo foo > static/testfile
+    $ curl localhost/static/testfile
+    $ rm static/testfile
+
+This command causes lighttpd to serve a static file directly from the
+``static/`` folder. If you can fetch this static file, then lighttpd is working.
+
+Database
+~~~~~~~~
+
+Edit the ``DATABASES`` section of ``apps/main/settings.py``. When you're done,
+it will look something like this::
+
+    DATABASES = {
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'gurps-manager',
+            'USER': 'gurps-manager',
+            'PASSWORD': 'hackme',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
+
+Install `MySQL-Python`_, then configure the MySQL database::
+
+    $ mysql -p -u root
+    mysql> create database gurps-manager character set utf8;
+    mysql> create user 'gurps-manager'@'localhost' IDENTIFIED BY 'hackme';
+    mysql> GRANT AlL PRIVILEGES ON gurps-manager.* TO 'gurps-manager'@'localhost';
+    mysql> commit;
+    mysql> exit
+
+Initialize the database backend::
+
+    $ apps/manage.py syncdb
+
+This will create all necessary tables in the database.
+
+Application
+~~~~~~~~~~~
+
+Generate static files::
+
+    $ apps/manage.py collectstatic
+
+This will search each app in the ``apps`` folder for static resources, such as
+CSS files and images, and place those files in the ``static/`` folder.
+
+Start the app server (tweak to taste)::
+
+    $ cd apps/
+    $ gunicorn main.wsgi:application
+
+Direct your web browser to http://localhost/. That's it!
 
 Documentation
 =============
