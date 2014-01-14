@@ -22,13 +22,11 @@ certain configurations. Directions for two simple deployments are listed below.
 All of the setups listed below require several common pieces of software.
 Install the following:
 
-* django-extensions
 * django (version 1.6)
-* python (version 3)
+* python-django-extensions
 * python-django-tables2
 * python-factory_boy
-
-TODO: Is django-extensions available under python 3?
+* python (version 3)
 
 Development Setup
 -----------------
@@ -162,7 +160,7 @@ graphviz must be installed for epydoc to generate graphs.
 
 You can generate a diagram of the database models::
 
-    $ ./manage.py graph_models gurps_manager > gurps_manager.dot
+    $ apps/manage.py graph_models gurps_manager > gurps_manager.dot
     $ dot -Tsvg -o gurps_manager.svg gurps_manager.dot
 
 Again, graphviz must be installed to generate images.
