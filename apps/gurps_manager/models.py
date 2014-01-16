@@ -28,15 +28,3 @@ class Character(models.Model):
         max_length = MAX_LEN_DESCRIPTION,
         blank = True
     )
-    race = models.ForeignKey('Race')
-
-class Race(models.Model):
-    """A race to which a character can belong."""
-    MAX_LEN_NAME = 50
-    MAX_LEN_DESCRIPTION = 2000
-
-    name = models.CharField(max_length = MAX_LEN_NAME)
-    description = models.TextField(
-        max_length = MAX_LEN_DESCRIPTION,
-        blank = True
-    )
