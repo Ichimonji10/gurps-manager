@@ -49,8 +49,7 @@ class Character(models.Model):
         blank = True
     )
 
-    # number-based fields
-    total_points = models.FloatField(validators=[validate_quarter])
+    # integer-based fields
     strength = models.IntegerField()
     dexterity = models.IntegerField()
     intelligence = models.IntegerField()
@@ -59,7 +58,6 @@ class Character(models.Model):
     wealth = models.IntegerField()
     magery = models.IntegerField()
     eidetic_memory = models.IntegerField()
-    used_fatigue = models.FloatField(validators=[validate_quarter])
     bonus_fatigue = models.IntegerField()
     bonus_hitpoints = models.IntegerField()
     bonus_alertness = models.IntegerField()
@@ -73,3 +71,7 @@ class Character(models.Model):
     free_dexterity = models.IntegerField()
     free_intelligence = models.IntegerField()
     free_health = models.IntegerField()
+
+    # float-based fields
+    total_points = models.FloatField(validators=[validate_quarter])
+    used_fatigue = models.FloatField(validators=[validate_quarter])
