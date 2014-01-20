@@ -6,9 +6,10 @@ https://docs.djangoproject.com/en/1.6/topics/testing/overview/
 
 """
 from doctest import DocTestSuite
-from gurps_manager import factories
+from gurps_manager import factories, models
 
 def load_tests(loader, tests, ignore):
     """Create a suite of doctests from this Django application."""
     tests.addTests(DocTestSuite(factories))
+    tests.addTests(DocTestSuite(models))
     return tests

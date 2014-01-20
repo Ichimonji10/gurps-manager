@@ -27,6 +27,16 @@ def validate_quarter(number):
 
     ``number`` is a float.
 
+    >>> from django.core.exceptions import ValidationError
+    >>> validate_quarter(0.0)
+    >>> validate_quarter(0.25)
+    >>> validate_quarter(0.50)
+    >>> try:
+    ...     validate_quarter(0.26)
+    ... except ValidationError:
+    ...     'an exception was raised'
+    'an exception was raised'
+
     """
     if Decimal(number).quantize(Decimal('0.01')) % Decimal(0.25) \
     != Decimal(0.00):
