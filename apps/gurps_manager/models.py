@@ -24,16 +24,18 @@ class Character(models.Model):
     MAX_LEN_DESCRIPTION = 2000
     MAX_LEN_STORY = 2000
 
+    # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
     description = models.TextField(
         max_length = MAX_LEN_DESCRIPTION,
         blank = True
     )
-    story = models.CharField(
+    story = models.TextField(
         max_length = MAX_LEN_STORY,
         blank = True
     )
-    """If possible, this should be limited to 2 decimal places"""
+
+    # number-based fields
     total_points = models.FloatField() 
     strength = models.IntegerField()
     dexterity = models.IntegerField()
@@ -57,6 +59,3 @@ class Character(models.Model):
     free_dexterity = models.IntegerField()
     free_intelligence = models.IntegerField()
     free_health = models.IntegerField()
-    
-    
-    
