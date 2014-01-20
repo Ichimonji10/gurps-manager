@@ -8,6 +8,8 @@ column named ``id``. Django will not generate ``id`` if you pass ``primary_key =
 True`` to some other column.
 
 """
+from decimal import Decimal
+from django.core.exceptions import ValidationError
 from django.db import models
 
 # pylint: disable=R0903
@@ -17,6 +19,18 @@ from django.db import models
 # pylint: disable=W0232
 # "Class has no __init__ method"
 # It is both common and OK for a model to have no __init__ method.
+
+def validate_quarter(number):
+    """Check whether ``number`` is some multiple of 0.25.
+
+    If check fails, raise a ``ValidationError``.
+
+    ``number`` is a float.
+
+    """
+    if Decimal(number).quantize(Decimal('0.01')) % Decimal(0.25) \
+    != Decimal(0.00):
+        raise ValidationError('{} is not divisible by 0.25.'.format(number))
 
 class Character(models.Model):
     """An individual who can be role-played."""
@@ -36,7 +50,7 @@ class Character(models.Model):
     )
 
     # number-based fields
-    total_points = models.FloatField() 
+    total_points = models.FloatField(validators=[validate_quarter])
     strength = models.IntegerField()
     dexterity = models.IntegerField()
     intelligence = models.IntegerField()
@@ -45,7 +59,7 @@ class Character(models.Model):
     wealth = models.IntegerField()
     magery = models.IntegerField()
     eidetic_memory = models.IntegerField()
-    used_fatigue = models.FloatField()
+    used_fatigue = models.FloatField(validators=[validate_quarter])
     bonus_fatigue = models.IntegerField()
     bonus_hitpoints = models.IntegerField()
     bonus_alertness = models.IntegerField()
