@@ -7,20 +7,68 @@ be used to generate disgustingly random data. (perfect for testing!)
 """
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyAttribute
+from factory import SubFactory
 from gurps_manager import models
 import random
 
-class CharacterFactory(DjangoModelFactory):
-    """Instantiate an ``gurps_manager.models.Character`` object.
+class CampaignFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Campaign`` object.
 
-    >>> CharacterFactory.build().full_clean()
-    >>> CharacterFactory.create().id is None
+    >>> CampaignFactory.build().full_clean()
+    >>> CampaignFactory.create().id is None
     False
 
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
+    FACTORY_FOR = models.Campaign
+    name = FuzzyAttribute(lambda: campaign_name()) # pylint: disable=W0108
+
+def campaign_name():
+    """Return a value for the ``Campaign.name`` model attribute.
+
+    >>> from gurps_manager.models import Campaign
+    >>> name = campaign_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= Campaign.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.Campaign.MAX_LEN_NAME)
+
+def campaign_description():
+    """Return a value for the ``Campaign.description`` model attribute.
+
+    >>> from gurps_manager.models import Campaign
+    >>> description = campaign_description()
+    >>> isinstance(description, str)
+    True
+    >>> len(description) >= 1
+    True
+    >>> len(description) <= Campaign.MAX_LEN_DESCRIPTION
+    True
+
+    """
+    return _random_str(1, models.Campaign.MAX_LEN_DESCRIPTION)
+
+class CharacterFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Character`` object.
+
+    >>> character = CharacterFactory.create()
+    >>> character.full_clean()
+    >>> character.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    # pylint: disable=W0108
     FACTORY_FOR = models.Character
+
+    campaign = SubFactory(CampaignFactory)
     name = FuzzyAttribute(lambda: character_name()) # pylint: disable=W0108
 
     # integer-based fields

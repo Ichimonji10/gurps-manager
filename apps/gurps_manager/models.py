@@ -42,11 +42,24 @@ def validate_quarter(number):
     != Decimal(0.00):
         raise ValidationError('{} is not divisible by 0.25.'.format(number))
 
+class Campaign(models.Model):
+    """A single role-playing campaign."""
+    MAX_LEN_NAME = 50
+    MAX_LEN_DESCRIPTION = 2000
+
+    name = models.CharField(max_length = MAX_LEN_NAME)
+    description = models.TextField(
+        max_length = MAX_LEN_DESCRIPTION,
+        blank = True
+    )
+
 class Character(models.Model):
     """An individual who can be role-played."""
     MAX_LEN_NAME = 50
     MAX_LEN_DESCRIPTION = 2000
     MAX_LEN_STORY = 2000
+
+    campaign = models.ForeignKey(Campaign)
 
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
