@@ -66,11 +66,11 @@ class Character(models.Model):
     name = models.CharField(max_length = MAX_LEN_NAME)
     description = models.TextField(
         max_length = MAX_LEN_DESCRIPTION,
-        blank = True
+        blank = True,
     )
     story = models.TextField(
         max_length = MAX_LEN_STORY,
-        blank = True
+        blank = True,
     )
 
     # integer fields
@@ -118,8 +118,8 @@ class HitLocation(models.Model):
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
     status = models.TextField(
-        max_length = MAX_LEN_STATUS
-        blank = True
+        max_length = MAX_LEN_STATUS,
+        blank = True,
     )
 
     # integer fields
