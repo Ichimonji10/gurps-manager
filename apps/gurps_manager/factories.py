@@ -80,6 +80,7 @@ class CharacterFactory(DjangoModelFactory):
     wealth = FuzzyAttribute(lambda: character_intfield())
     magery = FuzzyAttribute(lambda: character_intfield())
     eidetic_memory = FuzzyAttribute(lambda: character_intfield())
+    muscle_memory = FuzzyAttribute(lambda: character_intfield())
     bonus_fatigue = FuzzyAttribute(lambda: character_intfield())
     bonus_hitpoints = FuzzyAttribute(lambda: character_intfield())
     bonus_alertness = FuzzyAttribute(lambda: character_intfield())

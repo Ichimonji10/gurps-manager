@@ -81,6 +81,7 @@ class Character(models.Model):
     wealth = models.IntegerField()
     magery = models.IntegerField()
     eidetic_memory = models.IntegerField()
+    muscle_memory = models.IntegerField()
     bonus_fatigue = models.IntegerField()
     bonus_hitpoints = models.IntegerField()
     bonus_alertness = models.IntegerField()
