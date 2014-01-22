@@ -59,6 +59,7 @@ class Character(models.Model):
     MAX_LEN_DESCRIPTION = 2000
     MAX_LEN_STORY = 2000
 
+    # key fields
     campaign = models.ForeignKey(Campaign)
 
     # string-based fields
@@ -72,16 +73,12 @@ class Character(models.Model):
         blank = True
     )
 
-    # integer-based fields
+    # integer fields
     strength = models.IntegerField()
     dexterity = models.IntegerField()
     intelligence = models.IntegerField()
     health = models.IntegerField()
-    appearance = models.IntegerField()
-    wealth = models.IntegerField()
     magery = models.IntegerField()
-    eidetic_memory = models.IntegerField()
-    muscle_memory = models.IntegerField()
     bonus_fatigue = models.IntegerField()
     bonus_hitpoints = models.IntegerField()
     bonus_alertness = models.IntegerField()
@@ -96,6 +93,72 @@ class Character(models.Model):
     free_intelligence = models.IntegerField()
     free_health = models.IntegerField()
 
-    # float-based fields
+    # float fields
     total_points = models.FloatField(validators=[validate_quarter])
     used_fatigue = models.FloatField(validators=[validate_quarter])
+
+    # lookup fields
+    appearance = models.IntegerField()
+    wealth = models.IntegerField()
+    eidetic_memory = models.IntegerField()
+    muscle_memory = models.IntegerField()
+
+class HitLocation(models.Model):
+    """A location on a character that can be affected
+
+    Affectations include: armor value, damage, status effects, etc. 
+
+    """
+    MAX_LEN_NAME = 50
+    MAX_LEN_STATUS = 500
+
+    # key fields
+    character = models.ForeignKey(Character)
+
+    # string-based fields
+    name = models.CharField(max_length = MAX_LEN_NAME)
+    status = models.TextField(
+        max_length = MAX_LEN_STATUS
+        blank = True
+    )
+
+    # integer fields
+    passive_damage_resistance = models.IntegerField()
+    damage_resistance = models.IntegerField()
+    damage_taken = models.IntegerField()
+
+class Skill(models.Model):
+    """A skill available to characters.
+
+    A skill is some task that a character has some proficency in. For example, a
+    character could become proficent in dagger throwing or underwater basket
+    weaving.
+
+    """    
+    MAX_LEN_NAME = 50
+
+    CATEGORY_CHOICES = (
+        (1, 'Mental'),
+        (2, 'Mental (health)'),
+        (3, 'Physical'),
+        (4, 'Physical (health)'),
+    )
+    DIFFICULTY_CHOICES = (
+        (1, 'Easy'),
+        (2, 'Average'),
+        (3, 'Hard'),
+        (4, 'Very Hard'),
+    )
+
+    # key fields
+    skillset = models.ForeignKey(SkillSet)
+
+    # string-based fields
+    name = models.CharField(max_length = MAX_LEN_NAME)
+
+    # lookup fields
+    category = models.IntegerField(choices=CATEGORY_CHOICES)
+    difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
+
+class CharacterSkill(models.Model):
+    """A skill that a character possesses"""
