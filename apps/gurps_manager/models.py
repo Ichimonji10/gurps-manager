@@ -162,3 +162,4 @@ class Skill(models.Model):
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
+    pass
