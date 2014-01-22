@@ -106,7 +106,7 @@ class Character(models.Model):
 class HitLocation(models.Model):
     """A location on a character that can be affected
 
-    Affectations include: armor value, damage, status effects, etc. 
+    Affectations include: armor value, damage, status effects, etc.
 
     """
     MAX_LEN_NAME = 50
@@ -134,7 +134,7 @@ class Skill(models.Model):
     character could become proficent in dagger throwing or underwater basket
     weaving.
 
-    """    
+    """
     MAX_LEN_NAME = 50
 
     CATEGORY_CHOICES = (
