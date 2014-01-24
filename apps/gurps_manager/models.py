@@ -8,6 +8,7 @@ column named ``id``. Django will not generate ``id`` if you pass ``primary_key =
 True`` to some other column.
 
 """
+import re
 from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -118,6 +119,27 @@ class Character(models.Model):
     wealth = models.IntegerField()
     eidetic_memory = models.IntegerField()
     muscle_memory = models.IntegerField()
+
+    # derived fields
+    def fatigue(self):
+        """Returns a character's total fatigue"""
+        return self.strength + self.bonus_fatigue
+
+    def hitpoints(self):
+        """Returns a character's total hitpoints"""
+        return self.health + self.bonus_hitpoints
+
+    def alertness(self):
+        """Returns a character's alertness"""
+        return self.intelligence + self.bonus_alertness
+
+    def will(self):
+        """Returns a character's will"""
+        return self.intelligence + self.bonus_will
+
+    def fright(self):
+        """Returns a character's fright"""
+        return self.intelligence + self.bonus_fright
 
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
