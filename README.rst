@@ -160,8 +160,7 @@ graphviz must be installed for epydoc to generate graphs.
 
 You can generate a diagram of the database models::
 
-    $ apps/manage.py graph_models gurps_manager > gurps_manager.dot
-    $ dot -Tsvg -o gurps_manager.svg gurps_manager.dot
+    $ apps/manage.py graph_models gurps_manager | dot -Tsvg -o gurps_manager.svg
 
 Again, graphviz must be installed to generate images.
 

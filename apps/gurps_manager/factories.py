@@ -194,10 +194,19 @@ def _random_str(min_len = 0, max_len = 0):
     long. Otherwise, return a string between ``min_len`` and ``max_len`` chars
     long, inclusive.
 
-    See also: http://docs.python.org/3/library/functions.html#chr
+    From RFC 3629:
+
+        The definition of UTF-8 prohibits encoding character numbers between
+        U+D800 and U+DFFF, which are reserved for use with the UTF-16 encoding
+        form (as surrogate pairs) and do not directly represent characters.
+
+    Thus, bytes 0 through 0xD7FF are used to generate random characters. It is
+    possible to use an even greater range of values, but this range should be
+    enough for any sane use of this application. See also:
+    http://docs.python.org/3/library/functions.html#chr
 
     """
     string = ''
     for i in range(_random_int(min_len, max_len)):
-        string += chr(random.randrange(0, 0x10FFFF))
+        string += chr(random.randrange(0, 0xD7FF))
     return string
