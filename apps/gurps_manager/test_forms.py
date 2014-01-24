@@ -44,6 +44,9 @@ class CharacterFormTestCase(TestCase):
         return {
             'campaign': factories.CampaignFactory.create().id,
 
+            # many-to-fields
+            # 'skills', 'spells', and 'items' are optional
+
             # string-based fields
             # 'description' and 'story' are optional
             'name': factories.character_name(),

@@ -75,9 +75,9 @@ class Character(models.Model):
     campaign = models.ForeignKey(Campaign)
 
     # many-to-many fields
-    skills = models.ManyToManyField('Skill', through='CharacterSkill')
-    spells = models.ManyToManyField('Spell', through='CharacterSpell')
-    items = models.ManyToManyField('Item', through='Possession')
+    skills = models.ManyToManyField('Skill', through='CharacterSkill', blank = True)
+    spells = models.ManyToManyField('Spell', through='CharacterSpell', blank = True)
+    items = models.ManyToManyField('Item', through='Possession', blank = True)
 
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
