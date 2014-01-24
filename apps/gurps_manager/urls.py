@@ -36,9 +36,14 @@ There is much to the RESTful design philosophy beyond these few points, and the
 curious are encouraged to do some research.
 
 """
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
+from gurps_manager import views
+
+# WARNING! URL names must be unique in all django apps. If any URLs have the
+# same name, the reverse() function will produce undefined results. See:
+# https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns
 
 urlpatterns = patterns( # pylint: disable=C0103
-    'gurps_manager.views',
-    url(r'^$', 'index'),
+    '',
+    url(r'^$', views.Index.as_view(), name = 'gurps-manager-index'),
 )

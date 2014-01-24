@@ -11,5 +11,5 @@ from django import http
 def index(request): # pylint: disable=W0613
     """Redirect user to the gurps manager application."""
     return http.HttpResponseRedirect(
-        urlresolvers.reverse('gurps_manager.views.index')
+        urlresolvers.reverse('gurps-manager-index')
     )
