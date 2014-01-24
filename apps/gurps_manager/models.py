@@ -49,7 +49,7 @@ class Campaign(models.Model):
     MAX_LEN_DESCRIPTION = 2000
 
     # many-to-many fields
-    skillsets = models.ManyToManyField(SkillSet)
+    skillsets = models.ManyToManyField('SkillSet')
 
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
@@ -75,9 +75,9 @@ class Character(models.Model):
     campaign = models.ForeignKey(Campaign)
 
     # many-to-many fields
-    skills = models.ManyToManyField(Skill, through='CharacterSkill')
-    spells = models.ManyToManyField(Spell, through='CharacterSpell')
-    items = models.ManyToManyField(Item, through='Possession')
+    skills = models.ManyToManyField('Skill', through='CharacterSkill')
+    spells = models.ManyToManyField('Spell', through='CharacterSpell')
+    items = models.ManyToManyField('Item', through='Possession')
 
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
