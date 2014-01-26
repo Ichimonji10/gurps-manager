@@ -9,6 +9,8 @@ URL                                            POST     GET    PUT      DELETE
                                                (create) (read) (update) (delete)
 ============================================== ======== ====== ======== ========
 ``/``                                                   *
+``campaign/``                                  *        *
+``campaign/create-form/``                               *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
@@ -46,4 +48,14 @@ from gurps_manager import views
 urlpatterns = patterns( # pylint: disable=C0103
     '',
     url(r'^$', views.Index.as_view(), name = 'gurps-manager-index'),
+    url(
+        r'^campaign/$',
+        views.Campaign.as_view(),
+        name = 'gurps-manager-campaign'
+    ),
+    url(
+        r'^campaign/create-form/$',
+        views.CampaignCreateForm.as_view(),
+        name = 'gurps-manager-campaign-create-form'
+    ),
 )
