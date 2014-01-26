@@ -71,6 +71,38 @@ class Character(models.Model):
     MAX_LEN_DESCRIPTION = 2000
     MAX_LEN_STORY = 2000
 
+    APPEARANCE_CHOICES = (
+        (-30, 'Horrific'),
+        (-25, 'Monstrous'),
+        (-20, 'Hideous'),
+        (-10, 'Ugly'),
+        (-5, 'Unattractive'),
+        (0, 'Average'),
+        (5, 'Attractive'),
+        (15, 'Handsome/Beautiful'),
+        (25, 'Very Handsome/Beautiful'),
+        (35, 'Entrancing'),
+    )
+    WEALTH_CHOICES = (
+        (-25, 'Dead Broke'),
+        (-15, 'Poor'),
+        (-10, 'Struggling'),
+        (0, 'Average'),
+        (10, 'Comfortable'),
+        (20, 'Wealthy'),
+        (30, 'Very Wealthy'),
+        (50, 'Filthy Rich'),
+    )
+    EIDETIC_MEMORY_CHOICES = (
+        (0, 'None'),
+        (30, 'Partial'),
+        (60, 'Full'),
+    )
+    MUSCLE_MEMORY_CHOICES = (
+        (0, 'None'),
+        (30, 'Partial'),
+        (60, 'Full'),
+    )
     # key fields
     campaign = models.ForeignKey(Campaign)
 
@@ -91,34 +123,34 @@ class Character(models.Model):
     )
 
     # integer fields
-    strength = models.IntegerField()
-    dexterity = models.IntegerField()
-    intelligence = models.IntegerField()
-    health = models.IntegerField()
-    magery = models.IntegerField()
-    bonus_fatigue = models.IntegerField()
-    bonus_hitpoints = models.IntegerField()
-    bonus_alertness = models.IntegerField()
-    bonus_willpower = models.IntegerField()
-    bonus_fright = models.IntegerField()
-    bonus_speed = models.IntegerField()
-    bonus_movement = models.IntegerField()
-    bonus_dodge = models.IntegerField()
-    bonus_initiative = models.IntegerField()
-    free_strength = models.IntegerField()
-    free_dexterity = models.IntegerField()
-    free_intelligence = models.IntegerField()
-    free_health = models.IntegerField()
+    strength = models.IntegerField(default=10)
+    dexterity = models.IntegerField(default=10)
+    intelligence = models.IntegerField(default=10)
+    health = models.IntegerField(default=10)
+    magery = models.IntegerField(default=0)
+    bonus_fatigue = models.IntegerField(default=0)
+    bonus_hitpoints = models.IntegerField(default=0)
+    bonus_alertness = models.IntegerField(default=0)
+    bonus_willpower = models.IntegerField(default=0)
+    bonus_fright = models.IntegerField(default=0)
+    bonus_speed = models.IntegerField(default=0)
+    bonus_movement = models.IntegerField(default=0)
+    bonus_dodge = models.IntegerField(default=0)
+    bonus_initiative = models.IntegerField(default=0)
+    free_strength = models.IntegerField(default=0)
+    free_dexterity = models.IntegerField(default=0)
+    free_intelligence = models.IntegerField(default=0)
+    free_health = models.IntegerField(default=0)
 
     # float fields
     total_points = models.FloatField(validators=[validate_quarter])
     used_fatigue = models.FloatField(validators=[validate_quarter])
 
     # lookup fields
-    appearance = models.IntegerField()
-    wealth = models.IntegerField()
-    eidetic_memory = models.IntegerField()
-    muscle_memory = models.IntegerField()
+    appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
+    wealth = models.IntegerField(choices=WEALTH_CHOICES, default=0)
+    eidetic_memory = models.IntegerField(choices=EIDETIC_MEMORY_CHOICES, default=0)
+    muscle_memory = models.IntegerField(choices=MUSCLE_MEMORY_CHOICES, default=0)
 
     # derived fields
     def fatigue(self):
@@ -174,6 +206,7 @@ class Skill(models.Model):
         (2, 'Mental (health)'),
         (3, 'Physical'),
         (4, 'Physical (health)'),
+        (5, 'Physical (strength'),
     )
     DIFFICULTY_CHOICES = (
         (1, 'Easy'),
@@ -200,10 +233,89 @@ class CharacterSkill(models.Model):
     character = models.ForeignKey(Character)
 
     # integer fields
-    bonus_level = models.IntegerField()
+    bonus_level = models.IntegerField(default=0)
 
     # float fields
-    points = models.FloatField(validators=[validate_quarter])
+    points = models.FloatField(validators=[validate_quarter], default=0)
+
+    def score(self):
+        """Returns a character's score in a given skill"""
+        MUSCLE_MEMORY_FACTOR = (1 if self.muscle_memory == 0 else (self.muscle_memory / 15))
+        EFFECTIVE_POINTS_PHYSICAL = self.points * MUSCLE_MEMORY_FACTOR
+
+        EIDETIC_MEMORY_FACTOR = (1 if self.eidetic_memory == 0 else (self.eidetic_memory / 15))
+        EFFECTIVE_POINTS_MENTAL = self.points * EIDETIC_MEMORY_FACTOR
+
+        # intelligence based mental skill
+        if self.skill.category == 1:
+            if EFFECTIVE_POINTS_MENTAL >= 0.5 && EFFECTIVE_POINTS_MENTAL < 1:
+                return self.character.intelligence - self.skill.difficulty
+            elif EFFECTIVE_POINTS_MENTAL >= 1 && EFFECTIVE_POINTS_MENTAL < 2:
+                return self.character.intelligence - self.skill.difficulty + 1
+            elif EFFECTIVE_POINTS_MENTAL >= 2 && EFFECTIVE_POINTS_MENTAL < 4:
+                return self.character.intelligence - self.skill.difficulty + 2
+            else
+                if self.skill.difficulty < 4
+                    return self.character.intelligence - self.skill.difficulty + (self.points // 2) + 1
+                else
+                    return self.character.intelligence - self.skill.difficulty + (self.points // 4) + 2
+
+        # health based mental skill
+        elif self.skill.category == 2:
+            if EFFECTIVE_POINTS_MENTAL >= 0.5 && EFFECTIVE_POINTS_MENTAL < 1:
+                return self.character.health - self.skill.difficulty
+            elif EFFECTIVE_POINTS_MENTAL >= 1 && EFFECTIVE_POINTS_MENTAL < 2:
+                return self.character.health - self.skill.difficulty + 1
+            elif EFFECTIVE_POINTS_MENTAL >= 2 && EFFECTIVE_POINTS_MENTAL < 4:
+                return self.character.health - self.skill.difficulty + 2
+            else
+                if self.skill.difficulty < 4
+                    return self.character.health - self.skill.difficulty + (self.points // 2) + 1
+                else
+                    return self.character.health - self.skill.difficulty + (self.points // 4) + 2
+
+        # dexterity based physical skill
+        elif self.skill.category == 3:
+            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+                return self.character.dexterity - self.skill.difficulty
+            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+                return self.character.dexterity - self.skill.difficulty + 1
+            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+                return self.character.dexterity - self.skill.difficulty + 2
+            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+                return self.character.dexterity - self.skill.difficulty + 3
+            else
+                return self.character.dexterity - self.skill.difficulty + (self.points // 8) + 3
+
+        # health based physical skill
+        elif self.skill.category == 4:
+            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+                return self.character.health - self.skill.difficulty
+            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+                return self.character.health - self.skill.difficulty + 1
+            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+                return self.character.health - self.skill.difficulty + 2
+            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+                return self.character.health - self.skill.difficulty + 3
+            else
+                return self.character.health - self.skill.difficulty + (self.points // 8) + 3
+
+        # strength based physical skill
+        elif self.skill.category == 5:
+            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+                return self.character.strength - self.skill.difficulty
+            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+                return self.character.strength - self.skill.difficulty + 1
+            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+                return self.character.strength - self.skill.difficulty + 2
+            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+                return self.character.strength - self.skill.difficulty + 3
+            else
+                return self.character.strength - self.skill.difficulty + (self.points // 8) + 3
+        
+        # This really should never happen and probably ought to have some error handling
+        else:
+            return 0
 
 class Spell(models.Model):
     """A Spell available to characters
@@ -242,10 +354,10 @@ class CharacterSpell(models.Model):
     character = models.ForeignKey(Character)
 
     # integer fields
-    bonus_level = models.IntegerField()
+    bonus_level = models.IntegerField(default=0)
 
     # float fields
-    points = models.FloatField(validators=[validate_quarter])
+    points = models.FloatField(validators=[validate_quarter], default=0)
 
 class Item(models.Model):
     """An item that a character may possess"""
@@ -295,4 +407,4 @@ class HitLocation(models.Model):
     # integer fields
     passive_damage_resistance = models.IntegerField()
     damage_resistance = models.IntegerField()
-    damage_taken = models.IntegerField()
+    damage_taken = models.IntegerField(default=0)
