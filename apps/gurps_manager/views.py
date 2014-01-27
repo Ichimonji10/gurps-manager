@@ -36,7 +36,7 @@ class Campaign(View):
             # Put form data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(form.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-create-form'
+                'gurps-manager-campaign-create-form'
             ))
 
     def get(self, request):
