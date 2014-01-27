@@ -248,11 +248,13 @@ class CharacterSkill(models.Model):
 
         # intelligence based mental skill
         if self.skill.category == 1:
-            if EFFECTIVE_POINTS_MENTAL >= 0.5 && EFFECTIVE_POINTS_MENTAL < 1:
+            if EFFECTIVE_POINTS_MENTAL < 0.5
+                return 0
+            elif EFFECTIVE_POINTS_MENTAL < 1:
                 return self.character.intelligence - self.skill.difficulty
-            elif EFFECTIVE_POINTS_MENTAL >= 1 && EFFECTIVE_POINTS_MENTAL < 2:
+            elif EFFECTIVE_POINTS_MENTAL < 2:
                 return self.character.intelligence - self.skill.difficulty + 1
-            elif EFFECTIVE_POINTS_MENTAL >= 2 && EFFECTIVE_POINTS_MENTAL < 4:
+            elif EFFECTIVE_POINTS_MENTAL < 4:
                 return self.character.intelligence - self.skill.difficulty + 2
             else
                 if self.skill.difficulty < 4
@@ -262,11 +264,13 @@ class CharacterSkill(models.Model):
 
         # health based mental skill
         elif self.skill.category == 2:
-            if EFFECTIVE_POINTS_MENTAL >= 0.5 && EFFECTIVE_POINTS_MENTAL < 1:
+            if EFFECTIVE_POINTS_MENTAL < 0.5
+                return 0
+            elif EFFECTIVE_POINTS_MENTAL < 1:
                 return self.character.health - self.skill.difficulty
-            elif EFFECTIVE_POINTS_MENTAL >= 1 && EFFECTIVE_POINTS_MENTAL < 2:
+            elif EFFECTIVE_POINTS_MENTAL < 2:
                 return self.character.health - self.skill.difficulty + 1
-            elif EFFECTIVE_POINTS_MENTAL >= 2 && EFFECTIVE_POINTS_MENTAL < 4:
+            elif EFFECTIVE_POINTS_MENTAL < 4:
                 return self.character.health - self.skill.difficulty + 2
             else
                 if self.skill.difficulty < 4
@@ -276,39 +280,45 @@ class CharacterSkill(models.Model):
 
         # dexterity based physical skill
         elif self.skill.category == 3:
-            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+            if EFFECTIVE_POINTS_PHYSICAL < 0.5
+                return 0
+            elif EFFECTIVE_POINTS_PHYSICAL < 1:
                 return self.character.dexterity - self.skill.difficulty
-            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+            elif EFFECTIVE_POINTS_PHYSICAL < 2:
                 return self.character.dexterity - self.skill.difficulty + 1
-            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+            elif EFFECTIVE_POINTS_PHYSICAL < 4:
                 return self.character.dexterity - self.skill.difficulty + 2
-            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+            elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.dexterity - self.skill.difficulty + 3
             else
                 return self.character.dexterity - self.skill.difficulty + (self.points // 8) + 3
 
         # health based physical skill
         elif self.skill.category == 4:
-            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+            if EFFECTIVE_POINTS_PHYSICAL < 0.5
+                return 0
+            elif EFFECTIVE_POINTS_PHYSICAL < 1:
                 return self.character.health - self.skill.difficulty
-            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+            elif EFFECTIVE_POINTS_PHYSICAL < 2:
                 return self.character.health - self.skill.difficulty + 1
-            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+            elif EFFECTIVE_POINTS_PHYSICAL < 4:
                 return self.character.health - self.skill.difficulty + 2
-            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+            elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.health - self.skill.difficulty + 3
             else
                 return self.character.health - self.skill.difficulty + (self.points // 8) + 3
 
         # strength based physical skill
         elif self.skill.category == 5:
-            if EFFECTIVE_POINTS_PHYSICAL >= 0.5 && EFFECTIVE_POINTS_PHYSICAL < 1:
+            if EFFECTIVE_POINTS_PHYSICAL < 0.5
+                return 0
+            elif EFFECTIVE_POINTS_PHYSICAL < 1:
                 return self.character.strength - self.skill.difficulty
-            elif EFFECTIVE_POINTS_PHYSICAL >= 1 && EFFECTIVE_POINTS_PHYSICAL < 2:
+            elif EFFECTIVE_POINTS_PHYSICAL < 2:
                 return self.character.strength - self.skill.difficulty + 1
-            elif EFFECTIVE_POINTS_PHYSICAL >= 2 && EFFECTIVE_POINTS_PHYSICAL < 4:
+            elif EFFECTIVE_POINTS_PHYSICAL < 4:
                 return self.character.strength - self.skill.difficulty + 2
-            elif EFFECTIVE_POINTS_PHYSICAL >= 4 && EFFECTIVE_POINTS_PHYSICAL < 8:
+            elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.strength - self.skill.difficulty + 3
             else
                 return self.character.strength - self.skill.difficulty + (self.points // 8) + 3
