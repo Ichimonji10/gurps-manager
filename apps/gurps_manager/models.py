@@ -455,8 +455,8 @@ class Item(models.Model):
     )
 
     # float fields
-    cost = models.FloatField()
-    weight = models.FloatField()
+    cost = models.FloatField(validators=[validate_not_negative])
+    weight = models.FloatField(validators=[validate_not_negative])
 
 class Possession(models.Model):
     """An item that a character possesses"""
