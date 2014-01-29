@@ -11,6 +11,7 @@ URL                                            POST     GET    PUT      DELETE
 ``/``                                                   *
 ``campaign/``                                  *        *
 ``campaign/create-form/``                               *
+``campaign/<id>/``                                      *      *        *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
@@ -57,5 +58,10 @@ urlpatterns = patterns( # pylint: disable=C0103
         r'^campaign/create-form/$',
         views.CampaignCreateForm.as_view(),
         name = 'gurps-manager-campaign-create-form'
+    ),
+    url(
+        r'^campaign/(\d+)/$',
+        views.CampaignId.as_view(),
+        name = 'gurps-manager-campaign-id',
     ),
 )

@@ -63,3 +63,22 @@ class CampaignCreateForm(View):
             'gurps_manager/campaign-create-form.html',
             {'form': form}
         )
+
+class CampaignId(View):
+    """Handle a request for ``campaign/<id>/``."""
+    @classmethod
+    def get_campaign_or_404(cls, campaign_id):
+        """Return a campaign or raise an ``http.Http404`` exception."""
+        try:
+            return models.Campaign.objects.get(id = campaign_id)
+        except models.Campaign.DoesNotExist:
+            raise http.Http404
+
+    def get(self, request, campaign_id):
+        """Return information about campaign ``campaign_id``."""
+        campaign = self.get_campaign_or_404(campaign_id)
+        return render(
+            request,
+            'gurps_manager/campaign-id.html',
+            {'campaign': campaign}
+        )
