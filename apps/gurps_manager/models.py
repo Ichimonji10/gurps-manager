@@ -251,6 +251,11 @@ class Character(models.Model):
             total_points += skill.points
         return total_points
 
+    def total_points_in_spells(self):
+        total_points = 0
+        for spell in CharacterSpell.objects.get(character=self)
+            total_points += spell.points
+        return total_points
 
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
