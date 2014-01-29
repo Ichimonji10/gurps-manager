@@ -37,7 +37,7 @@ class CampaignTestCase(TestCase):
         self.assertRedirects(
             response,
             reverse(
-                'elts.views.campaign_id',
+                'gurps-manager-campaign-id',
                 args = [models.Campaign.objects.latest('id').id]
             )
         )
@@ -60,3 +60,28 @@ class CampaignCreateFormTestCase(TestCase):
         """GET ``self.PATH``."""
         response = self.client.get(self.PATH)
         self.assertEqual(response.status_code, 200)
+
+class CampaignIdTestCase(TestCase):
+    """Tests for the ``campaign/<id>/`` path."""
+    def setUp(self):
+        """Create a campaign and set ``self.path``.
+
+        The created campaign is accessible as ``self.campaign``.
+
+        """
+        self.campaign = factories.CampaignFactory.create()
+        self.path = reverse(
+            'gurps-manager-campaign-id',
+            args = [self.campaign.id]
+        )
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.campaign.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
