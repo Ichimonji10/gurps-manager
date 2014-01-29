@@ -220,14 +220,14 @@ class Character(models.Model):
 
     def total_possession_weight(self):
         total_weight = 0
-        for item in items:
-            total_weight += item.weight
+        for possession in Possession.objects.get(character=self):
+            total_weight += (possession.item.weight * possession.quantity)
         return total_weight
 
     def total_possession_value(self):
         total_cost = 0
-        for item in items:
-            total_cost += item.cost
+        for possession in Possession.objects.get(character=self):
+            total_cost += (possession.item.weight * possession.quantity)
         return total_cost
 
     def encumberance_penalty(self):
@@ -244,6 +244,10 @@ class Character(models.Model):
         else:
             # TODO figure out whether this is how I actually want to handle over-encumberance
             return 100
+
+    def total_points_in_skills(self):
+        pass
+
 
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
@@ -481,7 +485,7 @@ class Possession(models.Model):
     character = models.ForeignKey(Character)
 
     # integer fields
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(validators=[validate_not_negative])
 
 class HitLocation(models.Model):
     """A location on a character that can be affected
