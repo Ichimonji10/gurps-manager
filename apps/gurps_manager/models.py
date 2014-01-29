@@ -246,7 +246,10 @@ class Character(models.Model):
             return 100
 
     def total_points_in_skills(self):
-        pass
+        total_points = 0
+        for skill in CharacterSkill.objects.get(character=self)
+            total_points += skill.points
+        return total_points
 
 
 class Trait(models.Model):
