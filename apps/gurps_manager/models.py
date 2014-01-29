@@ -230,6 +230,21 @@ class Character(models.Model):
             total_cost += item.cost
         return total_cost
 
+    def encumberance_penalty(self):
+        if self.total_possession_weight() < self.no_encumberance:
+            return 0
+        elif self.total_possession_weight() < self.light_encumberance:
+            return 1
+        elif self.total_possession_weight() < self.medium_encumberance:
+            return 2
+        elif self.total_possession_weight() < self.heavy_encumberance:
+            return 3
+        elif self.total_possession_weight() < self.extra_heavy_encumberance:
+            return 4
+        else:
+            # TODO figure out whether this is how I actually want to handle over-encumberance
+            return 100
+
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
     MAX_LEN_NAME = 50
@@ -380,7 +395,7 @@ class CharacterSkill(models.Model):
             else:
                 return self.character.strength - self.skill.difficulty + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
         
-        # This really should never happen and probably ought to have some error handling
+        # TODO add exception handling for this case, it should never really occur
         else:
             return 0
 
