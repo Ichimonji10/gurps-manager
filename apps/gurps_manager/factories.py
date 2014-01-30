@@ -76,11 +76,7 @@ class CharacterFactory(DjangoModelFactory):
     dexterity = FuzzyAttribute(lambda: character_intfield())
     intelligence = FuzzyAttribute(lambda: character_intfield())
     health = FuzzyAttribute(lambda: character_intfield())
-    appearance = FuzzyAttribute(lambda: character_intfield())
-    wealth = FuzzyAttribute(lambda: character_intfield())
     magery = FuzzyAttribute(lambda: character_intfield())
-    eidetic_memory = FuzzyAttribute(lambda: character_intfield())
-    muscle_memory = FuzzyAttribute(lambda: character_intfield())
     bonus_fatigue = FuzzyAttribute(lambda: character_intfield())
     bonus_hitpoints = FuzzyAttribute(lambda: character_intfield())
     bonus_alertness = FuzzyAttribute(lambda: character_intfield())
@@ -98,6 +94,12 @@ class CharacterFactory(DjangoModelFactory):
     # float-based fields
     total_points = FuzzyAttribute(lambda: character_floatfield())
     used_fatigue = FuzzyAttribute(lambda: character_floatfield())
+
+    # lookup fields
+    appearance = FuzzyAttribute(lambda: character_lookupfield([-30,-25,-20,-10,-5,0,5,15,25,35]))
+    wealth = FuzzyAttribute(lambda: character_lookupfield([-25,-15,-10,0,10,20,30,50]))
+    eidetic_memory = FuzzyAttribute(lambda: character_lookupfield([0,30,60]))
+    muscle_memory = FuzzyAttribute(lambda: character_lookupfield([0,30,60]))
 
 def character_name():
     """Return a value for the ``Character.name`` model attribute.
@@ -165,6 +167,9 @@ def character_floatfield():
     # FIXME: what are valid ranges for these values? Should separate methods be
     # created for each of a character's attributes?
     return 0.25 * random.randint(0, 400)
+
+def character_lookupfield(choices):
+    return random.sample(choices, 1)
 
 #-------------------------------------------------------------------------------
 

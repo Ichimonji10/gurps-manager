@@ -56,11 +56,7 @@ class CharacterFormTestCase(TestCase):
             'dexterity': factories.character_intfield(),
             'intelligence': factories.character_intfield(),
             'health': factories.character_intfield(),
-            'appearance': factories.character_intfield(),
-            'wealth': factories.character_intfield(),
             'magery': factories.character_intfield(),
-            'eidetic_memory': factories.character_intfield(),
-            'muscle_memory': factories.character_intfield(),
             'bonus_fatigue': factories.character_intfield(),
             'bonus_hitpoints': factories.character_intfield(),
             'bonus_alertness': factories.character_intfield(),
@@ -78,6 +74,12 @@ class CharacterFormTestCase(TestCase):
             # float fields
             'total_points': factories.character_floatfield(),
             'used_fatigue': factories.character_floatfield(),
+
+            # lookup fields
+            'appearance': factories.character_lookupfield(),
+            'wealth': factories.character_lookupfield(),
+            'eidetic_memory': factories.character_lookupfield(),
+            'muscle_memory': factories.character_lookupfield(),
         }
 
     def test_valid(self):
