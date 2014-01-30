@@ -75,6 +75,28 @@ class CampaignId(View):
             {'campaign': campaign}
         )
 
+class CampaignIdUpdateForm(View):
+    """Handle a request for ``campaign/<id>/update-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for updating campaign ``campaign_id``."""
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        return render(
+            request,
+            'gurps_manager/campaign-id-update-form.html',
+            {'campaign': campaign}
+        )
+
+class CampaignIdDeleteForm(View):
+    """Handle a request for ``campaign/<id>/delete-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for deleting campaign ``campaign_id``."""
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        return render(
+            request,
+            'gurps_manager/campaign-id-delete-form.html',
+            {'campaign': campaign}
+        )
+
 def _get_model_object_or_404(model, object_id):
     """Return an object of type ``model`` with ID ``object_id``.
 
