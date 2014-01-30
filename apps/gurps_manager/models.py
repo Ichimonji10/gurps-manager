@@ -220,15 +220,43 @@ class Character(models.Model):
 
     def total_possession_weight(self):
         total_weight = 0
-        for item in items:
-            total_weight += item.weight
+
+        for possession in Possession.objects.get(character=self):
+            total_weight += (possession.item.weight * possession.quantity)
         return total_weight
 
     def total_possession_value(self):
         total_cost = 0
-        for item in items:
-            total_cost += item.cost
+        for possession in Possession.objects.get(character=self):
+            total_cost += (possession.item.weight * possession.quantity)
         return total_cost
+
+    def encumberance_penalty(self):
+        if self.total_possession_weight() < self.no_encumberance:
+            return 0
+        elif self.total_possession_weight() < self.light_encumberance:
+            return 1
+        elif self.total_possession_weight() < self.medium_encumberance:
+            return 2
+        elif self.total_possession_weight() < self.heavy_encumberance:
+            return 3
+        elif self.total_possession_weight() < self.extra_heavy_encumberance:
+            return 4
+        else:
+            # TODO figure out whether this is how I actually want to handle over-encumberance
+            return 100
+
+    def total_points_in_skills(self):
+        total_points = 0
+        for skill in CharacterSkill.objects.get(character=self)
+            total_points += skill.points
+        return total_points
+
+    def total_points_in_spells(self):
+        total_points = 0
+        for spell in CharacterSpell.objects.get(character=self)
+            total_points += spell.points
+        return total_points
 
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
@@ -380,7 +408,7 @@ class CharacterSkill(models.Model):
             else:
                 return self.character.strength - self.skill.difficulty + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
         
-        # This really should never happen and probably ought to have some error handling
+        # TODO add exception handling for this case, it should never really occur
         else:
             return 0
 
@@ -455,8 +483,8 @@ class Item(models.Model):
     )
 
     # float fields
-    cost = models.FloatField()
-    weight = models.FloatField()
+    cost = models.FloatField(validators=[validate_not_negative])
+    weight = models.FloatField(validators=[validate_not_negative])
 
 class Possession(models.Model):
     """An item that a character possesses"""
@@ -466,7 +494,7 @@ class Possession(models.Model):
     character = models.ForeignKey(Character)
 
     # integer fields
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(validators=[validate_not_negative])
 
 class HitLocation(models.Model):
     """A location on a character that can be affected
