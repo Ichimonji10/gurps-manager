@@ -85,3 +85,53 @@ class CampaignIdTestCase(TestCase):
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+class CampaignIdUpdateFormTestCase(TestCase):
+    """Tests for the ``campaign/<id>/update-form/`` path."""
+    def setUp(self):
+        """Create a campaign and set ``self.path``.
+
+        The created campaign is accessible as ``self.campaign``.
+
+        """
+        self.campaign = factories.CampaignFactory.create()
+        self.path = reverse(
+            'gurps-manager-campaign-id-update-form',
+            args = [self.campaign.id]
+        )
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.campaign.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+class CampaignIdDeleteFormTestCase(TestCase):
+    """Tests for the ``campaign/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a campaign and set ``self.path``.
+
+        The created campaign is accessible as ``self.campaign``.
+
+        """
+        self.campaign = factories.CampaignFactory.create()
+        self.path = reverse(
+            'gurps-manager-campaign-id-delete-form',
+            args = [self.campaign.id]
+        )
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.campaign.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
