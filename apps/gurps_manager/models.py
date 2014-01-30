@@ -258,6 +258,20 @@ class Character(models.Model):
             total_points += spell.points
         return total_points
 
+    def total_points_in_advantages():
+        total_points = 0
+        for trait in Trait.objects.get(character=self)
+            if trait.points > 0:
+                total_points += trait.points
+        return total_points
+
+    def total_points_in_disadvantages():
+        total_points = 0
+        for trait in Trait.objects.get(character=self)
+            if trait.points < 0:
+                total_points += trait.points
+        return total_points
+
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
     MAX_LEN_NAME = 50
