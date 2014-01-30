@@ -9,6 +9,7 @@ True`` to some other column.
 
 """
 import re
+from math import floor
 from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -246,6 +247,18 @@ class Character(models.Model):
             # TODO figure out whether this is how I actually want to handle over-encumberance
             return 100
 
+    def speed(self):
+        for skill in CharacterSkill.objects.get(character=self):
+           if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
+                return ((self.dexterity + self.health) / 4) + (skill.score() / 8) + self.bonus_speed
+        return (self.dexterity + self.health) / 4) + self.bonus_speed
+    
+    def movement(self):
+        return floor(self.speed()) - self.encumberance_penalty() + bonus_movement
+
+    def dodge(self):
+        return floor(self.speed()) - self.encumberance_penalty() + bonus_dodge
+
     def total_points_in_skills(self):
         total_points = 0
         for skill in CharacterSkill.objects.get(character=self)
@@ -274,6 +287,13 @@ class Character(models.Model):
 
     def total_points_in_special_traits(self):
         return self.eidetic_memory + self.muscle_memory + self.wealth + self.appearance
+
+    def total_character_points_spend(self):
+        return self.total_points_in_advantages() \
+            + self.total_points_in_disadvantages() \
+            + self.total_points_in_skills() \
+            + self.total_points_in_spells() \
+            + self.total_points_in_special_traits()
 
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
