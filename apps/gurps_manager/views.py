@@ -66,19 +66,38 @@ class CampaignCreateForm(View):
 
 class CampaignId(View):
     """Handle a request for ``campaign/<id>/``."""
-    @classmethod
-    def get_campaign_or_404(cls, campaign_id):
-        """Return a campaign or raise an ``http.Http404`` exception."""
-        try:
-            return models.Campaign.objects.get(id = campaign_id)
-        except models.Campaign.DoesNotExist:
-            raise http.Http404
-
     def get(self, request, campaign_id):
         """Return information about campaign ``campaign_id``."""
-        campaign = self.get_campaign_or_404(campaign_id)
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         return render(
             request,
             'gurps_manager/campaign-id.html',
             {'campaign': campaign}
         )
+
+def _get_model_object_or_404(model, object_id):
+    """Return an object of type ``model`` with ID ``object_id``.
+
+    ``model`` is a model class. (Class ``model`` is probably defined in file
+    ``models.py``.) ``object_id`` is the ID of one of those objects.
+
+    If an object with ID ``object_id`` cannot be found, raise exception
+    ``django.http.Http404``.
+
+    >>> from django.http import Http404
+    >>> from gurps_manager import factories, models
+    >>> campaign = factories.CampaignFactory.create()
+    >>> campaign2 = _get_model_object_or_404(models.Campaign, campaign.id)
+    >>> campaign == campaign2
+    True
+    >>> try:
+    ...     _get_model_object_or_404(models.Campaign, campaign.id + 1)
+    ... except Http404:
+    ...     'an exception was raised'
+    'an exception was raised'
+
+    """
+    try:
+        return model.objects.get(id = object_id)
+    except model.DoesNotExist:
+        raise http.Http404
