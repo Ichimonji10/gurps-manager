@@ -251,7 +251,7 @@ class Character(models.Model):
         for skill in CharacterSkill.objects.get(character=self):
            if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
                 return ((self.dexterity + self.health) / 4) + (skill.score() / 8) + self.bonus_speed
-        return (self.dexterity + self.health) / 4) + self.bonus_speed
+        return ((self.dexterity + self.health) / 4) + self.bonus_speed
     
     def movement(self):
         return floor(self.speed()) - self.encumberance_penalty() + bonus_movement
@@ -261,26 +261,26 @@ class Character(models.Model):
 
     def total_points_in_skills(self):
         total_points = 0
-        for skill in CharacterSkill.objects.get(character=self)
+        for skill in CharacterSkill.objects.get(character=self):
             total_points += skill.points
         return total_points
 
     def total_points_in_spells(self):
         total_points = 0
-        for spell in CharacterSpell.objects.get(character=self)
+        for spell in CharacterSpell.objects.get(character=self):
             total_points += spell.points
         return total_points
 
     def total_points_in_advantages(self):
         total_points = 0
-        for trait in Trait.objects.get(character=self)
+        for trait in Trait.objects.get(character=self):
             if trait.points > 0:
                 total_points += trait.points
         return total_points
 
     def total_points_in_disadvantages(self):
         total_points = 0
-        for trait in Trait.objects.get(character=self)
+        for trait in Trait.objects.get(character=self):
             if trait.points < 0:
                 total_points += trait.points
         return total_points
