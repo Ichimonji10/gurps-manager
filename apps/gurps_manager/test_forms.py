@@ -76,10 +76,10 @@ class CharacterFormTestCase(TestCase):
             'used_fatigue': factories.character_floatfield(),
 
             # lookup fields
-            'appearance': factories.character_lookupfield(),
-            'wealth': factories.character_lookupfield(),
-            'eidetic_memory': factories.character_lookupfield(),
-            'muscle_memory': factories.character_lookupfield(),
+            'appearance': factories.character_appearance(),
+            'wealth': factories.character_wealth(),
+            'eidetic_memory': factories.character_eidetic_memory(),
+            'muscle_memory': factories.character_muscle_memory(),
         }
 
     def test_valid(self):

@@ -96,10 +96,10 @@ class CharacterFactory(DjangoModelFactory):
     used_fatigue = FuzzyAttribute(lambda: character_floatfield())
 
     # lookup fields
-    appearance = FuzzyAttribute(lambda: character_lookupfield([-30,-25,-20,-10,-5,0,5,15,25,35]))
-    wealth = FuzzyAttribute(lambda: character_lookupfield([-25,-15,-10,0,10,20,30,50]))
-    eidetic_memory = FuzzyAttribute(lambda: character_lookupfield([0,30,60]))
-    muscle_memory = FuzzyAttribute(lambda: character_lookupfield([0,30,60]))
+    appearance = FuzzyAttribute(lambda: character_appearance())
+    wealth = FuzzyAttribute(lambda: character_wealth())
+    eidetic_memory = FuzzyAttribute(lambda: character_eidetic_memory())
+    muscle_memory = FuzzyAttribute(lambda: character_muscle_memory())
 
 def character_name():
     """Return a value for the ``Character.name`` model attribute.
@@ -168,8 +168,41 @@ def character_floatfield():
     # created for each of a character's attributes?
     return 0.25 * random.randint(0, 400)
 
-def character_lookupfield(choices):
-    return random.sample(choices, 1)
+def character_appearance():
+    """Return a value for the ``Character.appearance`` model attribute.
+
+    >>> isinstance(character_appearance(), int)
+    True
+
+    """
+    return random.sample([-30, -25, -20, -10, -5, 0, 5, 15, 25, 35], 1)[0]
+
+def character_wealth():
+    """Return a value for the ``Character.wealth`` model attribute.
+
+    >>> isinstance(character_wealth(), int)
+    True
+
+    """
+    return random.sample([-25, -15, -10, 0, 10, 20, 30, 50], 1)[0]
+
+def character_eidetic_memory():
+    """Return a value for the ``Character.eidetic_memory`` model attribute.
+
+    >>> isinstance(character_eidetic_memory(), int)
+    True
+
+    """
+    return random.sample([0, 30, 60], 1)[0]
+
+def character_muscle_memory():
+    """Return a value for the ``Character.muscle_memory`` model attribute.
+
+    >>> isinstance(character_muscle_memory(), int)
+    True
+
+    """
+    return random.sample([0, 30, 60], 1)[0]
 
 #-------------------------------------------------------------------------------
 
