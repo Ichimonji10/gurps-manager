@@ -75,6 +75,42 @@ class CampaignId(View):
             {'campaign': campaign}
         )
 
+    def put(self, request, campaign_id):
+        """Update campaign ``campaign_id``.
+
+        If update suceeds, redirect user to ``CampaignId`` view. Otherwise,
+        redirect user to ``CampaignIdUpdateForm`` view.
+
+        """
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        form = forms.CampaignForm(request.POST, instance = campaign)
+        if form.is_valid():
+            form.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id',
+                args = [campaign_id]
+            ))
+        else:
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-update-form',
+                args = [campaign_id]
+            ))
+
+    def delete(self, request, campaign_id):
+        """Delete campaign ``campaign_id``.
+
+        After delete, redirect user to ``Campaign`` view.
+
+        """
+        _get_model_object_or_404(models.Campaign, campaign_id).delete()
+        return http.HttpResponseRedirect(reverse('gurps-manager-campaign'))
+
+    def dispatch(self, request, *args, **kwargs):
+        """Override normal method dispatching behaviour."""
+        request.method = _decode_request(request)
+        return super().dispatch(request, *args, **kwargs)
+
 class CampaignIdUpdateForm(View):
     """Handle a request for ``campaign/<id>/update-form``."""
     def get(self, request, campaign_id):
@@ -96,6 +132,32 @@ class CampaignIdDeleteForm(View):
             'gurps_manager/campaign-id-delete-form.html',
             {'campaign': campaign}
         )
+
+def _decode_request(request):
+    """Determine what HTTP method ``request.method`` represents.
+
+    ``request`` is a ``django.http.HttpRequest`` object.
+
+    If ``request`` is an HTTP POST request and the query string contains key
+    '_method', return the corresponding query string value. This allows clients
+    (especially web browsers) to submit HTTP POST requests which emulate other
+    HTTP request types, such as PUT and DELETE.
+
+    >>> class FakeRequest(object):
+    ...     def __init__(self, method, post_dict):
+    ...         self.method = method
+    ...         self.POST = post_dict
+    >>> _decode_request(FakeRequest('POST', {'_method': 'PUT'}))
+    'PUT'
+    >>> _decode_request(FakeRequest('POST', {'_method': 'foo'}))
+    'foo'
+    >>> _decode_request(FakeRequest('GET', {'_method': 'foo'}))
+    'GET'
+
+    """
+    if 'POST' == request.method:
+        return request.POST.get('_method', 'POST')
+    return request.method
 
 def _get_model_object_or_404(model, object_id):
     """Return an object of type ``model`` with ID ``object_id``.

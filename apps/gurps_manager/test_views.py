@@ -22,6 +22,16 @@ class IndexTestCase(TestCase):
         response = self.client.get(self.PATH)
         self.assertEqual(response.status_code, 200)
 
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` and emulate a DELETE request."""
+        response = self.client.delete(self.PATH, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
 class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
     PATH = reverse('gurps-manager-campaign')
@@ -47,6 +57,16 @@ class CampaignTestCase(TestCase):
         response = self.client.get(self.PATH)
         self.assertEqual(response.status_code, 200)
 
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` and emulate a DELETE request."""
+        response = self.client.delete(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
 class CampaignCreateFormTestCase(TestCase):
     """Tests for the ``campaign/create-form/`` path."""
     PATH = reverse('gurps-manager-campaign-create-form')
@@ -60,6 +80,16 @@ class CampaignCreateFormTestCase(TestCase):
         """GET ``self.PATH``."""
         response = self.client.get(self.PATH)
         self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` and emulate a DELETE request."""
+        response = self.client.delete(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
 
 class CampaignIdTestCase(TestCase):
     """Tests for the ``campaign/<id>/`` path."""
@@ -75,6 +105,11 @@ class CampaignIdTestCase(TestCase):
             args = [self.campaign.id]
         )
 
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
     def test_get(self):
         """GET ``self.path``."""
         response = self.client.get(self.path)
@@ -85,6 +120,18 @@ class CampaignIdTestCase(TestCase):
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        data = factories.CampaignFactory.attributes()
+        data['_method'] = 'PUT'
+        response = self.client.post(self.path, data)
+        self.assertRedirects(response, self.path)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.post(self.path, {'_method': 'DELETE'})
+        self.assertRedirects(response, reverse('gurps-manager-campaign'))
 
 class CampaignIdUpdateFormTestCase(TestCase):
     """Tests for the ``campaign/<id>/update-form/`` path."""
@@ -100,6 +147,11 @@ class CampaignIdUpdateFormTestCase(TestCase):
             args = [self.campaign.id]
         )
 
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
     def test_get(self):
         """GET ``self.path``."""
         response = self.client.get(self.path)
@@ -110,6 +162,16 @@ class CampaignIdUpdateFormTestCase(TestCase):
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
 
 class CampaignIdDeleteFormTestCase(TestCase):
     """Tests for the ``campaign/<id>/delete-form/`` path."""
@@ -125,6 +187,11 @@ class CampaignIdDeleteFormTestCase(TestCase):
             args = [self.campaign.id]
         )
 
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
     def test_get(self):
         """GET ``self.path``."""
         response = self.client.get(self.path)
@@ -135,3 +202,13 @@ class CampaignIdDeleteFormTestCase(TestCase):
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
