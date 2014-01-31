@@ -116,10 +116,15 @@ class CampaignIdUpdateForm(View):
     def get(self, request, campaign_id):
         """Return a form for updating campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.CampaignForm(instance = campaign)
+        else:
+            form = forms.CampaignForm(json.loads(form_data))
         return render(
             request,
             'gurps_manager/campaign-id-update-form.html',
-            {'campaign': campaign}
+            {'campaign': campaign, 'form': form}
         )
 
 class CampaignIdDeleteForm(View):

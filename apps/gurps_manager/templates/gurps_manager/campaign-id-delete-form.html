@@ -4,5 +4,10 @@
 
 {% block body %}
 <h1>Delete Campaign "{{ campaign.name }}"</h1>
-<p><em>FIXME!</em></p>
+<p>Are you <strong>sure</strong> you want to delete this campaign?</p>
+<form method='post' action='{% url 'gurps-manager-campaign-id' campaign.id %}'>
+    {% csrf_token %}
+    <input type='hidden' name='_method' value='DELETE' />
+    <p><button>Submit</button></p>
+</form>
 {% endblock %}
