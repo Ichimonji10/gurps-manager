@@ -1,34 +1,192 @@
 """Business logic for all URLs in the ``gurps_manager`` application."""
+from django.core.urlresolvers import reverse
 from django import http
 from django.shortcuts import render
+from django_tables2 import RequestConfig
+from django.views.generic.base import View
+from gurps_manager import forms, models, tables
+import json
 
-def index(request):
+# pylint: disable=E1101
+# Instance of 'CampaignForm' has no 'is_valid' member (no-member)
+
+class Index(View):
     """Handle a request for ``/``."""
-    def get_handler():
+    def get(self, request):
         """Return the homepage for this application."""
         return render(request, 'gurps_manager/index.html', {})
 
-    return {
-        'GET': get_handler,
-    }.get(
-        _request_type(request),
-        _http_405
-    )()
+class Campaign(View):
+    """Handle a request for ``campaign/``."""
+    def post(self, request):
+        """Create a new item.
 
-def _http_405():
-    """Return an ``HttpResponse`` with a 405 status code."""
-    return http.HttpResponse(status = 405)
+        If creation succeeds, rediret user to ``CampaignId`` view. Otherwise,
+        redirect user to ``CampaignCreateForm`` view.
 
-def _request_type(request):
+        """
+        form = forms.CampaignForm(request.POST)
+        if form.is_valid():
+            new_campaign = form.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id',
+                args = [new_campaign.id]
+            ))
+        else:
+            # Put form data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-create-form'
+            ))
+
+    def get(self, request):
+        """Return a list of all campaigns."""
+        table = tables.CampaignTable(models.Campaign.objects.all())
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/campaign.html',
+            {'table': table, 'request': request}
+        )
+
+class CampaignCreateForm(View):
+    """Handle a request for ``campaign/create-form/``."""
+    def get(self, request):
+        """Return a form for creating a campaign."""
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.CampaignForm()
+        else:
+            form = forms.CampaignForm(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/campaign-create-form.html',
+            {'form': form}
+        )
+
+class CampaignId(View):
+    """Handle a request for ``campaign/<id>/``."""
+    def get(self, request, campaign_id):
+        """Return information about campaign ``campaign_id``."""
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        return render(
+            request,
+            'gurps_manager/campaign-id.html',
+            {'campaign': campaign}
+        )
+
+    def put(self, request, campaign_id):
+        """Update campaign ``campaign_id``.
+
+        If update suceeds, redirect user to ``CampaignId`` view. Otherwise,
+        redirect user to ``CampaignIdUpdateForm`` view.
+
+        """
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        form = forms.CampaignForm(request.POST, instance = campaign)
+        if form.is_valid():
+            form.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id',
+                args = [campaign_id]
+            ))
+        else:
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-update-form',
+                args = [campaign_id]
+            ))
+
+    def delete(self, request, campaign_id):
+        """Delete campaign ``campaign_id``.
+
+        After delete, redirect user to ``Campaign`` view.
+
+        """
+        _get_model_object_or_404(models.Campaign, campaign_id).delete()
+        return http.HttpResponseRedirect(reverse('gurps-manager-campaign'))
+
+    def dispatch(self, request, *args, **kwargs):
+        """Override normal method dispatching behaviour."""
+        request.method = _decode_request(request)
+        return super().dispatch(request, *args, **kwargs)
+
+class CampaignIdUpdateForm(View):
+    """Handle a request for ``campaign/<id>/update-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for updating campaign ``campaign_id``."""
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.CampaignForm(instance = campaign)
+        else:
+            form = forms.CampaignForm(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/campaign-id-update-form.html',
+            {'campaign': campaign, 'form': form}
+        )
+
+class CampaignIdDeleteForm(View):
+    """Handle a request for ``campaign/<id>/delete-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for deleting campaign ``campaign_id``."""
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        return render(
+            request,
+            'gurps_manager/campaign-id-delete-form.html',
+            {'campaign': campaign}
+        )
+
+def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
 
     ``request`` is a ``django.http.HttpRequest`` object.
 
-    If ``request`` is an HTTP POST request and '_method' is a query string key,
-    return the corresponding value. Otherwise, return ``request.method``.
+    If ``request`` is an HTTP POST request and the query string contains key
+    '_method', return the corresponding query string value. This allows clients
+    (especially web browsers) to submit HTTP POST requests which emulate other
+    HTTP request types, such as PUT and DELETE.
+
+    >>> class FakeRequest(object):
+    ...     def __init__(self, method, post_dict):
+    ...         self.method = method
+    ...         self.POST = post_dict
+    >>> _decode_request(FakeRequest('POST', {'_method': 'PUT'}))
+    'PUT'
+    >>> _decode_request(FakeRequest('POST', {'_method': 'foo'}))
+    'foo'
+    >>> _decode_request(FakeRequest('GET', {'_method': 'foo'}))
+    'GET'
 
     """
-    method = request.method
-    if 'POST' == method:
+    if 'POST' == request.method:
         return request.POST.get('_method', 'POST')
-    return method
+    return request.method
+
+def _get_model_object_or_404(model, object_id):
+    """Return an object of type ``model`` with ID ``object_id``.
+
+    ``model`` is a model class. (Class ``model`` is probably defined in file
+    ``models.py``.) ``object_id`` is the ID of one of those objects.
+
+    If an object with ID ``object_id`` cannot be found, raise exception
+    ``django.http.Http404``.
+
+    >>> from django.http import Http404
+    >>> from gurps_manager import factories, models
+    >>> campaign = factories.CampaignFactory.create()
+    >>> campaign2 = _get_model_object_or_404(models.Campaign, campaign.id)
+    >>> campaign == campaign2
+    True
+    >>> try:
+    ...     _get_model_object_or_404(models.Campaign, campaign.id + 1)
+    ... except Http404:
+    ...     'an exception was raised'
+    'an exception was raised'
+
+    """
+    try:
+        return model.objects.get(id = object_id)
+    except model.DoesNotExist:
+        raise http.Http404

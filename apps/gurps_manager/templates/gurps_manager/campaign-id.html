@@ -1,0 +1,13 @@
+{% extends 'gurps_manager/index.html' %}
+
+{% block title %}Campaign {{ campaign.id }}{% endblock %}
+
+{% block body %}
+    <h1>Campaign {{ campaign.id }}</h1>
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ campaign.name }}</dd>
+        <dt>Description</dt>
+        <dd>{{ campaign.description }}</dd>
+    </dl>
+{% endblock %}
