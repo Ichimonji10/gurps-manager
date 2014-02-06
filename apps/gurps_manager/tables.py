@@ -30,6 +30,32 @@ class CampaignTable(tables.Table):
         """
         return _truncate_string(value)
 
+class CharacterTable(tables.Table):
+    """An HTML table displaying ``Campaign`` objects."""
+
+    spent_points = tables.Column(empty_values=())
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Character
+        fields = ('name', 'description', 'total_points')
+
+    def render_spent_points(self, record):
+        """Define how the ``spent_points`` column should be rendered.
+
+        ``record`` represents a row of data from this table.
+
+        """
+        return record.total_character_points_spent()
+
+    def render_description(self, value):
+        """Define how the ``description`` column should be rendered.
+
+        ``value`` represents a single cell of data from the table.
+
+        """
+        return _truncate_string(value)
+
 # private methods --------------------------------------------------------------
 
 def _truncate_string(string):
