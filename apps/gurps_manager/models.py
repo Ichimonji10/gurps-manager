@@ -274,23 +274,45 @@ class Character(models.Model):
 
     def points_in_strength(self):
         """Returns the points a character has spent in strength"""
-        # TODO: Implement this
-        pass
+        return self._points_in_attribute(self.strength)
 
     def points_in_dexterity(self):
         """Returns the points a character has spent in dexterity"""
-        # TODO: Implement this
-        pass
+        return self._points_in_attribute(self.dexterity)
 
     def points_in_intelligence(self):
         """Returns the points a character has spent in intelligence"""
-        # TODO: Implement this
-        pass
+        return self._points_in_attribute(self.intelligence)
 
     def points_in_health(self):
         """Returns the points a character has spent in health"""
-        # TODO: Implement this
-        pass
+        return self._points_in_attribute(self.health)
+
+    def _points_in_attribute(level):
+        """Returns the points required to achieve the given level of an attribute
+
+        For reference of where all these magic numbers come from, see:
+            GURPS Basic Set 3rd Edition Revised, page 13
+        """
+        if(8 > level):
+            return (9 - level) * -10
+        elif(9 > level):
+            return -15
+        elif(14 > level):
+            return (level - 10) * 10
+        elif(15 > level):
+            return 45
+        elif(18 > level):
+            return (level - 12) * 20
+        else:
+            return (level - 13) * 25
+
+    def total_points_in_attributes(self):
+        """Returns the points a character has spent in attributes"""
+        return self.points_in_strength() \
+                + self.points_in_dexterity() \
+                + self.points_in_intelligence() \
+                + self.points_in_health()
 
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
@@ -328,7 +350,8 @@ class Character(models.Model):
 
     def total_character_points_spent(self):
         """Returns the points a character has spent in total"""
-        return self.total_points_in_advantages() \
+        return self.total_points_in_attributes() \
+            + self.total_points_in_advantages() \
             + self.total_points_in_disadvantages() \
             + self.total_points_in_skills() \
             + self.total_points_in_spells() \
