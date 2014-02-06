@@ -29,6 +29,7 @@ class CharacterForm(ModelForm):
     class Meta(object):
         """Form attributes that are not custom fields."""
         model = models.Character
+        exclude = ['skills', 'spells', 'items']
         # There are a lot of attributes on the Character model, and we want to
         # display them all. If we want to display only some fields, use `fields`
-        # or `excludes`.
+        # or `exclude`.
