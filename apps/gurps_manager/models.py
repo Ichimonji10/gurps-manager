@@ -81,6 +81,7 @@ class Campaign(models.Model):
     )
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class SkillSet(models.Model):
@@ -91,6 +92,7 @@ class SkillSet(models.Model):
     name = models.CharField(max_length = MAX_LEN_NAME)
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class Character(models.Model):
@@ -226,6 +228,7 @@ class Character(models.Model):
         return self.strength * 20
 
     def total_possession_weight(self):
+        """Returns the total weight of a character's possessions"""
         total_weight = 0
 
         for possession in Possession.objects.get(character=self):
@@ -233,12 +236,14 @@ class Character(models.Model):
         return total_weight
 
     def total_possession_value(self):
+        """Returns the total value of a character's possessions"""
         total_cost = 0
         for possession in Possession.objects.get(character=self):
             total_cost += (possession.item.weight * possession.quantity)
         return total_cost
 
     def encumberance_penalty(self):
+        """Returns the encumberance penalty incurred by a character's total possession weight"""
         if self.total_possession_weight() < self.no_encumberance:
             return 0
         elif self.total_possession_weight() < self.light_encumberance:
@@ -260,24 +265,29 @@ class Character(models.Model):
         return ((self.dexterity + self.health) / 4) + self.bonus_speed
 
     def movement(self):
+        """Returns a character's movement"""
         return floor(self.speed()) - self.encumberance_penalty() + bonus_movement
 
     def dodge(self):
+        """Returns a character's speed"""
         return floor(self.speed()) - self.encumberance_penalty() + bonus_dodge
 
     def total_points_in_skills(self):
+        """Returns the points a character has spent in skills"""
         total_points = 0
         for skill in CharacterSkill.objects.get(character=self):
             total_points += skill.points
         return total_points
 
     def total_points_in_spells(self):
+        """Returns the points a character has spent in spells"""
         total_points = 0
         for spell in CharacterSpell.objects.get(character=self):
             total_points += spell.points
         return total_points
 
     def total_points_in_advantages(self):
+        """Returns the points a character has spent in advantages"""
         total_points = 0
         for trait in Trait.objects.get(character=self):
             if trait.points > 0:
@@ -285,6 +295,7 @@ class Character(models.Model):
         return total_points
 
     def total_points_in_disadvantages(self):
+        """Returns the points a character has spent in disadvantages"""
         total_points = 0
         for trait in Trait.objects.get(character=self):
             if trait.points < 0:
@@ -292,9 +303,11 @@ class Character(models.Model):
         return total_points
 
     def total_points_in_special_traits(self):
+        """Returns the points a character has spent in special traits"""
         return self.eidetic_memory + self.muscle_memory + self.wealth + self.appearance
 
-    def total_character_points_spend(self):
+    def total_character_points_spent(self):
+        """Returns the points a character has spent in total"""
         return self.total_points_in_advantages() \
             + self.total_points_in_disadvantages() \
             + self.total_points_in_skills() \
@@ -302,6 +315,7 @@ class Character(models.Model):
             + self.total_points_in_special_traits()
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class Trait(models.Model):
@@ -323,6 +337,7 @@ class Trait(models.Model):
     points = models.FloatField(validators=[validate_quarter])
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class Skill(models.Model):
@@ -360,6 +375,7 @@ class Skill(models.Model):
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class CharacterSkill(models.Model):
@@ -507,6 +523,7 @@ class Spell(models.Model):
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class CharacterSpell(models.Model):
@@ -560,6 +577,7 @@ class Item(models.Model):
     weight = models.FloatField(validators=[validate_not_negative])
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
 
 class Possession(models.Model):
@@ -597,4 +615,5 @@ class HitLocation(models.Model):
     damage_taken = models.IntegerField(default=0)
 
     def __str__(self):
+        """Returns a string representation of the object"""
         return self.name
