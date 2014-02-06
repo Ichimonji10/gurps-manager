@@ -80,12 +80,18 @@ class Campaign(models.Model):
         blank = True
     )
 
+    def __str__(self):
+        return self.name
+
 class SkillSet(models.Model):
     """A grouping of similar skills"""
     MAX_LEN_NAME = 50
 
     # string-based fields
     name = models.CharField(max_length = MAX_LEN_NAME)
+
+    def __str__(self):
+        return self.name
 
 class Character(models.Model):
     """An individual who can be role-played."""
@@ -295,6 +301,9 @@ class Character(models.Model):
             + self.total_points_in_spells() \
             + self.total_points_in_special_traits()
 
+    def __str__(self):
+        return self.name
+
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
     MAX_LEN_NAME = 50
@@ -312,6 +321,9 @@ class Trait(models.Model):
 
     # float fields
     points = models.FloatField(validators=[validate_quarter])
+
+    def __str__(self):
+        return self.name
 
 class Skill(models.Model):
     """A skill available to characters.
@@ -346,6 +358,9 @@ class Skill(models.Model):
     # lookup fields
     category = models.IntegerField(choices=CATEGORY_CHOICES)
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
+
+    def __str__(self):
+        return self.name
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
@@ -491,6 +506,9 @@ class Spell(models.Model):
     # lookup fields
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
 
+    def __str__(self):
+        return self.name
+
 class CharacterSpell(models.Model):
     """A spell that a character may know"""
 
@@ -541,6 +559,9 @@ class Item(models.Model):
     cost = models.FloatField(validators=[validate_not_negative])
     weight = models.FloatField(validators=[validate_not_negative])
 
+    def __str__(self):
+        return self.name
+
 class Possession(models.Model):
     """An item that a character possesses"""
 
@@ -574,3 +595,6 @@ class HitLocation(models.Model):
     passive_damage_resistance = models.IntegerField()
     damage_resistance = models.IntegerField()
     damage_taken = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
