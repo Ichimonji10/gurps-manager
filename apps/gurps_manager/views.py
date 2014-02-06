@@ -138,6 +138,128 @@ class CampaignIdDeleteForm(View):
             {'campaign': campaign}
         )
 
+class Character(View):
+    """Handle a request for ``character/``."""
+    def post(self, request):
+        """Create a new item.
+
+        If creation succeeds, rediret user to ``CharacterId`` view. Otherwise,
+        redirect user to ``CharacterCreateForm`` view.
+
+        """
+        form = forms.CharacterForm(request.POST)
+        if form.is_valid():
+            new_character = form.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id',
+                args = [new_character.id]
+            ))
+        else:
+            # Put form data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-create-form'
+            ))
+
+    def get(self, request):
+        """Return a list of all characters."""
+        table = tables.CharacterTable(models.Character.objects.all())
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character.html',
+            {'table': table, 'request': request}
+        )
+
+class CharacterId(View):
+    """Handle a request for ``character/<id>/``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        return render(
+            request,
+            'gurps_manager/character-id.html',
+            {'character': character}
+        )
+
+    def put(self, request, campaign_id):
+        """Update character ``character_id``.
+
+        If update suceeds, redirect user to ``CharacterId`` view. Otherwise,
+        redirect user to ``CharacterIdUpdateForm`` view.
+
+        """
+        character = _get_model_object_or_404(models.Character, character_id)
+        form = forms.CharacterForm(request.POST, instance = character)
+        if form.is_valid():
+            form.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id',
+                args = [character_id]
+            ))
+        else:
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-update-form',
+                args = [character_id]
+            ))
+
+    def delete(self, request, character_id):
+        """Delete character ``character_id``.
+
+        After delete, redirect user to ``Character`` view.
+
+        """
+        _get_model_object_or_404(models.Character, character_id).delete()
+        return http.HttpResponseRedirect(reverse('gurps-manager-character'))
+
+    def dispatch(self, request, *args, **kwargs):
+        """Override normal method dispatching behaviour."""
+        request.method = _decode_request(request)
+        return super().dispatch(request, *args, **kwargs)
+
+class CharacterCreateForm(View):
+    """Handle a request for ``character/create-form/``."""
+    def get(self, request):
+        """Return a form for creating a character."""
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.CharacterForm()
+        else:
+            form = forms.CharacterForm(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/character-create-form.html',
+            {'form': form}
+        )
+
+class CharacterIdUpdateForm(View):
+    """Handle a request for ``character/<id>/update-form``."""
+    def get(self, request, character_id):
+        """Return a form for updating character ``character_id``."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.CharacterForm(instance = character)
+        else:
+            form = forms.CharacterForm(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/character-id-update-form.html',
+            {'character': character, 'form': form}
+        )
+
+class CharacterIdDeleteForm(View):
+    """Handle a request for ``character/<id>/delete-form``."""
+    def get(self, request, character_id):
+        """Return a form for deleting character ``character_id``."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        return render(
+            request,
+            'gurps_manager/character-id-delete-form.html',
+            {'character': character}
+        )
+
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
 
