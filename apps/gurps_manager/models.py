@@ -272,6 +272,26 @@ class Character(models.Model):
         """Returns a character's speed"""
         return floor(self.speed()) - self.encumberance_penalty() + bonus_dodge
 
+    def points_in_strength(self):
+        """Returns the points a character has spent in strength"""
+        # TODO: Implement this
+        pass
+
+    def points_in_dexterity(self):
+        """Returns the points a character has spent in dexterity"""
+        # TODO: Implement this
+        pass
+
+    def points_in_intelligence(self):
+        """Returns the points a character has spent in intelligence"""
+        # TODO: Implement this
+        pass
+
+    def points_in_health(self):
+        """Returns the points a character has spent in health"""
+        # TODO: Implement this
+        pass
+
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
         total_points = 0
