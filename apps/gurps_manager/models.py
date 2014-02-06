@@ -230,16 +230,15 @@ class Character(models.Model):
     def total_possession_weight(self):
         """Returns the total weight of a character's possessions"""
         total_weight = 0
-
-        for possession in Possession.objects.get(character=self):
+        for possession in Possession.objects.filter(character=self):
             total_weight += (possession.item.weight * possession.quantity)
         return total_weight
 
     def total_possession_value(self):
         """Returns the total value of a character's possessions"""
         total_cost = 0
-        for possession in Possession.objects.get(character=self):
-            total_cost += (possession.item.weight * possession.quantity)
+        for possession in Possession.objects.filter(character=self):
+            total_cost += (possession.item.cost * possession.quantity)
         return total_cost
 
     def encumberance_penalty(self):
@@ -256,11 +255,12 @@ class Character(models.Model):
             return 4
         else:
             # TODO figure out whether this is how I actually want to handle over-encumberance
-            return 100
+            return 10000
 
     def speed(self):
-        for skill in CharacterSkill.objects.get(character=self):
-           if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
+        """Returns a character's speed"""
+        for skill in CharacterSkill.objects.filter(character=self):
+            if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
                 return ((self.dexterity + self.health) / 4) + (skill.score() / 8) + self.bonus_speed
         return ((self.dexterity + self.health) / 4) + self.bonus_speed
 
@@ -275,21 +275,21 @@ class Character(models.Model):
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
         total_points = 0
-        for skill in CharacterSkill.objects.get(character=self):
+        for skill in CharacterSkill.objects.filter(character=self):
             total_points += skill.points
         return total_points
 
     def total_points_in_spells(self):
         """Returns the points a character has spent in spells"""
         total_points = 0
-        for spell in CharacterSpell.objects.get(character=self):
+        for spell in CharacterSpell.objects.filter(character=self):
             total_points += spell.points
         return total_points
 
     def total_points_in_advantages(self):
         """Returns the points a character has spent in advantages"""
         total_points = 0
-        for trait in Trait.objects.get(character=self):
+        for trait in Trait.objects.filter(character=self):
             if trait.points > 0:
                 total_points += trait.points
         return total_points
@@ -297,7 +297,7 @@ class Character(models.Model):
     def total_points_in_disadvantages(self):
         """Returns the points a character has spent in disadvantages"""
         total_points = 0
-        for trait in Trait.objects.get(character=self):
+        for trait in Trait.objects.filter(character=self):
             if trait.points < 0:
                 total_points += trait.points
         return total_points
