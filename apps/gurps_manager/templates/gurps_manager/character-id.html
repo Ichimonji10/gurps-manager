@@ -1,0 +1,15 @@
+{% extends 'gurps_manager/index.html' %}
+
+{% block title %}Character {{ character.id }}{% endblock %}
+
+{% block body %}
+    <h1>Character {{ character.id }}</h1>
+    <dl>
+        <dt>Name</dt>
+        <dd>{{ character.name }}</dd>
+        <dt>Description</dt>
+        <dd>{{ character.description }}</dd>
+        <dt>Story</dt>
+        <dd>{{ character.story }}</dd>
+    </dl>
+{% endblock %}
