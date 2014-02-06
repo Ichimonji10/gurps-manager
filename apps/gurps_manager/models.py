@@ -252,7 +252,7 @@ class Character(models.Model):
            if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
                 return ((self.dexterity + self.health) / 4) + (skill.score() / 8) + self.bonus_speed
         return ((self.dexterity + self.health) / 4) + self.bonus_speed
-    
+
     def movement(self):
         return floor(self.speed()) - self.encumberance_penalty() + bonus_movement
 
@@ -349,7 +349,7 @@ class Skill(models.Model):
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
-    
+
     # key fields
     skill = models.ForeignKey(Skill)
     character = models.ForeignKey(Character)
@@ -362,10 +362,16 @@ class CharacterSkill(models.Model):
 
     def score(self):
         """Returns a character's score in a given skill"""
-        MUSCLE_MEMORY_FACTOR = (1 if self.character.muscle_memory == 0 else (self.character.muscle_memory / 15))
+        MUSCLE_MEMORY_FACTOR = (
+            1 if self.character.muscle_memory == 0
+            else (self.character.muscle_memory / 15)
+            )
         EFFECTIVE_POINTS_PHYSICAL = self.points * MUSCLE_MEMORY_FACTOR
 
-        EIDETIC_MEMORY_FACTOR = (1 if self.character.eidetic_memory == 0 else (self.character.eidetic_memory / 15))
+        EIDETIC_MEMORY_FACTOR = (
+            1 if self.character.eidetic_memory == 0
+            else (self.character.eidetic_memory / 15)
+            )
         EFFECTIVE_POINTS_MENTAL = self.points * EIDETIC_MEMORY_FACTOR
 
         # intelligence based mental skill
@@ -380,9 +386,11 @@ class CharacterSkill(models.Model):
                 return self.character.intelligence - self.skill.difficulty + 2
             else:
                 if self.skill.difficulty < 4:
-                    return self.character.intelligence - self.skill.difficulty + (EFFECTIVE_POINTS_MENTAL // 2) + 1
+                    return self.character.intelligence - self.skill.difficulty \
+                            + (EFFECTIVE_POINTS_MENTAL // 2) + 1
                 else:
-                    return self.character.intelligence - self.skill.difficulty + (EFFECTIVE_POINTS_MENTAL // 4) + 2
+                    return self.character.intelligence - self.skill.difficulty \
+                            + (EFFECTIVE_POINTS_MENTAL // 4) + 2
 
         # health based mental skill
         elif self.skill.category == 2:
@@ -396,9 +404,11 @@ class CharacterSkill(models.Model):
                 return self.character.health - self.skill.difficulty + 2
             else:
                 if self.skill.difficulty < 4:
-                    return self.character.health - self.skill.difficulty + (EFFECTIVE_POINTS_MENTAL // 2) + 1
+                    return self.character.health - self.skill.difficulty \
+                            + (EFFECTIVE_POINTS_MENTAL // 2) + 1
                 else:
-                    return self.character.health - self.skill.difficulty + (EFFECTIVE_POINTS_MENTAL // 4) + 2
+                    return self.character.health - self.skill.difficulty \
+                            + (EFFECTIVE_POINTS_MENTAL // 4) + 2
 
         # dexterity based physical skill
         elif self.skill.category == 3:
@@ -413,7 +423,8 @@ class CharacterSkill(models.Model):
             elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.dexterity - self.skill.difficulty + 3
             else:
-                return self.character.dexterity - self.skill.difficulty + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
+                return self.character.dexterity - self.skill.difficulty \
+                        + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
 
         # health based physical skill
         elif self.skill.category == 4:
@@ -428,7 +439,8 @@ class CharacterSkill(models.Model):
             elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.health - self.skill.difficulty + 3
             else:
-                return self.character.health - self.skill.difficulty + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
+                return self.character.health - self.skill.difficulty \
+                        + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
 
         # strength based physical skill
         elif self.skill.category == 5:
@@ -443,8 +455,9 @@ class CharacterSkill(models.Model):
             elif EFFECTIVE_POINTS_PHYSICAL < 8:
                 return self.character.strength - self.skill.difficulty + 3
             else:
-                return self.character.strength - self.skill.difficulty + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
-        
+                return self.character.strength - self.skill.difficulty \
+                        + (EFFECTIVE_POINTS_PHYSICAL // 8) + 3
+
         # TODO add exception handling for this case, it should never really occur
         else:
             return 0
@@ -473,14 +486,14 @@ class Spell(models.Model):
     cast_time = models.IntegerField()
     duration = models.IntegerField()
     initial_fatigue_cost = models.IntegerField()
-    maintainance_fatigue_cost = models.IntegerField() 
+    maintainance_fatigue_cost = models.IntegerField()
 
     # lookup fields
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
 
 class CharacterSpell(models.Model):
     """A spell that a character may know"""
-    
+
     # key fields
     spell = models.ForeignKey(Spell)
     character = models.ForeignKey(Character)
@@ -496,16 +509,21 @@ class CharacterSpell(models.Model):
         if self.points < 0.5:
                 return 0
         elif self.points < 1:
-            return self.character.intelligence - self.skill.difficulty + EIDETIC_MEMORY_FACTOR
+            return self.character.intelligence - self.skill.difficulty \
+            + EIDETIC_MEMORY_FACTOR
         elif self.points < 2:
-            return self.character.intelligence - self.skill.difficulty + 1 + EIDETIC_MEMORY_FACTOR
+            return self.character.intelligence - self.skill.difficulty + 1 \
+            + EIDETIC_MEMORY_FACTOR
         elif self.points < 4:
-            return self.character.intelligence - self.skill.difficulty + 2 + EIDETIC_MEMORY_FACTOR
+            return self.character.intelligence - self.skill.difficulty + 2 \
+            + EIDETIC_MEMORY_FACTOR
         else:
             if self.skill.difficulty < 4:
-                return self.character.intelligence - self.skill.difficulty + (self.points // 2) + 1 + EIDETIC_MEMORY_FACTOR
+                return self.character.intelligence - self.skill.difficulty \
+                        + (self.points // 2) + 1 + EIDETIC_MEMORY_FACTOR
             else:
-                return self.character.intelligence - self.skill.difficulty + (self.points // 4) + 2 + EIDETIC_MEMORY_FACTOR
+                return self.character.intelligence - self.skill.difficulty \
+                        + (self.points // 4) + 2 + EIDETIC_MEMORY_FACTOR
 
 class Item(models.Model):
     """An item that a character may possess"""
@@ -525,7 +543,7 @@ class Item(models.Model):
 
 class Possession(models.Model):
     """An item that a character possesses"""
-    
+
     # key fields
     item = models.ForeignKey(Item)
     character = models.ForeignKey(Character)
@@ -536,7 +554,7 @@ class Possession(models.Model):
 class HitLocation(models.Model):
     """A location on a character that can be affected
 
-    Affectations include: armor value, damage, status effects, etc. 
+    Affectations include: armor value, damage, status effects, etc.
 
     """
     MAX_LEN_NAME = 50
