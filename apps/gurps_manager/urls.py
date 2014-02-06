@@ -78,4 +78,31 @@ urlpatterns = patterns( # pylint: disable=C0103
         views.CampaignIdDeleteForm.as_view(),
         name = 'gurps-manager-campaign-id-delete-form',
     ),
+
+    # character-related paths
+    url(
+        r'^character/$',
+        views.Character.as_view(),
+        name = 'gurps-manager-character'
+    ),
+    url(
+        r'^character/create-form/$',
+        views.CharacterCreateForm.as_view(),
+        name = 'gurps-manager-character-create-form'
+    ),
+    url(
+        r'^character/(\d+)/$',
+        views.CharacterId.as_view(),
+        name = 'gurps-manager-character-id',
+    ),
+    # url(
+    #     r'^character/(\d+)/update-form/$',
+    #     views.CharacterIdUpdateForm.as_view(),
+    #     name = 'gurps-manager-character-id-update-form',
+    # ),
+    # url(
+    #     r'^character/(\d+)/delete-form/$',
+    #     views.CharacterIdDeleteForm.as_view(),
+    #     name = 'gurps-manager-character-id-delete-form',
+    # ),
 )
