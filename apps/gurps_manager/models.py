@@ -166,7 +166,7 @@ class Character(models.Model):
 
     # float fields
     total_points = models.FloatField(validators=[validate_quarter])
-    used_fatigue = models.FloatField(validators=[validate_quarter])
+    used_fatigue = models.FloatField(default=0,validators=[validate_quarter])
 
     # lookup fields
     appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
