@@ -206,7 +206,7 @@ class Character(models.Model):
         return ((self.intelligence + self.dexterity) / 4) \
             + self.bonus_initiative
 
-    def no_encumberance(self):
+    def no_encumbrance(self):
         """Returns a character's no encumberance upper limit"""
         return self.strength * 2
 

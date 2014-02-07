@@ -95,3 +95,9 @@ class CharacterTestCase(TestCase):
             character.initiative(),
             ((intelligence + dexterity) / 4) + bonus_initiative,
         )
+
+    def test_no_encumbrance(self):
+        """Test the ``no_encumbrance`` method."""
+        strength = factories.character_intfield()
+        character = factories.CharacterFactory.build(strength=strength)
+        self.assertEqual(character.no_encumbrance(), strength * 2)
