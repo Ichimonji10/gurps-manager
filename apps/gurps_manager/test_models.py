@@ -101,3 +101,27 @@ class CharacterTestCase(TestCase):
         strength = factories.character_intfield()
         character = factories.CharacterFactory.build(strength=strength)
         self.assertEqual(character.no_encumbrance(), strength * 2)
+
+    def test_light_encumbrance(self):
+        """Test the ``light_encumbrance`` method."""
+        strength = factories.character_intfield()
+        character = factories.CharacterFactory.build(strength=strength)
+        self.assertEqual(character.light_encumbrance(), strength * 4)
+
+    def test_medium_encumbrance(self):
+        """Test the ``medium_encumbrance`` method."""
+        strength = factories.character_intfield()
+        character = factories.CharacterFactory.build(strength=strength)
+        self.assertEqual(character.medium_encumbrance(), strength * 6)
+
+    def test_heavy_encumbrance(self):
+        """Test the ``heavy_encumbrance`` method."""
+        strength = factories.character_intfield()
+        character = factories.CharacterFactory.build(strength=strength)
+        self.assertEqual(character.heavy_encumbrance(), strength * 12)
+
+    def test_extra_heavy_encumbrance(self):
+        """Test the ``extra_heavy_encumbrance`` method."""
+        strength = factories.character_intfield()
+        character = factories.CharacterFactory.build(strength=strength)
+        self.assertEqual(character.extra_heavy_encumbrance(), strength * 20)

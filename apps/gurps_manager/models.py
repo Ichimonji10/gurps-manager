@@ -207,23 +207,23 @@ class Character(models.Model):
             + self.bonus_initiative
 
     def no_encumbrance(self):
-        """Returns a character's no encumberance upper limit"""
+        """Returns a character's no encumbrance upper limit"""
         return self.strength * 2
 
-    def light_encumberance(self):
-        """Returns a character's light encumberance upper limit"""
+    def light_encumbrance(self):
+        """Returns a character's light encumbrance upper limit"""
         return self.strength * 4
 
-    def medium_encumberance(self):
-        """Returns a character's medium encumberance upper limit"""
+    def medium_encumbrance(self):
+        """Returns a character's medium encumbrance upper limit"""
         return self.strength * 6
 
-    def heavy_encumberance(self):
-        """Returns a character's heavy encumberance upper limit"""
+    def heavy_encumbrance(self):
+        """Returns a character's heavy encumbrance upper limit"""
         return self.strength * 12
 
-    def extra_heavy_encumberance(self):
-        """Returns a character's extra heavy encumberance upper limit"""
+    def extra_heavy_encumbrance(self):
+        """Returns a character's extra heavy encumbrance upper limit"""
         return self.strength * 20
 
     def total_possession_weight(self):
