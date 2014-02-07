@@ -48,61 +48,62 @@ from gurps_manager import views
 # same name, the reverse() function will produce undefined results. See:
 # https://docs.djangoproject.com/en/dev/topics/http/urls/#naming-url-patterns
 
+# pylint: disable=E1120
 urlpatterns = patterns( # pylint: disable=C0103
     '',
-    url(r'^$', views.Index.as_view(), name = 'gurps-manager-index'),
+    url(r'^$', views.Index.as_view(), name='gurps-manager-index'),
 
     # campaign-related paths
     url(
         r'^campaign/$',
         views.Campaign.as_view(),
-        name = 'gurps-manager-campaign'
+        name='gurps-manager-campaign'
     ),
     url(
         r'^campaign/create-form/$',
         views.CampaignCreateForm.as_view(),
-        name = 'gurps-manager-campaign-create-form'
+        name='gurps-manager-campaign-create-form'
     ),
     url(
         r'^campaign/(\d+)/$',
         views.CampaignId.as_view(),
-        name = 'gurps-manager-campaign-id',
+        name='gurps-manager-campaign-id',
     ),
     url(
         r'^campaign/(\d+)/update-form/$',
         views.CampaignIdUpdateForm.as_view(),
-        name = 'gurps-manager-campaign-id-update-form',
+        name='gurps-manager-campaign-id-update-form',
     ),
     url(
         r'^campaign/(\d+)/delete-form/$',
         views.CampaignIdDeleteForm.as_view(),
-        name = 'gurps-manager-campaign-id-delete-form',
+        name='gurps-manager-campaign-id-delete-form',
     ),
 
     # character-related paths
     url(
         r'^character/$',
         views.Character.as_view(),
-        name = 'gurps-manager-character'
+        name='gurps-manager-character'
     ),
     url(
         r'^character/create-form/$',
         views.CharacterCreateForm.as_view(),
-        name = 'gurps-manager-character-create-form'
+        name='gurps-manager-character-create-form'
     ),
     url(
         r'^character/(\d+)/$',
         views.CharacterId.as_view(),
-        name = 'gurps-manager-character-id',
+        name='gurps-manager-character-id',
     ),
     url(
         r'^character/(\d+)/update-form/$',
         views.CharacterIdUpdateForm.as_view(),
-        name = 'gurps-manager-character-id-update-form',
+        name='gurps-manager-character-id-update-form',
     ),
     url(
         r'^character/(\d+)/delete-form/$',
         views.CharacterIdDeleteForm.as_view(),
-        name = 'gurps-manager-character-id-delete-form',
+        name='gurps-manager-character-id-delete-form',
     ),
 )

@@ -1,1 +1,3 @@
-"""This folder contains any customization related to management of the application"""
+"""This folder contains any customization
+related to management of the application
+"""

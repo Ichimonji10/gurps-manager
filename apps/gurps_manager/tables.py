@@ -15,6 +15,9 @@ import django_tables2 as tables
 # pylint: disable=W0232
 # "Class has no __init__ method"
 # It is both common and OK for a table class to have no __init__ method.
+#
+# pylint: disable=R0201
+# Framework requires use of methods rather than functions
 
 class CampaignTable(tables.Table):
     """An HTML table displaying ``Campaign`` objects."""

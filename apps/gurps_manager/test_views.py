@@ -8,6 +8,18 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from gurps_manager import factories, models
 
+# pylint: disable=E1101
+# Class 'Campaign' has no 'objects' member (no-member)
+# Class 'CampaignFactory' has no '<blah>' member (no-member)
+#
+# pylint: disable=E1103
+# Instance of 'WSGIRequest' has no 'status_code' member
+# (but some types could not be inferred) (maybe-no-member)
+#
+# pylint: disable=R0904
+# Classes inheriting from TestCase will have 60+ too many public methods, and
+# that's not something I have control over. Ignore it.
+
 class IndexTestCase(TestCase):
     """Tests for the ``/`` path."""
     PATH = reverse('gurps-manager-index')
@@ -48,7 +60,7 @@ class CampaignTestCase(TestCase):
             response,
             reverse(
                 'gurps-manager-campaign-id',
-                args = [models.Campaign.objects.latest('id').id]
+                args=[models.Campaign.objects.latest('id').id]
             )
         )
 
@@ -102,7 +114,7 @@ class CampaignIdTestCase(TestCase):
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id',
-            args = [self.campaign.id]
+            args=[self.campaign.id]
         )
 
     def test_post(self):
@@ -144,7 +156,7 @@ class CampaignIdUpdateFormTestCase(TestCase):
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-update-form',
-            args = [self.campaign.id]
+            args=[self.campaign.id]
         )
 
     def test_post(self):
@@ -184,7 +196,7 @@ class CampaignIdDeleteFormTestCase(TestCase):
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-delete-form',
-            args = [self.campaign.id]
+            args=[self.campaign.id]
         )
 
     def test_post(self):

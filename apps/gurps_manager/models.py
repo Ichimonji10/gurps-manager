@@ -91,6 +91,9 @@ class SkillSet(models.Model):
         return self.name
 
 class Character(models.Model):
+    # pylint: disable=R0904
+    # GURPS has an enormous number of derived fields
+    # on its characters
     """An individual who can be role-played."""
     MAX_LEN_NAME = 50
     MAX_LEN_DESCRIPTION = 2000
@@ -294,21 +297,23 @@ class Character(models.Model):
         """Returns the points a character has spent in health"""
         return self._points_in_attribute(self.health)
 
-    def _points_in_attribute(self, level):
-        """Returns the points required to achieve the given level of an attribute
+    @classmethod
+    def _points_in_attribute(cls, level):
+        """Returns the points required to achieve
+        the given level of an attribute
 
         For reference of where all these magic numbers come from, see:
             GURPS Basic Set 3rd Edition Revised, page 13
         """
-        if(8 > level):
+        if 8 > level:
             return (9 - level) * -10
-        elif(9 > level):
+        elif 9 > level:
             return -15
-        elif(14 > level):
+        elif 14 > level:
             return (level - 10) * 10
-        elif(15 > level):
+        elif 15 > level:
             return 45
-        elif(18 > level):
+        elif 18 > level:
             return (level - 12) * 20
         else:
             return (level - 13) * 25
@@ -589,6 +594,7 @@ class CharacterSpell(models.Model):
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def score(self):
+        """Returns a character's score in a given spell"""
         eidetic_memory_factor = self.character.eidetic_memory / 30
         if self.points < 0.5:
             return 0

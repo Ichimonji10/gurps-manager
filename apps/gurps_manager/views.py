@@ -9,6 +9,8 @@ import json
 
 # pylint: disable=E1101
 # Instance of 'CampaignForm' has no 'is_valid' member (no-member)
+# pylint: disable=R0201
+# Framework requires use of methods rather than functions
 
 class Index(View):
     """Handle a request for ``/``."""
@@ -30,7 +32,7 @@ class Campaign(View):
             new_campaign = form.save()
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-campaign-id',
-                args = [new_campaign.id]
+                args=[new_campaign.id]
             ))
         else:
             # Put form data into session. Destination view will use it.
@@ -83,21 +85,21 @@ class CampaignId(View):
 
         """
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
-        form = forms.CampaignForm(request.POST, instance = campaign)
+        form = forms.CampaignForm(request.POST, instance=campaign)
         if form.is_valid():
             form.save()
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-campaign-id',
-                args = [campaign_id]
+                args=[campaign_id]
             ))
         else:
             request.session['form_data'] = json.dumps(form.data)
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-campaign-id-update-form',
-                args = [campaign_id]
+                args=[campaign_id]
             ))
 
-    def delete(self, request, campaign_id):
+    def delete(self, request, campaign_id): #pylint: disable=W0613
         """Delete campaign ``campaign_id``.
 
         After delete, redirect user to ``Campaign`` view.
@@ -118,7 +120,7 @@ class CampaignIdUpdateForm(View):
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            form = forms.CampaignForm(instance = campaign)
+            form = forms.CampaignForm(instance=campaign)
         else:
             form = forms.CampaignForm(json.loads(form_data))
         return render(
@@ -140,7 +142,7 @@ class CampaignIdDeleteForm(View):
 
 class Character(View):
     """Handle a request for ``character/``."""
-    def post(self, request, character_id):
+    def post(self, request):
         """Create a new item.
 
         If creation succeeds, rediret user to ``CharacterId`` view. Otherwise,
@@ -152,7 +154,7 @@ class Character(View):
             new_character = form.save()
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-character-id',
-                args = [new_character.id]
+                args=[new_character.id]
             ))
         else:
             # Put form data into session. Destination view will use it.
@@ -190,21 +192,21 @@ class CharacterId(View):
 
         """
         character = _get_model_object_or_404(models.Character, character_id)
-        form = forms.CharacterForm(request.POST, instance = character)
+        form = forms.CharacterForm(request.POST, instance=character)
         if form.is_valid():
             form.save()
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-character-id',
-                args = [character_id]
+                args=[character_id]
             ))
         else:
             request.session['form_data'] = json.dumps(form.data)
             return http.HttpResponseRedirect(reverse(
                 'gurps-manager-character-id-update-form',
-                args = [character_id]
+                args=[character_id]
             ))
 
-    def delete(self, request, character_id):
+    def delete(self, request, character_id): #pylint: disable=W0613
         """Delete character ``character_id``.
 
         After delete, redirect user to ``Character`` view.
@@ -240,7 +242,7 @@ class CharacterIdUpdateForm(View):
         character = _get_model_object_or_404(models.Character, character_id)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            form = forms.CharacterForm(instance = character)
+            form = forms.CharacterForm(instance=character)
         else:
             form = forms.CharacterForm(json.loads(form_data))
         return render(
@@ -309,6 +311,6 @@ def _get_model_object_or_404(model, object_id):
 
     """
     try:
-        return model.objects.get(id = object_id)
+        return model.objects.get(id=object_id)
     except model.DoesNotExist:
         raise http.Http404

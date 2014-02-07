@@ -221,11 +221,11 @@ def _random_int(lower, upper):
     True
 
     """
-    if(lower >= upper):
+    if lower >= upper:
         return lower
     return random.randint(0, upper - lower) + lower
 
-def _random_str(min_len = 0, max_len = 0):
+def _random_str(min_len=0, max_len=0):
     """Return a string consisting of random UTF-8 characters.
 
     If ``min_len >= max_len``, return a string exactly ``min_len`` characters

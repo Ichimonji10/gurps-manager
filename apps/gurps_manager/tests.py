@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.6/topics/testing/overview/
 from doctest import DocTestSuite
 from gurps_manager import factories, models, tables, views
 
-def load_tests(loader, tests, ignore):
+def load_tests(loader, tests, ignore): # pylint: disable=W0613
     """Create a suite of doctests from this Django application."""
     tests.addTests(DocTestSuite(factories))
     tests.addTests(DocTestSuite(models))
