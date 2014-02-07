@@ -80,3 +80,18 @@ class CharacterTestCase(TestCase):
             bonus_fright=bonus_fright,
         )
         self.assertEqual(character.fright(), intelligence + bonus_fright)
+
+    def test_initiative(self):
+        """Test the ``initiative`` method."""
+        bonus_initiative = factories.character_intfield()
+        dexterity = factories.character_intfield()
+        intelligence = factories.character_intfield()
+        character = factories.CharacterFactory.build(
+            bonus_initiative=bonus_initiative,
+            dexterity=dexterity,
+            intelligence=intelligence,
+        )
+        self.assertEqual(
+            character.initiative(),
+            ((intelligence + dexterity) / 4) + bonus_initiative,
+        )
