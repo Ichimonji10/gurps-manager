@@ -95,14 +95,14 @@ urlpatterns = patterns( # pylint: disable=C0103
         views.CharacterId.as_view(),
         name = 'gurps-manager-character-id',
     ),
-    # url(
-    #     r'^character/(\d+)/update-form/$',
-    #     views.CharacterIdUpdateForm.as_view(),
-    #     name = 'gurps-manager-character-id-update-form',
-    # ),
-    # url(
-    #     r'^character/(\d+)/delete-form/$',
-    #     views.CharacterIdDeleteForm.as_view(),
-    #     name = 'gurps-manager-character-id-delete-form',
-    # ),
+    url(
+        r'^character/(\d+)/update-form/$',
+        views.CharacterIdUpdateForm.as_view(),
+        name = 'gurps-manager-character-id-update-form',
+    ),
+    url(
+        r'^character/(\d+)/delete-form/$',
+        views.CharacterIdDeleteForm.as_view(),
+        name = 'gurps-manager-character-id-delete-form',
+    ),
 )
