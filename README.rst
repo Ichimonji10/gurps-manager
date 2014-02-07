@@ -27,6 +27,20 @@ Install the following:
 * python-django-tables2
 * python-factory_boy
 * python (version 3)
+* pylint
+
+If you prefer not to install these all manually, you can use the following:
+
+    $ virtualenv_setup.sh <destination_directory>
+
+This with setup a virtualenv environment in destination_directory.
+This environment can then be activated as such:
+
+    $ source destination_directory/GURPS-ENV/bin/activate
+
+It can then be deactivated simply by using:
+
+    $ deactivate
 
 Development Setup
 -----------------
@@ -168,13 +182,18 @@ Static Analysis
 ===============
 
 You can perform static analysis of individual python files using pylint. Pylint
-searches through python code, looking for errors and design issues. To perform
+searches through python code, looking for errors and design issues. You can perform
 an analysis on the file ``apps/gurps_manager/views.py`` with the following
 command::
 
     $ pylint \
         --init-hook='import sys; sys.path.append("apps/")' \
         apps/gurps_manager/views.py | less
+
+Alternatively, you can call pylint on all the .py files in the application using
+the automated linter which can be called as such:
+
+    $ apps/manage.py linter
 
 Some warnings are spurious, and you can force pylint to ignore those warnings.
 For example, the following might be placed in a models.py file::
