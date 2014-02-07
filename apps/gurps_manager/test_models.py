@@ -40,3 +40,13 @@ class CharacterTestCase(TestCase):
             bonus_fatigue=bonus_fatigue,
         )
         self.assertEqual(character.fatigue(), strength + bonus_fatigue)
+
+    def test_hitpoints(self):
+        """Test the ``hitpoints`` method."""
+        health = factories.character_intfield()
+        bonus_hitpoints = factories.character_intfield()
+        character = factories.CharacterFactory.build(
+            health=health,
+            bonus_hitpoints=bonus_hitpoints,
+        )
+        self.assertEqual(character.hitpoints(), health + bonus_hitpoints)
