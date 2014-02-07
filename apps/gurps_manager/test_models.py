@@ -22,3 +22,11 @@ class CampaignTestCase(TestCase):
         name = factories.campaign_name()
         campaign = factories.CampaignFactory.build(name=name)
         self.assertEqual(name, str(campaign))
+
+class CharacterTestCase(TestCase):
+    """Tests for ``Character``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.character_name()
+        character = factories.CharacterFactory.build(name=name)
+        self.assertEqual(name, str(character))
