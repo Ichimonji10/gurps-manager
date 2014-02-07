@@ -288,7 +288,7 @@ class Character(models.Model):
         """Returns the points a character has spent in health"""
         return self._points_in_attribute(self.health)
 
-    def _points_in_attribute(level):
+    def _points_in_attribute(self, level):
         """Returns the points required to achieve the given level of an attribute
 
         For reference of where all these magic numbers come from, see:

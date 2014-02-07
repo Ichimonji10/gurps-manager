@@ -140,7 +140,7 @@ class CampaignIdDeleteForm(View):
 
 class Character(View):
     """Handle a request for ``character/``."""
-    def post(self, request):
+    def post(self, request, character_id):
         """Create a new item.
 
         If creation succeeds, rediret user to ``CharacterId`` view. Otherwise,
@@ -182,7 +182,7 @@ class CharacterId(View):
             {'character': character}
         )
 
-    def put(self, request, campaign_id):
+    def put(self, request, character_id):
         """Update character ``character_id``.
 
         If update suceeds, redirect user to ``CharacterId`` view. Otherwise,
