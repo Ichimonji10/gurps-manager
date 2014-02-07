@@ -60,3 +60,13 @@ class CharacterTestCase(TestCase):
             bonus_alertness=bonus_alertness,
         )
         self.assertEqual(character.alertness(), intelligence + bonus_alertness)
+
+    def test_will(self):
+        """Test the ``will`` method."""
+        intelligence = factories.character_intfield()
+        bonus_willpower = factories.character_intfield()
+        character = factories.CharacterFactory.build(
+            intelligence=intelligence,
+            bonus_willpower=bonus_willpower,
+        )
+        self.assertEqual(character.will(), intelligence + bonus_willpower)

@@ -195,7 +195,7 @@ class Character(models.Model):
 
     def will(self):
         """Returns a character's will"""
-        return self.intelligence + self.bonus_will
+        return self.intelligence + self.bonus_willpower
 
     def fright(self):
         """Returns a character's fright"""
