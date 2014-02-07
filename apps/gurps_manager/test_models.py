@@ -50,3 +50,13 @@ class CharacterTestCase(TestCase):
             bonus_hitpoints=bonus_hitpoints,
         )
         self.assertEqual(character.hitpoints(), health + bonus_hitpoints)
+
+    def test_alertness(self):
+        """Test the ``alertness`` method."""
+        intelligence = factories.character_intfield()
+        bonus_alertness = factories.character_intfield()
+        character = factories.CharacterFactory.build(
+            intelligence=intelligence,
+            bonus_alertness=bonus_alertness,
+        )
+        self.assertEqual(character.alertness(), intelligence + bonus_alertness)
