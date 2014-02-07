@@ -163,7 +163,7 @@ class Character(models.Model):
 
     # float fields
     total_points = models.FloatField(validators=[validate_quarter])
-    used_fatigue = models.FloatField(default=0,validators=[validate_quarter])
+    used_fatigue = models.FloatField(default=0, validators=[validate_quarter])
 
     # lookup fields
     appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
@@ -238,7 +238,10 @@ class Character(models.Model):
         return total_cost
 
     def encumberance_penalty(self):
-        """Returns the encumberance penalty incurred by a character's total possession weight"""
+        """Returns the encumberance penalty incurred by a character's total
+        possession weight.
+
+        """
         if self.total_possession_weight() < self.no_encumberance:
             return 0
         elif self.total_possession_weight() < self.light_encumberance:
@@ -267,13 +270,13 @@ class Character(models.Model):
         """Returns a character's movement"""
         return floor(self.speed()) \
             - self.encumberance_penalty() \
-            + bonus_movement
+            + self.bonus_movement
 
     def dodge(self):
         """Returns a character's speed"""
         return floor(self.speed()) \
             - self.encumberance_penalty() \
-            + bonus_dodge
+            + self.bonus_dodge
 
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
