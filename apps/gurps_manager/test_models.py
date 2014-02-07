@@ -30,3 +30,13 @@ class CharacterTestCase(TestCase):
         name = factories.character_name()
         character = factories.CharacterFactory.build(name=name)
         self.assertEqual(name, str(character))
+
+    def test_fatigue(self):
+        """Test the ``fatigue`` method."""
+        strength = factories.character_intfield()
+        bonus_fatigue = factories.character_intfield()
+        character = factories.CharacterFactory.build(
+            strength=strength,
+            bonus_fatigue=bonus_fatigue,
+        )
+        self.assertEqual(character.fatigue(), strength + bonus_fatigue)
