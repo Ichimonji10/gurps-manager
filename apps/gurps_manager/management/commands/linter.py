@@ -1,30 +1,24 @@
-"""This Module allows the automatic linting
-of the entire application with pylint
-"""
-from django.core.management.base import BaseCommand, CommandError
+"""Create a command named ``linter``."""
+from django.core.management.base import BaseCommand
 from pylint.lint import Run
 import os
 
 class Command(BaseCommand):
-    """Allows this file to be called as a command on manage.py"""
-    help = 'Calls Pylint on all the .py files in the application'
+    """Defines how to register the ``linter`` command with ``manage.py``."""
+    help = 'Lint all .py files in this application, using Pylint.'
 
     def handle(self, *args, **options):
-        """This does the work when this is called by manage.py"""
+        """Search for .py files and lint them."""
         python_files = []
-
-        for root, dirs, files in os.walk(os.path.join(
+        for root, dirs, files in os.walk(os.path.join( # pylint: disable=W0612
             os.path.dirname(os.path.realpath(__file__)),
-            '../../..'
-            )):
+            '..',
+            '..',
+            '..'
+        )):
             for file in files:
                 if file.endswith(".py"):
                     python_files.append(
                         os.path.relpath(os.path.join(root, file))
-                        )
-
-        print('Beginning linting...')
-
+                    )
         Run(python_files)
-
-        print('Linting finished!')
