@@ -19,28 +19,29 @@ This project is not dependent upon any particular web server, app server,
 communication protocol, or database backend. However, it is only tested with
 certain configurations. Directions for two simple deployments are listed below.
 
-All of the setups listed below require several common pieces of software.
-Install the following:
+Before proceeding, you'll need to install Python 3 and the following Python
+modules:
 
 * django (version 1.6)
-* python-django-extensions
-* python-django-tables2
-* python-factory_boy
-* python (version 3)
+* django-extensions
+* django-tables2
+* factory_boy
 * pylint
 
-If you prefer not to install these all manually, you can use the following:
+These modules can be installed via any of the usual methods: your package
+manager, manually, or with a pypi helper such as easy_install or pip. If you
+have virtualenv and pip installed, you can also use a convenience script::
 
-    $ virtualenv_setup.sh <destination_directory>
+    $ virtualenv-setup.sh <destination_directory>
 
-This with setup a virtualenv environment in destination_directory.
-This environment can then be activated as such:
+This creates a virtualenv environment in ``destination_directory``. The
+environment can be activated and deactivated like so::
 
-    $ source destination_directory/GURPS-ENV/bin/activate
-
-It can then be deactivated simply by using:
-
+    $ source <destination_directory>/GURPS-ENV/bin/activate
     $ deactivate
+
+You'll also need to edit the file ``apps/main/settings.py`` and provide a value
+for the ``SECRET_KEY`` variable. A default value `cannot be provided`_.
 
 Development Setup
 -----------------
@@ -71,9 +72,10 @@ Prerequisites
 
 Install the following additional software:
 
+* gunicorn
 * lighttpd
 * mysql
-* python-gunicorn
+* mysql-python
 
 Web Server
 ~~~~~~~~~~
@@ -122,7 +124,7 @@ it will look something like this::
         }
     }
 
-Install `MySQL-Python`_, then configure the MySQL database::
+Configure the MySQL database::
 
     $ mysql -p -u root
     mysql> create database gurps-manager character set utf8;
@@ -313,4 +315,5 @@ houses that sqlite database file.
 
 The contents of the this folder should *not* be version controlled.
 
+.. _cannot be provided: https://docs.djangoproject.com/en/1.6/ref/settings/#std:setting-SECRET_KEY
 .. _Django documentation: https://docs.djangoproject.com/en/dev/
