@@ -69,7 +69,7 @@ class CharacterFactory(DjangoModelFactory):
     FACTORY_FOR = models.Character
 
     campaign = SubFactory(CampaignFactory)
-    name = FuzzyAttribute(lambda: character_name()) # pylint: disable=W0108
+    name = FuzzyAttribute(lambda: character_name())
 
     # integer-based fields
     strength = FuzzyAttribute(lambda: character_intfield())
@@ -203,6 +203,94 @@ def character_muscle_memory():
 
     """
     return random.choice([0, 30, 60])
+
+class SkillSetFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.SkillSet`` object.
+
+    >>> SkillSetFactory.build().full_clean()
+    >>> SkillSetFactory.create().id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.SkillSet
+    name = FuzzyAttribute(lambda: skillset_name()) # pylint: disable=W0108
+
+def skillset_name():
+    """Return a value for the ``SkillSet.name`` model attribute.
+
+    >>> from gurps_manager.models import SkillSet
+    >>> name = skillset_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= SkillSet.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.SkillSet.MAX_LEN_NAME)
+
+class SkillFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Skill`` object.
+
+    >>> skill = SkillFactory.create()
+    >>> skill.full_clean()
+    >>> skill.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.Skill
+    name = FuzzyAttribute(lambda: skill_name()) # pylint: disable=W0108
+    category = FuzzyAttribute(lambda: skill_category()) # pylint: disable=W0108
+    difficulty = FuzzyAttribute(lambda: skill_difficulty()) # pylint: disable=W0108
+    skillset = SubFactory(SkillSetFactory)
+
+def skill_name():
+    """Return a value for the ``Skill.name`` model attribute.
+
+    >>> from gurps_manager.models import Skill
+    >>> name = skill_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= Skill.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.Character.MAX_LEN_NAME)
+
+def skill_category():
+    """Return a value for the ``Skill.category`` model attribute.
+
+    >>> from gurps_manager.models import Skill
+    >>> category = skill_category()
+    >>> isinstance(category, int)
+    True
+    >>> category in [choice[0] for choice in Skill.CATEGORY_CHOICES]
+    True
+
+    """
+    # `choice` returns tuple like (1, 'Mental'). Return the integer part.
+    return random.choice(models.Skill.CATEGORY_CHOICES)[0]
+
+def skill_difficulty():
+    """Return a value for the ``Skill.difficulty`` model attribute.
+
+    >>> from gurps_manager.models import Skill
+    >>> difficulty = skill_difficulty()
+    >>> isinstance(difficulty, int)
+    True
+    >>> difficulty in [choice[0] for choice in Skill.DIFFICULTY_CHOICES]
+    True
+
+    """
+    # `choice` returns a tuple like (1, 'Easy'). Return the integer part.
+    return random.choice(models.Skill.DIFFICULTY_CHOICES)[0]
 
 #-------------------------------------------------------------------------------
 
