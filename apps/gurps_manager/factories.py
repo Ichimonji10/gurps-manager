@@ -153,19 +153,20 @@ def character_intfield():
     True
 
     """
-    # FIXME: what are valid ranges for these values? Should separate methods be
-    # created for each of a character's attributes?
+    # FIXME: what are valud values for this field?
     return random.randint(0, 100)
 
 def character_floatfield():
     """Return a value for an float-based ``Character`` model attribute.
 
-    >>> isinstance(character_floatfield(), float)
+    >>> from gurps_manager.models import validate_quarter
+    >>> value = character_floatfield()
+    >>> isinstance(value, float)
     True
+    >>> validate_quarter(value)
 
     """
-    # FIXME: what are valid ranges for these values? Should separate methods be
-    # created for each of a character's attributes?
+    # FIXME: what are valid values for this field?
     return 0.25 * random.randint(0, 400)
 
 def character_appearance():
@@ -262,7 +263,7 @@ def skill_name():
     True
 
     """
-    return _random_str(1, models.Character.MAX_LEN_NAME)
+    return _random_str(1, models.Skill.MAX_LEN_NAME)
 
 def skill_category():
     """Return a value for the ``Skill.category`` model attribute.

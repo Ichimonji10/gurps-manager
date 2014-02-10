@@ -91,10 +91,9 @@ class SkillSet(models.Model):
         return self.name
 
 class Character(models.Model):
-    # pylint: disable=R0904
-    # GURPS has an enormous number of derived fields
-    # on its characters
     """An individual who can be role-played."""
+    # pylint: disable=R0904
+    # GURPS has an enormous number of derived fields on its characters
     MAX_LEN_NAME = 50
     MAX_LEN_DESCRIPTION = 2000
     MAX_LEN_STORY = 2000
