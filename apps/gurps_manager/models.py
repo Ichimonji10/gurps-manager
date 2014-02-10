@@ -571,7 +571,7 @@ class Spell(models.Model):
     cast_time = models.IntegerField()
     duration = models.IntegerField()
     initial_fatigue_cost = models.IntegerField()
-    maintainance_fatigue_cost = models.IntegerField()
+    maintenance_fatigue_cost = models.IntegerField()
 
     # lookup fields
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
