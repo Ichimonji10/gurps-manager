@@ -623,6 +623,72 @@ def characterspell_bonus_level():
     # FIXME: what are valid values for this field?
     return random.randrange(-100, 100)
 
+class HitLocationFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.HitLocation`` object.
+
+    >>> hitlocation = HitLocationFactory.create()
+    >>> hitlocation.full_clean()
+    >>> hitlocation.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.HitLocation
+    character = SubFactory(CharacterFactory)
+    name = FuzzyAttribute(lambda: hitlocation_name()) # pylint: disable=W0108
+    damage_taken = FuzzyAttribute(lambda: hitlocation_damage_taken()) # pylint: disable=W0108
+    damage_resistance = FuzzyAttribute(lambda: hitlocation_damage_resistance()) # pylint: disable=W0108
+    passive_damage_resistance = FuzzyAttribute(
+        lambda: hitlocation_passive_damage_resistance() # pylint: disable=W0108
+    )
+
+def hitlocation_name():
+    """Return a value for the ``HitLocation.name`` model attribute.
+
+    >>> from gurps_manager.models import HitLocation
+    >>> name = hitlocation_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= HitLocation.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.HitLocation.MAX_LEN_NAME)
+
+def hitlocation_damage_taken():
+    """Return a value for the ``HitLocation.damage_taken`` model attribute.
+
+    >>> isinstance(hitlocation_damage_taken(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+def hitlocation_damage_resistance():
+    """Return a value for the ``HitLocation.damage_resistance`` model attribute.
+
+    >>> isinstance(hitlocation_damage_resistance(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+def hitlocation_passive_damage_resistance():
+    """Return a value for the ``HitLocation.passive_damage_resistance`` model
+    attribute.
+
+    >>> isinstance(hitlocation_passive_damage_resistance(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
 #-------------------------------------------------------------------------------
 
 def _random_int(lower, upper):
