@@ -393,6 +393,35 @@ def item_weight():
     # FIXME: what are valid values for this field?
     return random.random() * 100
 
+class PossessionFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Possession`` object.
+
+    >>> possession = PossessionFactory.create()
+    >>> possession.full_clean()
+    >>> possession.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.Possession
+    character = SubFactory(CharacterFactory)
+    item = SubFactory(ItemFactory)
+    quantity = FuzzyAttribute(lambda: possession_quantity()) # pylint: disable=W0108
+
+def possession_quantity():
+    """Return a value for the ``Possession.quantity`` model attribute.
+
+    >>> from gurps_manager.models import validate_not_negative
+    >>> quantity = possession_quantity()
+    >>> isinstance(quantity, int)
+    True
+    >>> validate_not_negative(quantity)
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(0, 100)
+
 #-------------------------------------------------------------------------------
 
 def _random_int(lower, upper):
