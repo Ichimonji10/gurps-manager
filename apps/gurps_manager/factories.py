@@ -293,6 +293,50 @@ def skill_difficulty():
     # `choice` returns a tuple like (1, 'Easy'). Return the integer part.
     return random.choice(models.Skill.DIFFICULTY_CHOICES)[0]
 
+class TraitFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Trait`` object.
+
+    >>> trait = TraitFactory.create()
+    >>> trait.full_clean()
+    >>> trait.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.Trait
+    name = FuzzyAttribute(lambda: trait_name()) # pylint: disable=W0108
+    points = FuzzyAttribute(lambda: trait_points()) # pylint: disable=W0108
+    character = SubFactory(CharacterFactory)
+
+def trait_name():
+    """Return a value for the ``Trait.name`` model attribute.
+
+    >>> from gurps_manager.models import Trait
+    >>> name = trait_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= Trait.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.Trait.MAX_LEN_NAME)
+
+def trait_points():
+    """Return a value for the ``Trait.points`` model attribute.
+
+    >>> from gurps_manager.models import validate_quarter
+    >>> points = trait_points()
+    >>> isinstance(points, float)
+    True
+    >>> validate_quarter(points)
+
+    """
+    # FIXME: what are valid values for this field?
+    return 0.25 * random.randint(0, 400)
+
 #-------------------------------------------------------------------------------
 
 def _random_int(lower, upper):
