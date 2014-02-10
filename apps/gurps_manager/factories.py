@@ -462,6 +462,125 @@ def possession_quantity():
     # FIXME: what are valid values for this field?
     return random.randrange(0, 100)
 
+class SpellFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Spell`` object.
+
+    >>> SpellFactory.build().full_clean()
+    >>> SpellFactory.create().id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.Spell
+    name = FuzzyAttribute(lambda: spell_name()) # pylint: disable=W0108
+    school = FuzzyAttribute(lambda: spell_school()) # pylint: disable=W0108
+    resist = FuzzyAttribute(lambda: spell_resist()) # pylint: disable=W0108
+    duration = FuzzyAttribute(lambda: spell_duration()) # pylint: disable=W0108
+    cast_time = FuzzyAttribute(lambda: spell_cast_time()) # pylint: disable=W0108
+    difficulty = FuzzyAttribute(lambda: spell_difficulty()) # pylint: disable=W0108
+    initial_fatigue_cost = FuzzyAttribute(lambda: spell_initial_fatigue_cost()) # pylint: disable=W0108
+    maintenance_fatigue_cost = FuzzyAttribute(lambda: spell_maintenance_fatigue_cost()) # pylint: disable=W0108
+
+def spell_name():
+    """Return a value for the ``Spell.name`` model attribute.
+
+    >>> from gurps_manager.models import Spell
+    >>> name = spell_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= Spell.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.Spell.MAX_LEN_NAME)
+
+def spell_school():
+    """Return a value for the ``Spell.school`` model attribute.
+
+    >>> from gurps_manager.models import Spell
+    >>> school = spell_school()
+    >>> isinstance(school, str)
+    True
+    >>> len(school) >= 1
+    True
+    >>> len(school) <= Spell.MAX_LEN_SCHOOL
+    True
+
+    """
+    return _random_str(1, models.Spell.MAX_LEN_SCHOOL)
+
+def spell_resist():
+    """Return a value for the ``Spell.resist`` model attribute.
+
+    >>> from gurps_manager.models import Spell
+    >>> resist = spell_resist()
+    >>> isinstance(resist, str)
+    True
+    >>> len(resist) >= 1
+    True
+    >>> len(resist) <= Spell.MAX_LEN_RESIST
+    True
+
+    """
+    return _random_str(1, models.Spell.MAX_LEN_RESIST)
+
+def spell_duration():
+    """Return a value for the ``Spell.duration`` model attribute.
+
+    >>> isinstance(spell_duration(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+def spell_cast_time():
+    """Return a value for the ``Spell.cast_time`` model attribute.
+
+    >>> isinstance(spell_duration(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+def spell_difficulty():
+    """Return a value for the ``Spell.difficulty`` model attribute.
+
+    >>> from gurps_manager.models import Spell
+    >>> difficulty = spell_difficulty()
+    >>> isinstance(difficulty, int)
+    True
+    >>> difficulty in [choice[0] for choice in Spell.DIFFICULTY_CHOICES]
+    True
+
+    """
+    # `choice` returns tuple like (3, 'Hard'). Return the integer part.
+    return random.choice(models.Spell.DIFFICULTY_CHOICES)[0]
+
+def spell_initial_fatigue_cost():
+    """Return a value for the ``Spell.initial_fatigue_cost`` model attribute.
+
+    >>> isinstance(spell_duration(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+def spell_maintenance_fatigue_cost():
+    """Return a value for the ``Spell.maintenance_fatigue_cost`` attribute.
+
+    >>> isinstance(spell_duration(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
 #-------------------------------------------------------------------------------
 
 def _random_int(lower, upper):
