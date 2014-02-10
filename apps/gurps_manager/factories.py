@@ -337,6 +337,62 @@ def trait_points():
     # FIXME: what are valid values for this field?
     return 0.25 * random.randint(0, 400)
 
+class ItemFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Item`` object.
+
+    >>> ItemFactory.build().full_clean()
+    >>> ItemFactory.create().id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.Item
+    name = FuzzyAttribute(lambda: item_name()) # pylint: disable=W0108
+    cost = FuzzyAttribute(lambda: item_cost()) # pylint: disable=W0108
+    weight = FuzzyAttribute(lambda: item_weight()) # pylint: disable=W0108
+
+def item_name():
+    """Return a value for the ``Item.name`` model attribute.
+
+    >>> from gurps_manager.models import Item
+    >>> name = item_name()
+    >>> isinstance(name, str)
+    True
+    >>> len(name) >= 1
+    True
+    >>> len(name) <= Item.MAX_LEN_NAME
+    True
+
+    """
+    return _random_str(1, models.Item.MAX_LEN_NAME)
+
+def item_cost():
+    """Return a value for the ``Item.cost`` model attribute.
+
+    >>> from gurps_manager.models import validate_not_negative
+    >>> cost = item_cost()
+    >>> isinstance(cost, float)
+    True
+    >>> validate_not_negative(cost)
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.random() * 100
+
+def item_weight():
+    """Return a value for the ``Item.weight`` model attribute.
+
+    >>> from gurps_manager.models import validate_not_negative
+    >>> weight = item_weight()
+    >>> isinstance(weight, float)
+    True
+    >>> validate_not_negative(weight)
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.random() * 100
+
 #-------------------------------------------------------------------------------
 
 def _random_int(lower, upper):
