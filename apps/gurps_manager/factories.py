@@ -480,7 +480,9 @@ class SpellFactory(DjangoModelFactory):
     cast_time = FuzzyAttribute(lambda: spell_cast_time()) # pylint: disable=W0108
     difficulty = FuzzyAttribute(lambda: spell_difficulty()) # pylint: disable=W0108
     initial_fatigue_cost = FuzzyAttribute(lambda: spell_initial_fatigue_cost()) # pylint: disable=W0108
-    maintenance_fatigue_cost = FuzzyAttribute(lambda: spell_maintenance_fatigue_cost()) # pylint: disable=W0108
+    maintenance_fatigue_cost = FuzzyAttribute(
+        lambda: spell_maintenance_fatigue_cost() # pylint: disable=W0108
+    )
 
 def spell_name():
     """Return a value for the ``Spell.name`` model attribute.
@@ -575,6 +577,46 @@ def spell_maintenance_fatigue_cost():
     """Return a value for the ``Spell.maintenance_fatigue_cost`` attribute.
 
     >>> isinstance(spell_duration(), int)
+    True
+
+    """
+    # FIXME: what are valid values for this field?
+    return random.randrange(-100, 100)
+
+class CharacterSpellFactory(DjangoModelFactory):
+    """Instantiate a ``gurps_manager.models.Possession`` object.
+
+    >>> characterspell = CharacterSpellFactory.create()
+    >>> characterspell.full_clean()
+    >>> characterspell.id is None
+    False
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = models.CharacterSpell
+    character = SubFactory(CharacterFactory)
+    spell = SubFactory(SpellFactory)
+    points = FuzzyAttribute(lambda: characterspell_points()) # pylint: disable=W0108
+    bonus_level = FuzzyAttribute(lambda: characterspell_bonus_level()) # pylint: disable=W0108
+
+def characterspell_points():
+    """Return a value for the ``CharacterSpell.points`` model attribute.
+
+    >>> from gurps_manager.models import validate_quarter
+    >>> points = characterspell_points()
+    >>> isinstance(points, float)
+    True
+    >>> validate_quarter(points)
+
+    """
+    # FIXME: what are valid values for this field?
+    return 0.25 * random.randint(0, 400)
+
+def characterspell_bonus_level():
+    """Return a value for the ``CharacterSpell.bonus_level`` model attribute.
+
+    >>> isinstance(characterspell_bonus_level(), int)
     True
 
     """
