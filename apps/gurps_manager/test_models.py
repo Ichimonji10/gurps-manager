@@ -141,3 +141,11 @@ class SkillTestCase(TestCase):
         name = factories.skill_name()
         skill = factories.SkillFactory.build(name=name)
         self.assertEqual(name, str(skill))
+
+class TraitTestCase(TestCase):
+    """Tests for ``Trait``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.trait_name()
+        trait = factories.TraitFactory.build(name=name)
+        self.assertEqual(name, str(trait))
