@@ -175,7 +175,7 @@ def character_appearance():
     True
 
     """
-    return random.sample([-30, -25, -20, -10, -5, 0, 5, 15, 25, 35], 1)[0]
+    return random.choice([-30, -25, -20, -10, -5, 0, 5, 15, 25, 35])
 
 def character_wealth():
     """Return a value for the ``Character.wealth`` model attribute.
@@ -184,7 +184,7 @@ def character_wealth():
     True
 
     """
-    return random.sample([-25, -15, -10, 0, 10, 20, 30, 50], 1)[0]
+    return random.choice([-25, -15, -10, 0, 10, 20, 30, 50])
 
 def character_eidetic_memory():
     """Return a value for the ``Character.eidetic_memory`` model attribute.
@@ -193,7 +193,7 @@ def character_eidetic_memory():
     True
 
     """
-    return random.sample([0, 30, 60], 1)[0]
+    return random.choice([0, 30, 60])
 
 def character_muscle_memory():
     """Return a value for the ``Character.muscle_memory`` model attribute.
@@ -202,7 +202,7 @@ def character_muscle_memory():
     True
 
     """
-    return random.sample([0, 30, 60], 1)[0]
+    return random.choice([0, 30, 60])
 
 #-------------------------------------------------------------------------------
 
