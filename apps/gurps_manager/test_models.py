@@ -125,3 +125,19 @@ class CharacterTestCase(TestCase):
         strength = factories.character_intfield()
         character = factories.CharacterFactory.build(strength=strength)
         self.assertEqual(character.extra_heavy_encumbrance(), strength * 20)
+
+class SkillSetTestCase(TestCase):
+    """Tests for ``SkillSet``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.skillset_name()
+        skillset = factories.SkillSetFactory.build(name=name)
+        self.assertEqual(name, str(skillset))
+
+class SkillTestCase(TestCase):
+    """Tests for ``Skill``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.skill_name()
+        skill = factories.SkillFactory.build(name=name)
+        self.assertEqual(name, str(skill))
