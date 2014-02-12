@@ -157,3 +157,19 @@ class ItemTestCase(TestCase):
         name = factories.item_name()
         item = factories.ItemFactory.build(name=name)
         self.assertEqual(name, str(item))
+
+class SpellTestCase(TestCase):
+    """Tests for ``Spell``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.spell_name()
+        spell = factories.SpellFactory.build(name=name)
+        self.assertEqual(name, str(spell))
+
+class HitLocationTestCase(TestCase):
+    """Tests for ``HitLocation``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.hitlocation_name()
+        hitlocation = factories.HitLocationFactory.build(name=name)
+        self.assertEqual(name, str(hitlocation))
