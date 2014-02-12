@@ -365,7 +365,7 @@ def trait_points():
 
     >>> from gurps_manager.models import validate_quarter
     >>> points = trait_points()
-    >>> isinstance(points, float)
+    >>> isinstance(points, int)
     True
     >>> validate_quarter(points)
 
