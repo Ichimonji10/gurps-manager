@@ -303,6 +303,7 @@ class Character(models.Model):
 
         For reference of where all these magic numbers come from, see:
             GURPS Basic Set 3rd Edition Revised, page 13
+
         """
         if 8 > level:
             return (9 - level) * -10
@@ -317,7 +318,9 @@ class Character(models.Model):
         else:
             return (level - 13) * 25
 
-    # TODO: add a points_in_magery derived field
+    def points_in_magery(self):
+        """Returns the points a character has spent in magery"""
+        return (self.magery * 10) + 5
 
     def total_points_in_attributes(self):
         """Returns the points a character has spent in attributes"""
@@ -445,7 +448,12 @@ class CharacterSkill(models.Model):
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def score(self):
-        """Returns a character's score in a given skill"""
+        """Returns a character's score in a given skill
+
+        For reference of where all these magic numbers come from, see:
+            GURPS Basic Set 3rd Edition Revised, page 44
+
+        """
         effective_points_physical = self.points * (
             1 if self.character.muscle_memory == 0
             else (self.character.muscle_memory / 15)
@@ -573,8 +581,8 @@ class Spell(models.Model):
 
     # integer fields
     cast_time = models.IntegerField(validators=[validate_not_negative])
-    initial_fatigue_cost = models.IntegerField(validators=[validate_not_negative])
-    maintenance_fatigue_cost = models.IntegerField(validators=[validate_not_negative])
+    initial_fatigue_cost = models.IntegerField(validators=[validate_not_negative]) # pylint: disable=C0301
+    maintenance_fatigue_cost = models.IntegerField(validators=[validate_not_negative]) # pylint: disable=C0301
 
     # lookup fields
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
@@ -596,34 +604,49 @@ class CharacterSpell(models.Model):
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def score(self):
-        """Returns a character's score in a given spell"""
-        # TODO add Magery factor to this calculation
+        """Returns a character's score in a given spell
+
+        For reference of where all these magic numbers come from, see:
+            GURPS Basic Set 3rd Edition Revised, page 44
+            (spells are simply a special subset of skills)
+
+        """
+
         eidetic_memory_factor = self.character.eidetic_memory / 30
         if self.points < 0.5:
             return 0
         elif self.points < 1:
             return self.character.intelligence \
                 - self.skill.difficulty \
-                + eidetic_memory_factor
+                + eidetic_memory_factor \
+                + self.magery
         elif self.points < 2:
             return self.character.intelligence \
-                - self.skill.difficulty + 1 \
-                + eidetic_memory_factor
+                - self.skill.difficulty \
+                + eidetic_memory_factor \
+                + self.magery \
+                + 1
         elif self.points < 4:
             return self.character.intelligence \
-                - self.skill.difficulty + 2 \
-                + eidetic_memory_factor
+                - self.skill.difficulty \
+                + eidetic_memory_factor \
+                + self.magery \
+                + 2
         else:
             if self.skill.difficulty < 4:
                 return self.character.intelligence \
                     - self.skill.difficulty \
                     + (self.points // 2) \
-                    + 1 + eidetic_memory_factor
+                    + eidetic_memory_factor \
+                    + self.magery \
+                    + 1
             else:
                 return self.character.intelligence \
                     - self.skill.difficulty \
                     + (self.points // 4) \
-                    + 2 + eidetic_memory_factor
+                    + eidetic_memory_factor \
+                    + self.magery \
+                    + 2
 
 class Item(models.Model):
     """An item that a character may possess"""
