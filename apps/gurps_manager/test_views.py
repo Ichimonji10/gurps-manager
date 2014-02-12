@@ -76,7 +76,7 @@ class CampaignTestCase(TestCase):
 
     def test_delete(self):
         """POST ``self.PATH`` and emulate a DELETE request."""
-        response = self.client.delete(self.PATH, {'_method': 'PUT'})
+        response = self.client.delete(self.PATH, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
 
 class CampaignCreateFormTestCase(TestCase):
@@ -100,7 +100,7 @@ class CampaignCreateFormTestCase(TestCase):
 
     def test_delete(self):
         """POST ``self.PATH`` and emulate a DELETE request."""
-        response = self.client.delete(self.PATH, {'_method': 'PUT'})
+        response = self.client.delete(self.PATH, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
 
 class CampaignIdTestCase(TestCase):
@@ -182,7 +182,7 @@ class CampaignIdUpdateFormTestCase(TestCase):
 
     def test_delete(self):
         """POST ``self.path`` and emulate a DELETE request."""
-        response = self.client.delete(self.path, {'_method': 'PUT'})
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
 
 class CampaignIdDeleteFormTestCase(TestCase):
@@ -222,5 +222,5 @@ class CampaignIdDeleteFormTestCase(TestCase):
 
     def test_delete(self):
         """POST ``self.path`` and emulate a DELETE request."""
-        response = self.client.delete(self.path, {'_method': 'PUT'})
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
