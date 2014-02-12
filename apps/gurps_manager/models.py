@@ -317,6 +317,8 @@ class Character(models.Model):
         else:
             return (level - 13) * 25
 
+    # TODO: add a points_in_magery derived field
+
     def total_points_in_attributes(self):
         """Returns the points a character has spent in attributes"""
         return self.points_in_strength() \
@@ -386,8 +388,8 @@ class Trait(models.Model):
     name = models.CharField(max_length=MAX_LEN_NAME)
     description = models.TextField(max_length=MAX_LEN_DESCRIPTION, blank=True)
 
-    # float fields
-    points = models.FloatField(validators=[validate_quarter])
+    # integer fields
+    points = models.IntegerField()
 
     def __str__(self):
         """Returns a string representation of the object"""
@@ -557,6 +559,7 @@ class Spell(models.Model):
     MAX_LEN_NAME = 50
     MAX_LEN_SCHOOL = 50
     MAX_LEN_RESIST = 50
+    MAX_LEN_DURATION = 50
     DIFFICULTY_CHOICES = (
         (3, 'Hard'),
         (4, 'Very Hard'),
@@ -566,12 +569,12 @@ class Spell(models.Model):
     name = models.CharField(max_length=MAX_LEN_NAME)
     school = models.CharField(max_length=MAX_LEN_SCHOOL)
     resist = models.CharField(max_length=MAX_LEN_RESIST)
+    duration = models.CharField(max_length=MAX_LEN_DURATION)
 
     # integer fields
-    cast_time = models.IntegerField()
-    duration = models.IntegerField()
-    initial_fatigue_cost = models.IntegerField()
-    maintenance_fatigue_cost = models.IntegerField()
+    cast_time = models.IntegerField(validators=[validate_not_negative])
+    initial_fatigue_cost = models.IntegerField(validators=[validate_not_negative])
+    maintenance_fatigue_cost = models.IntegerField(validators=[validate_not_negative])
 
     # lookup fields
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES)
@@ -594,6 +597,7 @@ class CharacterSpell(models.Model):
 
     def score(self):
         """Returns a character's score in a given spell"""
+        # TODO add Magery factor to this calculation
         eidetic_memory_factor = self.character.eidetic_memory / 30
         if self.points < 0.5:
             return 0

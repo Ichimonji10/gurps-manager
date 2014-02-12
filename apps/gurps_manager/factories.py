@@ -153,8 +153,7 @@ def character_intfield():
     True
 
     """
-    # FIXME: what are valud values for this field?
-    return random.randint(0, 100)
+    return random.randint(0, 10000)
 
 def character_floatfield():
     """Return a value for an float-based ``Character`` model attribute.
@@ -166,8 +165,7 @@ def character_floatfield():
     >>> validate_quarter(value)
 
     """
-    # FIXME: what are valid values for this field?
-    return 0.25 * random.randint(0, 400)
+    return 0.25 * random.randint(0, 40000)
 
 def character_appearance():
     """Return a value for the ``Character.appearance`` model attribute.
@@ -317,8 +315,7 @@ def characterskill_bonus_level():
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(-1000, 1000)
 
 def characterskill_points():
     """Return a value for the ``CharacterSkill.points`` model attribute.
@@ -330,8 +327,7 @@ def characterskill_points():
     >>> validate_quarter(points)
 
     """
-    # FIXME: what are valid values for this field?
-    return 0.25 * random.randint(0, 400)
+    return 0.25 * random.randint(0, 4000)
 
 class TraitFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Trait`` object.
@@ -374,8 +370,7 @@ def trait_points():
     >>> validate_quarter(points)
 
     """
-    # FIXME: what are valid values for this field?
-    return 0.25 * random.randint(0, 400)
+    return random.randint(-100000, 100000)
 
 class ItemFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Item`` object.
@@ -417,8 +412,7 @@ def item_cost():
     >>> validate_not_negative(cost)
 
     """
-    # FIXME: what are valid values for this field?
-    return random.random() * 100
+    return random.random() * 10000
 
 def item_weight():
     """Return a value for the ``Item.weight`` model attribute.
@@ -430,8 +424,7 @@ def item_weight():
     >>> validate_not_negative(weight)
 
     """
-    # FIXME: what are valid values for this field?
-    return random.random() * 100
+    return random.random() * 10000
 
 class PossessionFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Possession`` object.
@@ -459,8 +452,7 @@ def possession_quantity():
     >>> validate_not_negative(quantity)
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(0, 100)
+    return random.randrange(0, 1000)
 
 class SpellFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Spell`` object.
@@ -532,22 +524,26 @@ def spell_resist():
 def spell_duration():
     """Return a value for the ``Spell.duration`` model attribute.
 
-    >>> isinstance(spell_duration(), int)
+    >>> from gurps_manager.models import Spell
+    >>> duration = spell_duration()
+    >>> isinstance(duration, str)
+    True
+    >>> len(duration) >= 1
+    True
+    >>> len(duration) <= Spell.MAX_LEN_DURATION
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return _random_str(1, models.Spell.MAX_LEN_DURATION)
 
 def spell_cast_time():
     """Return a value for the ``Spell.cast_time`` model attribute.
 
-    >>> isinstance(spell_duration(), int)
+    >>> isinstance(spell_cast_time(), int)
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(0, 100)
 
 def spell_difficulty():
     """Return a value for the ``Spell.difficulty`` model attribute.
@@ -566,22 +562,20 @@ def spell_difficulty():
 def spell_initial_fatigue_cost():
     """Return a value for the ``Spell.initial_fatigue_cost`` model attribute.
 
-    >>> isinstance(spell_duration(), int)
+    >>> isinstance(spell_initial_fatigue_cost(), int)
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(0, 100)
 
 def spell_maintenance_fatigue_cost():
     """Return a value for the ``Spell.maintenance_fatigue_cost`` attribute.
 
-    >>> isinstance(spell_duration(), int)
+    >>> isinstance(spell_maintenance_fatigue_cost(), int)
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(0, 100)
 
 class CharacterSpellFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Possession`` object.
@@ -610,8 +604,7 @@ def characterspell_points():
     >>> validate_quarter(points)
 
     """
-    # FIXME: what are valid values for this field?
-    return 0.25 * random.randint(0, 400)
+    return 0.25 * random.randint(0, 4000)
 
 def characterspell_bonus_level():
     """Return a value for the ``CharacterSpell.bonus_level`` model attribute.
@@ -620,8 +613,7 @@ def characterspell_bonus_level():
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(-1000, 1000)
 
 class HitLocationFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.HitLocation`` object.
@@ -665,8 +657,7 @@ def hitlocation_damage_taken():
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(0, 9001)
 
 def hitlocation_damage_resistance():
     """Return a value for the ``HitLocation.damage_resistance`` model attribute.
@@ -675,10 +666,9 @@ def hitlocation_damage_resistance():
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(-1000, 10000)
 
-def hitlocation_passive_damage_resistance():
+def hitlocation_passive_damage_resistance(): # pylint: disable=C0103
     """Return a value for the ``HitLocation.passive_damage_resistance`` model
     attribute.
 
@@ -686,8 +676,7 @@ def hitlocation_passive_damage_resistance():
     True
 
     """
-    # FIXME: what are valid values for this field?
-    return random.randrange(-100, 100)
+    return random.randrange(-1000, 10000)
 
 #-------------------------------------------------------------------------------
 
