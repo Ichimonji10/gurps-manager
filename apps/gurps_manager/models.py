@@ -443,7 +443,7 @@ class CharacterSkill(models.Model):
     character = models.ForeignKey(Character)
 
     # string-based fields
-    comments = models.CharField(max_length=MAX_LEN_COMMENTS)
+    comments = models.CharField(max_length=MAX_LEN_COMMENTS, blank=True)
 
     # integer fields
     bonus_level = models.IntegerField(default=0)
