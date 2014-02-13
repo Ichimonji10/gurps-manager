@@ -1,0 +1,229 @@
+# Pre-polulation values for the SkillSet table
+-   model: gurps_manager.SkillSet
+    pk: 1
+    fields:
+        name: General
+-   model: gurps_manager.SkillSet
+    pk: 2
+    fields:
+        name: Combat
+-   model: gurps_manager.SkillSet
+    pk: 3
+    fields:
+        name: Medical
+-   model: gurps_manager.SkillSet
+    pk: 4
+    fields:
+        name: Animal
+-   model: gurps_manager.SkillSet
+    pk: 5
+    fields:
+        name: Artistic
+-   model: gurps_manager.SkillSet
+    pk: 6
+    fields:
+        name: Athletic
+-   model: gurps_manager.SkillSet
+    pk: 7
+    fields:
+        name: Craft
+-   model: gurps_manager.SkillSet
+    pk: 8
+    fields:
+        name: Hobby
+-   model: gurps_manager.SkillSet
+    pk: 9
+    fields:
+        name: Language
+-   model: gurps_manager.SkillSet
+    pk: 10
+    fields:
+        name: Magical
+-   model: gurps_manager.SkillSet
+    pk: 11
+    fields:
+        name: Outdoor
+-   model: gurps_manager.SkillSet
+    pk: 12
+    fields:
+        name: Professional
+-   model: gurps_manager.SkillSet
+    pk: 13
+    fields:
+        name: Psionic
+-   model: gurps_manager.SkillSet
+    pk: 14
+    fields:
+        name: Scientific
+-   model: gurps_manager.SkillSet
+    pk: 15
+    fields:
+        name: Social
+-   model: gurps_manager.SkillSet
+    pk: 16
+    fields:
+        name: Thief/Spy
+-   model: gurps_manager.SkillSet
+    pk: 17
+    fields:
+        name: Vehicle
+-   model: gurps_manager.SkillSet
+    pk: 18
+    fields:
+        name: Other
+
+# Pre-population values for the Skill table
+-   model: gurps_manager.Skill
+    pk: 1
+    fields:
+        skillset:
+        name: Abacus
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 2
+    fields:
+        skillset:
+        name: Accounting
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 3
+    fields:
+        skillset:
+        name: Acrobatics
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 4
+    fields:
+        skillset:
+        name: Acting
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 5
+    fields:
+        skillset:
+        name: Administration
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 6
+    fields:
+        skillset:
+        name: Agronomy <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 7
+    fields:
+        skillset:
+        name: Airshipman <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 8
+    fields:
+        skillset:
+        name: Alchemy <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 9
+    fields:
+        skillset:
+        name: Animal Guise
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 10
+    fields:
+        skillset:
+        name: Animal Handling
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 11
+    fields:
+        skillset:
+        name: Anthropology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 12
+    fields:
+        skillset:
+        name: Appreciate Beauty
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 13
+    fields:
+        skillset:
+        name: Archeology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 14
+    fields:
+        skillset:
+        name: Architecture <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 15
+    fields:
+        skillset:
+        name: Area Knowledge (localized) <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 16
+    fields:
+        skillset:
+        name: Area Knowledge (massive) <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 17
+    fields:
+        skillset:
+        name: Armoury <TL> <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 18
+    fields:
+        skillset:
+        name: Artificial Intelligence <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 19
+    fields:
+        skillset:
+        name: Artist
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 20
+    fields:
+        skillset:
+        name: Astrogation <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 21
+    fields:
+        skillset:
+        name: Astrology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 22
+    fields:
+        skillset:
+        name: Astronomy <TL>
+        category: 1
+        difficulty: 3
