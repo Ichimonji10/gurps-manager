@@ -437,9 +437,13 @@ class Skill(models.Model):
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
+    MAX_LEN_COMMENTS = 50
     # key fields
     skill = models.ForeignKey(Skill)
     character = models.ForeignKey(Character)
+
+    # string-based fields
+    comments = models.CharField(max_length=MAX_LEN_COMMENTS)
 
     # integer fields
     bonus_level = models.IntegerField(default=0)
