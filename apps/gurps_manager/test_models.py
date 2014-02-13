@@ -148,14 +148,14 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.create()
         self.assertEqual(0, character.total_possession_value())
 
-        # One item. Be careful! We're adding up item *costs*, not *values*.
+        # One item.
         possession1 = factories.PossessionFactory.create(character=character)
-        total_value = possession1.item.cost * possession1.quantity
+        total_value = possession1.item.value * possession1.quantity
         self.assertEqual(total_value, character.total_possession_value())
 
         # Two items.
         possession2 = factories.PossessionFactory.create(character=character)
-        total_value += possession2.item.cost * possession2.quantity
+        total_value += possession2.item.value * possession2.quantity
         self.assertEqual(total_value, character.total_possession_value())
 
 class SkillSetTestCase(TestCase):

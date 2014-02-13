@@ -384,7 +384,7 @@ class ItemFactory(DjangoModelFactory):
     # pylint: disable=W0232
     FACTORY_FOR = models.Item
     name = FuzzyAttribute(lambda: item_name()) # pylint: disable=W0108
-    cost = FuzzyAttribute(lambda: item_cost()) # pylint: disable=W0108
+    value = FuzzyAttribute(lambda: item_value()) # pylint: disable=W0108
     weight = FuzzyAttribute(lambda: item_weight()) # pylint: disable=W0108
 
 def item_name():
@@ -402,14 +402,14 @@ def item_name():
     """
     return _random_str(1, models.Item.MAX_LEN_NAME)
 
-def item_cost():
-    """Return a value for the ``Item.cost`` model attribute.
+def item_value():
+    """Return a value for the ``Item.value`` model attribute.
 
     >>> from gurps_manager.models import validate_not_negative
-    >>> cost = item_cost()
-    >>> isinstance(cost, float)
+    >>> value = item_value()
+    >>> isinstance(value, float)
     True
-    >>> validate_not_negative(cost)
+    >>> validate_not_negative(value)
 
     """
     return random.random() * 10000
