@@ -224,3 +224,191 @@ class CampaignIdDeleteFormTestCase(TestCase):
         """POST ``self.path`` and emulate a DELETE request."""
         response = self.client.delete(self.path, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
+
+class CharacterTestCase(TestCase):
+    """Tests for the ``character/`` path."""
+    PATH = reverse('gurps-manager-character')
+
+    def test_post(self):
+        """POST ``self.PATH``."""
+        # char_attrs['campaign'] is a Campaign object. Save the object and place
+        # its ID in the dict.
+        char_attrs = factories.CharacterFactory.attributes()
+        char_attrs['campaign'].save()
+        char_attrs['campaign'] = char_attrs['campaign'].id
+
+        # POSTing to self.PATH should create a new Character object.
+        num_characters = models.Character.objects.count()
+        response = self.client.post(self.PATH, char_attrs)
+        self.assertEqual(models.Character.objects.count(), num_characters + 1)
+
+        # The client should be redirected after successfully POSTing.
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id',
+                args=[models.Character.objects.latest('id').id]
+            )
+        )
+
+    def test_get(self):
+        """GET ``self.PATH``."""
+        response = self.client.get(self.PATH)
+        self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` and emulate a DELETE request."""
+        response = self.client.delete(self.PATH, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterCreateFormTestCase(TestCase):
+    """Tests for the ``character/create-form/`` path."""
+    PATH = reverse('gurps-manager-character-create-form')
+
+    def test_post(self):
+        """POST ``self.PATH``."""
+        response = self.client.post(self.PATH)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.PATH``."""
+        response = self.client.get(self.PATH)
+        self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` and emulate a DELETE request."""
+        response = self.client.delete(self.PATH, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdTestCase(TestCase):
+    """Tests for the ``character/<id>/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        self.character = factories.CharacterFactory.create()
+        self.path = reverse(
+            'gurps-manager-character-id',
+            args=[self.character.id]
+        )
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        data = factories.CharacterFactory.attributes()
+        data['campaign'] = self.character.campaign.id # Make FK attribute sane
+        data['_method'] = 'PUT'
+        response = self.client.post(self.path, data)
+        self.assertRedirects(response, self.path)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.post(self.path, {'_method': 'DELETE'})
+        self.assertRedirects(response, reverse('gurps-manager-character'))
+
+class CharacterIdUpdateFormTestCase(TestCase):
+    """Tests for the ``character/<id>/update-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        self.character = factories.CharacterFactory.create()
+        self.path = reverse(
+            'gurps-manager-character-id-update-form',
+            args=[self.character.id]
+        )
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdDeleteFormTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        self.character = factories.CharacterFactory.create()
+        self.path = reverse(
+            'gurps-manager-character-id-delete-form',
+            args=[self.character.id]
+        )
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
