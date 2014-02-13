@@ -255,9 +255,9 @@ class Character(models.Model):
         elif self.total_possession_weight() < self.extra_heavy_encumberance:
             return 4
         else:
-            # TODO figure out whether this is how I actually want to handle
-            # over-encumberance
-            return 10000
+            # Returns a penatly such that the character's movement will be -1
+            # This indicates over encumbrance
+            return floor(self.speed()) + self.bonus_movement + 1
 
     def speed(self):
         """Returns a character's speed"""
@@ -478,10 +478,8 @@ class CharacterSkill(models.Model):
         elif self.skill.category == 5:
             return self._physical_skill_score(self.character.strength)
 
-        # TODO add exception handling for this case, it should never really
-        # occur
         else:
-            return 0
+            raise ValueError("The category referenced is outside the known set")
 
     @classmethod
     def _mental_skill_score(cls, attribute):
