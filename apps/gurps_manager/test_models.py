@@ -142,6 +142,22 @@ class CharacterTestCase(TestCase):
         total_weight += possession2.item.weight * possession2.quantity
         self.assertEqual(total_weight, character.total_possession_weight())
 
+    def test_total_possession_value(self):
+        """Test the ``total_possession_value`` method."""
+        # Zero items.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_possession_value())
+
+        # One item. Be careful! We're adding up item *costs*, not *values*.
+        possession1 = factories.PossessionFactory.create(character=character)
+        total_value = possession1.item.cost * possession1.quantity
+        self.assertEqual(total_value, character.total_possession_value())
+
+        # Two items.
+        possession2 = factories.PossessionFactory.create(character=character)
+        total_value += possession2.item.cost * possession2.quantity
+        self.assertEqual(total_value, character.total_possession_value())
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
