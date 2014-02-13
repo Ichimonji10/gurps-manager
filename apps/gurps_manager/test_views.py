@@ -64,6 +64,14 @@ class CampaignTestCase(TestCase):
             )
         )
 
+    def test_post_failure(self):
+        """POST ``self.PATH``, incorrectly."""
+        response = self.client.post(self.PATH, {})
+        self.assertRedirects(
+            response,
+            reverse('gurps-manager-campaign-create-form')
+        )
+
     def test_get(self):
         """GET ``self.PATH``."""
         response = self.client.get(self.PATH)
@@ -139,6 +147,19 @@ class CampaignIdTestCase(TestCase):
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
+
+    def test_put_failure(self):
+        """POST ``self.path`` and emulate a PUT request, incorrectly."""
+        # A CampaignForm requires more than just a name.
+        data = {'_method': 'PUT', 'name': ''}
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-campaign-id-update-form',
+                args=[self.campaign.id]
+            )
+        )
 
     def test_delete(self):
         """POST ``self.path`` and emulate a DELETE request."""
@@ -251,6 +272,14 @@ class CharacterTestCase(TestCase):
             )
         )
 
+    def test_post_failure(self):
+        """POST ``self.PATH``, incorrectly."""
+        response = self.client.post(self.PATH, {})
+        self.assertRedirects(
+            response,
+            reverse('gurps-manager-character-create-form')
+        )
+
     def test_get(self):
         """GET ``self.PATH``."""
         response = self.client.get(self.PATH)
@@ -327,6 +356,19 @@ class CharacterIdTestCase(TestCase):
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
+
+    def test_put_failure(self):
+        """POST ``self.path`` and emulate a PUT request, incorrectly."""
+        # A CharacterForm requires more than just a name.
+        data = {'_method': 'PUT', 'name': ''}
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-update-form',
+                args=[self.character.id]
+            )
+        )
 
     def test_delete(self):
         """POST ``self.path`` and emulate a DELETE request."""
