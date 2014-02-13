@@ -126,6 +126,22 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.build(strength=strength)
         self.assertEqual(character.extra_heavy_encumbrance(), strength * 20)
 
+    def test_total_possession_weight(self):
+        """Test the ``total_possession_weight`` method."""
+        # Zero items.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_possession_weight())
+
+        # One item.
+        possession1 = factories.PossessionFactory.create(character=character)
+        total_weight = possession1.item.weight * possession1.quantity
+        self.assertEqual(total_weight, character.total_possession_weight())
+
+        # Two items.
+        possession2 = factories.PossessionFactory.create(character=character)
+        total_weight += possession2.item.weight * possession2.quantity
+        self.assertEqual(total_weight, character.total_possession_weight())
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
