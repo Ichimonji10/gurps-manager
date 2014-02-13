@@ -234,10 +234,10 @@ class Character(models.Model):
 
     def total_possession_value(self):
         """Returns the total value of a character's possessions"""
-        total_cost = 0
+        total_value = 0
         for possession in Possession.objects.filter(character=self):
-            total_cost += (possession.item.cost * possession.quantity)
-        return total_cost
+            total_value += (possession.item.value * possession.quantity)
+        return total_value
 
     def encumberance_penalty(self):
         """Returns the encumberance penalty incurred by a character's total
@@ -631,7 +631,7 @@ class Item(models.Model):
     description = models.TextField(max_length=MAX_LEN_DESCRIPTION, blank=True)
 
     # float fields
-    cost = models.FloatField(validators=[validate_not_negative])
+    value = models.FloatField(validators=[validate_not_negative])
     weight = models.FloatField(validators=[validate_not_negative])
 
     def __str__(self):
