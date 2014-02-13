@@ -239,20 +239,20 @@ class Character(models.Model):
             total_value += (possession.item.value * possession.quantity)
         return total_value
 
-    def encumberance_penalty(self):
-        """Returns the encumberance penalty incurred by a character's total
+    def encumbrance_penalty(self):
+        """Returns the encumbrance penalty incurred by a character's total
         possession weight.
 
         """
-        if self.total_possession_weight() < self.no_encumberance:
+        if self.total_possession_weight() < self.no_encumbrance:
             return 0
-        elif self.total_possession_weight() < self.light_encumberance:
+        elif self.total_possession_weight() < self.light_encumbrance:
             return 1
-        elif self.total_possession_weight() < self.medium_encumberance:
+        elif self.total_possession_weight() < self.medium_encumbrance:
             return 2
-        elif self.total_possession_weight() < self.heavy_encumberance:
+        elif self.total_possession_weight() < self.heavy_encumbrance:
             return 3
-        elif self.total_possession_weight() < self.extra_heavy_encumberance:
+        elif self.total_possession_weight() < self.extra_heavy_encumbrance:
             return 4
         else:
             # Returns a penatly such that the character's movement will be -1
@@ -271,13 +271,13 @@ class Character(models.Model):
     def movement(self):
         """Returns a character's movement"""
         return floor(self.speed()) \
-            - self.encumberance_penalty() \
+            - self.encumbrance_penalty() \
             + self.bonus_movement
 
     def dodge(self):
         """Returns a character's speed"""
         return floor(self.speed()) \
-            - self.encumberance_penalty() \
+            - self.encumbrance_penalty() \
             + self.bonus_dodge
 
     def points_in_strength(self):
