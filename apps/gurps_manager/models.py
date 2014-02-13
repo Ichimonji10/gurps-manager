@@ -454,109 +454,86 @@ class CharacterSkill(models.Model):
             GURPS Basic Set 3rd Edition Revised, page 44
 
         """
-        effective_points_physical = self.points * (
-            1 if self.character.muscle_memory == 0
-            else (self.character.muscle_memory / 15)
-        )
-        effective_points_mental = self.points * (
-            1 if self.character.eidetic_memory == 0
-            else (self.character.eidetic_memory / 15)
-        )
+
 
         # intelligence based mental skill
         if self.skill.category == 1:
-            if effective_points_mental < 0.5:
-                return 0
-            elif effective_points_mental < 1:
-                return self.character.intelligence - self.skill.difficulty
-            elif effective_points_mental < 2:
-                return self.character.intelligence - self.skill.difficulty + 1
-            elif effective_points_mental < 4:
-                return self.character.intelligence - self.skill.difficulty + 2
-            else:
-                if self.skill.difficulty < 4:
-                    return self.character.intelligence \
-                        - self.skill.difficulty \
-                        + (effective_points_mental // 2) + 1
-                else:
-                    return self.character.intelligence \
-                        - self.skill.difficulty \
-                        + (effective_points_mental // 4) + 2
+            return self._mental_skill_score(self.character.intelligence)
 
         # health based mental skill
         elif self.skill.category == 2:
-            if effective_points_mental < 0.5:
-                return 0
-            elif effective_points_mental < 1:
-                return self.character.health - self.skill.difficulty
-            elif effective_points_mental < 2:
-                return self.character.health - self.skill.difficulty + 1
-            elif effective_points_mental < 4:
-                return self.character.health - self.skill.difficulty + 2
-            else:
-                if self.skill.difficulty < 4:
-                    return self.character.health \
-                        - self.skill.difficulty \
-                        + (effective_points_mental // 2) + 1
-                else:
-                    return self.character.health \
-                        - self.skill.difficulty \
-                        + (effective_points_mental // 4) + 2
+            return self._mental_skill_score(self.character.health)
 
         # dexterity based physical skill
         elif self.skill.category == 3:
-            if effective_points_physical < 0.5:
-                return 0
-            elif effective_points_physical < 1:
-                return self.character.dexterity - self.skill.difficulty
-            elif effective_points_physical < 2:
-                return self.character.dexterity - self.skill.difficulty + 1
-            elif effective_points_physical < 4:
-                return self.character.dexterity - self.skill.difficulty + 2
-            elif effective_points_physical < 8:
-                return self.character.dexterity - self.skill.difficulty + 3
-            else:
-                return self.character.dexterity - self.skill.difficulty \
-                    + (effective_points_physical // 8) + 3
+            return self._physical_skill_score(self.character.dexterity)
 
         # health based physical skill
         elif self.skill.category == 4:
-            if effective_points_physical < 0.5:
-                return 0
-            elif effective_points_physical < 1:
-                return self.character.health - self.skill.difficulty
-            elif effective_points_physical < 2:
-                return self.character.health - self.skill.difficulty + 1
-            elif effective_points_physical < 4:
-                return self.character.health - self.skill.difficulty + 2
-            elif effective_points_physical < 8:
-                return self.character.health - self.skill.difficulty + 3
-            else:
-                return self.character.health \
-                    - self.skill.difficulty \
-                    + (effective_points_physical // 8) + 3
+            return self._physical_skill_score(self.character.health)
 
         # strength based physical skill
         elif self.skill.category == 5:
-            if effective_points_physical < 0.5:
-                return 0
-            elif effective_points_physical < 1:
-                return self.character.strength - self.skill.difficulty
-            elif effective_points_physical < 2:
-                return self.character.strength - self.skill.difficulty + 1
-            elif effective_points_physical < 4:
-                return self.character.strength - self.skill.difficulty + 2
-            elif effective_points_physical < 8:
-                return self.character.strength - self.skill.difficulty + 3
-            else:
-                return self.character.strength \
-                    - self.skill.difficulty \
-                    + (effective_points_physical // 8) + 3
+            return self._physical_skill_score(self.character.strength)
 
         # TODO add exception handling for this case, it should never really
         # occur
         else:
             return 0
+
+        @classmethod
+        def _mental_skill_score(cls, attribute):
+            """Calculates the score of a mental skill
+            with a given base attribute
+            """
+            effective_points_mental = cls.points * (
+                1 if cls.character.eidetic_memory == 0
+                else (cls.character.eidetic_memory / 15)
+            )
+            if effective_points_mental < 0.5:
+                return 0
+            elif effective_points_mental < 1:
+                return attribute - cls.skill.difficulty
+            elif effective_points_mental < 2:
+                return attribute - cls.skill.difficulty + 1
+            elif effective_points_mental < 4:
+                return attribute - cls.skill.difficulty + 2
+            else:
+                if cls.skill.difficulty < 4:
+                    return attribute \
+                        - cls.skill.difficulty \
+                        + (effective_points_mental // 2) \
+                        + 1
+                else:
+                    return attribute \
+                        - cls.skill.difficulty \
+                        + (effective_points_mental // 4) \
+                        + 2
+
+        @classmethod
+        def _physical_skill_score(cls, attribute):
+            """Calculates the score of a mental skill
+            with a given base attribute
+            """
+            effective_points_physical = cls.points * (
+                1 if cls.character.muscle_memory == 0
+                else (cls.character.muscle_memory / 15)
+            )
+            if effective_points_physical < 0.5:
+                return 0
+            elif effective_points_physical < 1:
+                return attribute - cls.skill.difficulty
+            elif effective_points_physical < 2:
+                return attribute - cls.skill.difficulty + 1
+            elif effective_points_physical < 4:
+                return attribute - cls.skill.difficulty + 2
+            elif effective_points_physical < 8:
+                return attribute - cls.skill.difficulty + 3
+            else:
+                return attribute \
+                    - cls.skill.difficulty \
+                    + (effective_points_physical // 8) \
+                    + 3
 
 class Spell(models.Model):
     """A Spell available to characters
