@@ -306,6 +306,17 @@ class CharacterTestCase(TestCase):
             (character.magery * 10) + 5
         )
 
+    def test_total_points_in_attributes(self):
+        """Test the ``total_points_in_attributes`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.total_points_in_attributes(),
+            character.points_in_strength() \
+                + character.points_in_dexterity() \
+                + character.points_in_intelligence() \
+                + character.points_in_health()
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
