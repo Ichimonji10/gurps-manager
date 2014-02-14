@@ -261,12 +261,11 @@ class Character(models.Model):
 
     def speed(self):
         """Returns a character's speed"""
+        default_speed = ((self.dexterity + self.health) / 4) + self.bonus_speed
         for skill in CharacterSkill.objects.filter(character=self):
             if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
-                return ((self.dexterity + self.health) / 4) \
-                    + (skill.score() / 8) \
-                    + self.bonus_speed
-        return ((self.dexterity + self.health) / 4) + self.bonus_speed
+                return default_speed + (skill.score() / 8)
+        return default_speed
 
     def movement(self):
         """Returns a character's movement"""
@@ -481,53 +480,51 @@ class CharacterSkill(models.Model):
         else:
             raise ValueError("The category referenced is outside the known set")
 
-    @classmethod
-    def _mental_skill_score(cls, attribute):
+    def _mental_skill_score(self, attribute):
         """Calculates the score of a mental skill with a given base attribute"""
-        effective_points_mental = cls.points * (
-            1 if cls.character.eidetic_memory == 0
-            else (cls.character.eidetic_memory / 15)
+        effective_points_mental = self.points * (
+            1 if self.character.eidetic_memory == 0
+            else (self.character.eidetic_memory / 15)
         )
         if effective_points_mental < 0.5:
             return 0
         elif effective_points_mental < 1:
-            return attribute - cls.skill.difficulty
+            return attribute - self.skill.difficulty
         elif effective_points_mental < 2:
-            return attribute - cls.skill.difficulty + 1
+            return attribute - self.skill.difficulty + 1
         elif effective_points_mental < 4:
-            return attribute - cls.skill.difficulty + 2
+            return attribute - self.skill.difficulty + 2
         else:
-            if cls.skill.difficulty < 4:
+            if self.skill.difficulty < 4:
                 return attribute \
-                    - cls.skill.difficulty \
+                    - self.skill.difficulty \
                     + (effective_points_mental // 2) \
                     + 1
             else:
                 return attribute \
-                    - cls.skill.difficulty \
+                    - self.skill.difficulty \
                     + (effective_points_mental // 4) \
                     + 2
 
-    @classmethod
-    def _physical_skill_score(cls, attribute):
+    def _physical_skill_score(self, attribute):
         """Calculates the score of a mental skill with a given base attribute"""
-        effective_points_physical = cls.points * (
-            1 if cls.character.muscle_memory == 0
-            else (cls.character.muscle_memory / 15)
+        effective_points_physical = self.points * (
+            1 if self.character.muscle_memory == 0
+            else (self.character.muscle_memory / 15)
         )
         if effective_points_physical < 0.5:
             return 0
         elif effective_points_physical < 1:
-            return attribute - cls.skill.difficulty
+            return attribute - self.skill.difficulty
         elif effective_points_physical < 2:
-            return attribute - cls.skill.difficulty + 1
+            return attribute - self.skill.difficulty + 1
         elif effective_points_physical < 4:
-            return attribute - cls.skill.difficulty + 2
+            return attribute - self.skill.difficulty + 2
         elif effective_points_physical < 8:
-            return attribute - cls.skill.difficulty + 3
+            return attribute - self.skill.difficulty + 3
         else:
             return attribute \
-                - cls.skill.difficulty \
+                - self.skill.difficulty \
                 + (effective_points_physical // 8) \
                 + 3
 

@@ -191,6 +191,21 @@ class CharacterTestCase(TestCase):
         character.total_possession_weight = lambda: 5
         self.assertTrue(character.encumbrance_penalty() >= 5)
 
+    def test_speed(self):
+        """Test the ``speed`` method."""
+        char = factories.CharacterFactory.create()
+
+        # Character does not have the "running" skill.
+        speed = ((char.dexterity + char.health) / 4) + char.bonus_speed
+        self.assertEqual(char.speed(), speed)
+
+        # Create a "running" skill. Link it to the test character.
+        char_skill = factories.CharacterSkillFactory(
+            character=char,
+            skill=factories.SkillFactory(name='RuNnInG')
+        )
+        self.assertEqual(char.speed(), speed + (char_skill.score() / 8))
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
