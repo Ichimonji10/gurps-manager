@@ -7,6 +7,7 @@ Each test case in this module tests a single model. For example, the
 from django.test import TestCase
 from gurps_manager import factories
 from math import floor
+import random
 
 # pylint: disable=E1101
 # E: 16,19: Class 'CampaignFactory' has no 'build' member (no-member)
@@ -257,6 +258,44 @@ class CharacterTestCase(TestCase):
         self.assertEqual(
             character.points_in_health(),
             character._points_in_attribute(character.health) # pylint: disable=W0212
+        )
+
+    def test_points_in_attribute(self):
+        """Test the ``_points_in_attribute`` method."""
+        character = factories.CharacterFactory.create()
+
+        # 8 > level
+        level = random.randrange(-1000, 8)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (9 - level) * -10
+        )
+
+        # 9 > level
+        self.assertEqual(character._points_in_attribute(8), -15)
+
+        # 14 > level
+        level = random.randrange(9, 14)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 10) * 10
+        )
+
+        # 15 > level
+        self.assertEqual(character._points_in_attribute(14), 45)
+
+        # 18 > level
+        level = random.randrange(15, 18)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 12) * 20
+        )
+
+        # 18 <= level
+        level = random.randrange(18, 1000)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 13) * 25
         )
 
 class SkillSetTestCase(TestCase):
