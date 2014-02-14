@@ -28,6 +28,7 @@ pip install django_extensions
 pip install django_tables2
 pip install factory_boy
 pip install pylint
+pip install pyyaml
 set +o nounset
 deactivate
 set -o nounset
