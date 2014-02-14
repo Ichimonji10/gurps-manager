@@ -226,6 +226,38 @@ class CharacterTestCase(TestCase):
             + character.bonus_dodge
         self.assertEqual(character.dodge(), character_dodge)
 
+    def test_points_in_strength(self):
+        """Test the ``points_in_strength`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_strength(),
+            character._points_in_attribute(character.strength) # pylint: disable=W0212
+        )
+
+    def test_points_in_dexterity(self):
+        """Test the ``points_in_dexterity`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_dexterity(),
+            character._points_in_attribute(character.dexterity) # pylint: disable=W0212
+        )
+
+    def test_points_in_intelligence(self):
+        """Test the ``points_in_intelligence`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_intelligence(),
+            character._points_in_attribute(character.intelligence) # pylint: disable=W0212
+        )
+
+    def test_points_in_health(self):
+        """Test the ``points_in_health`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_health(),
+            character._points_in_attribute(character.health) # pylint: disable=W0212
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
