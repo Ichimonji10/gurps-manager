@@ -6,6 +6,7 @@ Each test case in this module tests a single model. For example, the
 """
 from django.test import TestCase
 from gurps_manager import factories
+from math import floor
 
 # pylint: disable=E1101
 # E: 16,19: Class 'CampaignFactory' has no 'build' member (no-member)
@@ -205,6 +206,14 @@ class CharacterTestCase(TestCase):
             skill=factories.SkillFactory(name='RuNnInG')
         )
         self.assertEqual(char.speed(), speed + (char_skill.score() / 8))
+
+    def test_movement(self):
+        """Test the ``movement`` method."""
+        character = factories.CharacterFactory.create()
+        character_movement = floor(character.speed()) \
+            - character.encumbrance_penalty() \
+            + character.bonus_movement
+        self.assertEqual(character.movement(), character_movement)
 
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
