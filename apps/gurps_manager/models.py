@@ -244,6 +244,7 @@ class Character(models.Model):
         possession weight.
 
         """
+        # FIXME: What do these numbers represent? Is there a mapping somewhere?
         if self.total_possession_weight() < self.no_encumbrance():
             return 0
         elif self.total_possession_weight() < self.light_encumbrance():
@@ -297,8 +298,8 @@ class Character(models.Model):
 
     @classmethod
     def _points_in_attribute(cls, level):
-        """Returns the points required to achieve
-        the given level of an attribute
+        """Returns the points required to achieve the given level of an
+        attribute
 
         For reference of where all these magic numbers come from, see:
             GURPS Basic Set 3rd Edition Revised, page 13
@@ -324,9 +325,9 @@ class Character(models.Model):
     def total_points_in_attributes(self):
         """Returns the points a character has spent in attributes"""
         return self.points_in_strength() \
-                + self.points_in_dexterity() \
-                + self.points_in_intelligence() \
-                + self.points_in_health()
+            + self.points_in_dexterity() \
+            + self.points_in_intelligence() \
+            + self.points_in_health()
 
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
