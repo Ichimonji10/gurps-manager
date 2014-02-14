@@ -158,6 +158,39 @@ class CharacterTestCase(TestCase):
         total_value += possession2.item.value * possession2.quantity
         self.assertEqual(total_value, character.total_possession_value())
 
+    def test_encumbrance_penalty(self):
+        """Test the ``encumbrance_penalty`` method."""
+        character = factories.CharacterFactory.create()
+
+        # total_possession_weight < no_encumbrance
+        character.total_possession_weight = lambda: 0
+        character.no_encumbrance = lambda: 1
+        self.assertEqual(character.encumbrance_penalty(), 0)
+
+        # total_possession_weight < light_encumbrance
+        character.total_possession_weight = lambda: 1
+        character.light_encumbrance = lambda: 2
+        self.assertEqual(character.encumbrance_penalty(), 1)
+
+        # total_possession_weight < medium_encumbrance
+        character.total_possession_weight = lambda: 2
+        character.medium_encumbrance = lambda: 3
+        self.assertEqual(character.encumbrance_penalty(), 2)
+
+        # total_possession_weight < heavy_encumbrance
+        character.total_possession_weight = lambda: 3
+        character.heavy_encumbrance = lambda: 4
+        self.assertEqual(character.encumbrance_penalty(), 3)
+
+        # total_possession_weight < extra_heavy_encumbrance
+        character.total_possession_weight = lambda: 4
+        character.extra_heavy_encumbrance = lambda: 5
+        self.assertEqual(character.encumbrance_penalty(), 4)
+
+        # total_possession_weight >= extra_heavy_encumbrance
+        character.total_possession_weight = lambda: 5
+        self.assertTrue(character.encumbrance_penalty() >= 5)
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):

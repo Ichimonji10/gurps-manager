@@ -244,15 +244,15 @@ class Character(models.Model):
         possession weight.
 
         """
-        if self.total_possession_weight() < self.no_encumbrance:
+        if self.total_possession_weight() < self.no_encumbrance():
             return 0
-        elif self.total_possession_weight() < self.light_encumbrance:
+        elif self.total_possession_weight() < self.light_encumbrance():
             return 1
-        elif self.total_possession_weight() < self.medium_encumbrance:
+        elif self.total_possession_weight() < self.medium_encumbrance():
             return 2
-        elif self.total_possession_weight() < self.heavy_encumbrance:
+        elif self.total_possession_weight() < self.heavy_encumbrance():
             return 3
-        elif self.total_possession_weight() < self.extra_heavy_encumbrance:
+        elif self.total_possession_weight() < self.extra_heavy_encumbrance():
             return 4
         else:
             # Returns a penatly such that the character's movement will be -1
