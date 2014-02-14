@@ -298,6 +298,14 @@ class CharacterTestCase(TestCase):
             (level - 13) * 25
         )
 
+    def test_points_in_magery(self):
+        """Test the ``points_in_magery`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_magery(),
+            (character.magery * 10) + 5
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
