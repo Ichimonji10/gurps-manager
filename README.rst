@@ -83,7 +83,7 @@ Web Server
 Back up your current lighttpd config files. Then, customize and install new
 config files::
 
-    # cp /etc/lighttpd/ /etc/lighttpd.old/
+    # cp -r /etc/lighttpd/ /etc/lighttpd.old/
     $ vi configs/lighttpd.conf
     $ vi configs/proxy.conf
     # cp -t /etc/lighttpd/ configs/lighttpd.conf configs/proxy.conf
