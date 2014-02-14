@@ -215,6 +215,14 @@ class CharacterTestCase(TestCase):
             + character.bonus_movement
         self.assertEqual(character.movement(), character_movement)
 
+    def test_dodge(self):
+        """Test the ``dodge`` method."""
+        character = factories.CharacterFactory.create()
+        character_dodge = floor(character.speed()) \
+            - character.encumbrance_penalty() \
+            + character.bonus_dodge
+        self.assertEqual(character.dodge(), character_dodge)
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
