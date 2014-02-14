@@ -1,0 +1,12 @@
+{% extends 'gurps_manager/index.html' %}
+
+{% block title %}Create Campaign{% endblock %}
+
+{% block body %}
+<h1>Create Campaign</h1>
+<form method='post' action='{% url 'gurps-manager-campaign' %}'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><button>Submit</button></p>
+</form>
+{% endblock %}

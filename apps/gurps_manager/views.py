@@ -47,7 +47,7 @@ class Campaign(View):
         RequestConfig(request).configure(table)
         return render(
             request,
-            'gurps_manager/campaign.html',
+            'gurps_manager/campaign_templates/campaign.html',
             {'table': table, 'request': request}
         )
 
@@ -62,7 +62,7 @@ class CampaignCreateForm(View):
             form = forms.CampaignForm(json.loads(form_data))
         return render(
             request,
-            'gurps_manager/campaign-create-form.html',
+            'gurps_manager/campaign_templates/campaign-create-form.html',
             {'form': form}
         )
 
@@ -73,7 +73,7 @@ class CampaignId(View):
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         return render(
             request,
-            'gurps_manager/campaign-id.html',
+            'gurps_manager/campaign_templates/campaign-id.html',
             {'campaign': campaign}
         )
 
@@ -125,7 +125,7 @@ class CampaignIdUpdateForm(View):
             form = forms.CampaignForm(json.loads(form_data))
         return render(
             request,
-            'gurps_manager/campaign-id-update-form.html',
+            'gurps_manager/campaign_templates/campaign-id-update-form.html',
             {'campaign': campaign, 'form': form}
         )
 
@@ -136,7 +136,7 @@ class CampaignIdDeleteForm(View):
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         return render(
             request,
-            'gurps_manager/campaign-id-delete-form.html',
+            'gurps_manager/campaign_templates/campaign-id-delete-form.html',
             {'campaign': campaign}
         )
 
@@ -169,7 +169,7 @@ class Character(View):
         RequestConfig(request).configure(table)
         return render(
             request,
-            'gurps_manager/character.html',
+            'gurps_manager/character_templates/character.html',
             {'table': table, 'request': request}
         )
 
@@ -180,7 +180,7 @@ class CharacterId(View):
         character = _get_model_object_or_404(models.Character, character_id)
         return render(
             request,
-            'gurps_manager/character-id.html',
+            'gurps_manager/character_templates/character-id.html',
             {'character': character}
         )
 
@@ -231,7 +231,7 @@ class CharacterCreateForm(View):
             form = forms.CharacterForm(json.loads(form_data))
         return render(
             request,
-            'gurps_manager/character-create-form.html',
+            'gurps_manager/character_templates/character-create-form.html',
             {'form': form}
         )
 
@@ -247,7 +247,7 @@ class CharacterIdUpdateForm(View):
             form = forms.CharacterForm(json.loads(form_data))
         return render(
             request,
-            'gurps_manager/character-id-update-form.html',
+            'gurps_manager/character_templates/character-id-update-form.html',
             {'character': character, 'form': form}
         )
 
@@ -258,7 +258,7 @@ class CharacterIdDeleteForm(View):
         character = _get_model_object_or_404(models.Character, character_id)
         return render(
             request,
-            'gurps_manager/character-id-delete-form.html',
+            'gurps_manager/character_templates/character-id-delete-form.html',
             {'character': character}
         )
 
