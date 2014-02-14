@@ -190,7 +190,10 @@ class CharacterTestCase(TestCase):
 
         # total_possession_weight >= extra_heavy_encumbrance
         character.total_possession_weight = lambda: 5
-        self.assertTrue(character.encumbrance_penalty() >= 5)
+        self.assertEqual(
+            character.encumbrance_penalty(),
+            floor(character.speed()) + character.bonus_movement + 1
+        )
 
     def test_speed(self):
         """Test the ``speed`` method."""
