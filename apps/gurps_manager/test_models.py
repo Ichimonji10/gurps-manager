@@ -6,6 +6,8 @@ Each test case in this module tests a single model. For example, the
 """
 from django.test import TestCase
 from gurps_manager import factories
+from math import floor
+import random
 
 # pylint: disable=E1101
 # E: 16,19: Class 'CampaignFactory' has no 'build' member (no-member)
@@ -126,6 +128,195 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.build(strength=strength)
         self.assertEqual(character.extra_heavy_encumbrance(), strength * 20)
 
+    def test_total_possession_weight(self):
+        """Test the ``total_possession_weight`` method."""
+        # Zero items.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_possession_weight())
+
+        # One item.
+        possession1 = factories.PossessionFactory.create(character=character)
+        total_weight = possession1.item.weight * possession1.quantity
+        self.assertEqual(total_weight, character.total_possession_weight())
+
+        # Two items.
+        possession2 = factories.PossessionFactory.create(character=character)
+        total_weight += possession2.item.weight * possession2.quantity
+        self.assertEqual(total_weight, character.total_possession_weight())
+
+    def test_total_possession_value(self):
+        """Test the ``total_possession_value`` method."""
+        # Zero items.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_possession_value())
+
+        # One item.
+        possession1 = factories.PossessionFactory.create(character=character)
+        total_value = possession1.item.value * possession1.quantity
+        self.assertEqual(total_value, character.total_possession_value())
+
+        # Two items.
+        possession2 = factories.PossessionFactory.create(character=character)
+        total_value += possession2.item.value * possession2.quantity
+        self.assertEqual(total_value, character.total_possession_value())
+
+    def test_encumbrance_penalty(self):
+        """Test the ``encumbrance_penalty`` method."""
+        # FIXME: What do these numbers represent? Is there a mapping somewhere?
+        character = factories.CharacterFactory.create()
+
+        # total_possession_weight < no_encumbrance
+        character.total_possession_weight = lambda: 0
+        character.no_encumbrance = lambda: 1
+        self.assertEqual(character.encumbrance_penalty(), 0)
+
+        # total_possession_weight < light_encumbrance
+        character.total_possession_weight = lambda: 1
+        character.light_encumbrance = lambda: 2
+        self.assertEqual(character.encumbrance_penalty(), 1)
+
+        # total_possession_weight < medium_encumbrance
+        character.total_possession_weight = lambda: 2
+        character.medium_encumbrance = lambda: 3
+        self.assertEqual(character.encumbrance_penalty(), 2)
+
+        # total_possession_weight < heavy_encumbrance
+        character.total_possession_weight = lambda: 3
+        character.heavy_encumbrance = lambda: 4
+        self.assertEqual(character.encumbrance_penalty(), 3)
+
+        # total_possession_weight < extra_heavy_encumbrance
+        character.total_possession_weight = lambda: 4
+        character.extra_heavy_encumbrance = lambda: 5
+        self.assertEqual(character.encumbrance_penalty(), 4)
+
+        # total_possession_weight >= extra_heavy_encumbrance
+        character.total_possession_weight = lambda: 5
+        self.assertEqual(
+            character.encumbrance_penalty(),
+            floor(character.speed()) + character.bonus_movement + 1
+        )
+
+    def test_speed(self):
+        """Test the ``speed`` method."""
+        char = factories.CharacterFactory.create()
+
+        # Character does not have the "running" skill.
+        speed = ((char.dexterity + char.health) / 4) + char.bonus_speed
+        self.assertEqual(char.speed(), speed)
+
+        # Create a "running" skill. Link it to the test character.
+        char_skill = factories.CharacterSkillFactory(
+            character=char,
+            skill=factories.SkillFactory(name='RuNnInG')
+        )
+        self.assertEqual(char.speed(), speed + (char_skill.score() / 8))
+
+    def test_movement(self):
+        """Test the ``movement`` method."""
+        character = factories.CharacterFactory.create()
+        character_movement = floor(character.speed()) \
+            - character.encumbrance_penalty() \
+            + character.bonus_movement
+        self.assertEqual(character.movement(), character_movement)
+
+    def test_dodge(self):
+        """Test the ``dodge`` method."""
+        character = factories.CharacterFactory.create()
+        character_dodge = floor(character.speed()) \
+            - character.encumbrance_penalty() \
+            + character.bonus_dodge
+        self.assertEqual(character.dodge(), character_dodge)
+
+    def test_points_in_strength(self):
+        """Test the ``points_in_strength`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_strength(),
+            character._points_in_attribute(character.strength) # pylint: disable=W0212
+        )
+
+    def test_points_in_dexterity(self):
+        """Test the ``points_in_dexterity`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_dexterity(),
+            character._points_in_attribute(character.dexterity) # pylint: disable=W0212
+        )
+
+    def test_points_in_intelligence(self):
+        """Test the ``points_in_intelligence`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_intelligence(),
+            character._points_in_attribute(character.intelligence) # pylint: disable=W0212
+        )
+
+    def test_points_in_health(self):
+        """Test the ``points_in_health`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_health(),
+            character._points_in_attribute(character.health) # pylint: disable=W0212
+        )
+
+    def test_points_in_attribute(self):
+        """Test the ``_points_in_attribute`` method."""
+        character = factories.CharacterFactory.create()
+
+        # 8 > level
+        level = random.randrange(-1000, 8)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (9 - level) * -10
+        )
+
+        # 9 > level
+        self.assertEqual(character._points_in_attribute(8), -15)
+
+        # 14 > level
+        level = random.randrange(9, 14)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 10) * 10
+        )
+
+        # 15 > level
+        self.assertEqual(character._points_in_attribute(14), 45)
+
+        # 18 > level
+        level = random.randrange(15, 18)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 12) * 20
+        )
+
+        # 18 <= level
+        level = random.randrange(18, 1000)
+        self.assertEqual(
+            character._points_in_attribute(level),
+            (level - 13) * 25
+        )
+
+    def test_points_in_magery(self):
+        """Test the ``points_in_magery`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.points_in_magery(),
+            (character.magery * 10) + 5
+        )
+
+    def test_total_points_in_attributes(self):
+        """Test the ``total_points_in_attributes`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.total_points_in_attributes(),
+            character.points_in_strength() \
+                + character.points_in_dexterity() \
+                + character.points_in_intelligence() \
+                + character.points_in_health()
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
@@ -157,3 +348,19 @@ class ItemTestCase(TestCase):
         name = factories.item_name()
         item = factories.ItemFactory.build(name=name)
         self.assertEqual(name, str(item))
+
+class SpellTestCase(TestCase):
+    """Tests for ``Spell``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.spell_name()
+        spell = factories.SpellFactory.build(name=name)
+        self.assertEqual(name, str(spell))
+
+class HitLocationTestCase(TestCase):
+    """Tests for ``HitLocation``."""
+    def test_str(self):
+        """Test the ``__str__`` method."""
+        name = factories.hitlocation_name()
+        hitlocation = factories.HitLocationFactory.build(name=name)
+        self.assertEqual(name, str(hitlocation))

@@ -234,50 +234,50 @@ class Character(models.Model):
 
     def total_possession_value(self):
         """Returns the total value of a character's possessions"""
-        total_cost = 0
+        total_value = 0
         for possession in Possession.objects.filter(character=self):
-            total_cost += (possession.item.cost * possession.quantity)
-        return total_cost
+            total_value += (possession.item.value * possession.quantity)
+        return total_value
 
-    def encumberance_penalty(self):
-        """Returns the encumberance penalty incurred by a character's total
+    def encumbrance_penalty(self):
+        """Returns the encumbrance penalty incurred by a character's total
         possession weight.
 
         """
-        if self.total_possession_weight() < self.no_encumberance:
+        # FIXME: What do these numbers represent? Is there a mapping somewhere?
+        if self.total_possession_weight() < self.no_encumbrance():
             return 0
-        elif self.total_possession_weight() < self.light_encumberance:
+        elif self.total_possession_weight() < self.light_encumbrance():
             return 1
-        elif self.total_possession_weight() < self.medium_encumberance:
+        elif self.total_possession_weight() < self.medium_encumbrance():
             return 2
-        elif self.total_possession_weight() < self.heavy_encumberance:
+        elif self.total_possession_weight() < self.heavy_encumbrance():
             return 3
-        elif self.total_possession_weight() < self.extra_heavy_encumberance:
+        elif self.total_possession_weight() < self.extra_heavy_encumbrance():
             return 4
         else:
-            # TODO figure out whether this is how I actually want to handle
-            # over-encumberance
-            return 10000
+            # Returns a penatly such that the character's movement will be -1
+            # This indicates over encumbrance
+            return floor(self.speed()) + self.bonus_movement + 1
 
     def speed(self):
         """Returns a character's speed"""
+        default_speed = ((self.dexterity + self.health) / 4) + self.bonus_speed
         for skill in CharacterSkill.objects.filter(character=self):
             if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
-                return ((self.dexterity + self.health) / 4) \
-                    + (skill.score() / 8) \
-                    + self.bonus_speed
-        return ((self.dexterity + self.health) / 4) + self.bonus_speed
+                return default_speed + (skill.score() / 8)
+        return default_speed
 
     def movement(self):
         """Returns a character's movement"""
         return floor(self.speed()) \
-            - self.encumberance_penalty() \
+            - self.encumbrance_penalty() \
             + self.bonus_movement
 
     def dodge(self):
         """Returns a character's speed"""
         return floor(self.speed()) \
-            - self.encumberance_penalty() \
+            - self.encumbrance_penalty() \
             + self.bonus_dodge
 
     def points_in_strength(self):
@@ -298,8 +298,8 @@ class Character(models.Model):
 
     @classmethod
     def _points_in_attribute(cls, level):
-        """Returns the points required to achieve
-        the given level of an attribute
+        """Returns the points required to achieve the given level of an
+        attribute
 
         For reference of where all these magic numbers come from, see:
             GURPS Basic Set 3rd Edition Revised, page 13
@@ -325,9 +325,9 @@ class Character(models.Model):
     def total_points_in_attributes(self):
         """Returns the points a character has spent in attributes"""
         return self.points_in_strength() \
-                + self.points_in_dexterity() \
-                + self.points_in_intelligence() \
-                + self.points_in_health()
+            + self.points_in_dexterity() \
+            + self.points_in_intelligence() \
+            + self.points_in_health()
 
     def total_points_in_skills(self):
         """Returns the points a character has spent in skills"""
@@ -437,9 +437,13 @@ class Skill(models.Model):
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
+    MAX_LEN_COMMENTS = 50
     # key fields
     skill = models.ForeignKey(Skill)
     character = models.ForeignKey(Character)
+
+    # string-based fields
+    comments = models.CharField(max_length=MAX_LEN_COMMENTS, blank=True)
 
     # integer fields
     bonus_level = models.IntegerField(default=0)
@@ -454,8 +458,6 @@ class CharacterSkill(models.Model):
             GURPS Basic Set 3rd Edition Revised, page 44
 
         """
-
-
         # intelligence based mental skill
         if self.skill.category == 1:
             return self._mental_skill_score(self.character.intelligence)
@@ -476,64 +478,56 @@ class CharacterSkill(models.Model):
         elif self.skill.category == 5:
             return self._physical_skill_score(self.character.strength)
 
-        # TODO add exception handling for this case, it should never really
-        # occur
         else:
+            raise ValueError("The category referenced is outside the known set")
+
+    def _mental_skill_score(self, attribute):
+        """Calculates the score of a mental skill with a given base attribute"""
+        effective_points_mental = self.points * (
+            1 if self.character.eidetic_memory == 0
+            else (self.character.eidetic_memory / 15)
+        )
+        if effective_points_mental < 0.5:
             return 0
-
-        @classmethod
-        def _mental_skill_score(cls, attribute):
-            """Calculates the score of a mental skill
-            with a given base attribute
-            """
-            effective_points_mental = cls.points * (
-                1 if cls.character.eidetic_memory == 0
-                else (cls.character.eidetic_memory / 15)
-            )
-            if effective_points_mental < 0.5:
-                return 0
-            elif effective_points_mental < 1:
-                return attribute - cls.skill.difficulty
-            elif effective_points_mental < 2:
-                return attribute - cls.skill.difficulty + 1
-            elif effective_points_mental < 4:
-                return attribute - cls.skill.difficulty + 2
-            else:
-                if cls.skill.difficulty < 4:
-                    return attribute \
-                        - cls.skill.difficulty \
-                        + (effective_points_mental // 2) \
-                        + 1
-                else:
-                    return attribute \
-                        - cls.skill.difficulty \
-                        + (effective_points_mental // 4) \
-                        + 2
-
-        @classmethod
-        def _physical_skill_score(cls, attribute):
-            """Calculates the score of a mental skill
-            with a given base attribute
-            """
-            effective_points_physical = cls.points * (
-                1 if cls.character.muscle_memory == 0
-                else (cls.character.muscle_memory / 15)
-            )
-            if effective_points_physical < 0.5:
-                return 0
-            elif effective_points_physical < 1:
-                return attribute - cls.skill.difficulty
-            elif effective_points_physical < 2:
-                return attribute - cls.skill.difficulty + 1
-            elif effective_points_physical < 4:
-                return attribute - cls.skill.difficulty + 2
-            elif effective_points_physical < 8:
-                return attribute - cls.skill.difficulty + 3
+        elif effective_points_mental < 1:
+            return attribute - self.skill.difficulty
+        elif effective_points_mental < 2:
+            return attribute - self.skill.difficulty + 1
+        elif effective_points_mental < 4:
+            return attribute - self.skill.difficulty + 2
+        else:
+            if self.skill.difficulty < 4:
+                return attribute \
+                    - self.skill.difficulty \
+                    + (effective_points_mental // 2) \
+                    + 1
             else:
                 return attribute \
-                    - cls.skill.difficulty \
-                    + (effective_points_physical // 8) \
-                    + 3
+                    - self.skill.difficulty \
+                    + (effective_points_mental // 4) \
+                    + 2
+
+    def _physical_skill_score(self, attribute):
+        """Calculates the score of a mental skill with a given base attribute"""
+        effective_points_physical = self.points * (
+            1 if self.character.muscle_memory == 0
+            else (self.character.muscle_memory / 15)
+        )
+        if effective_points_physical < 0.5:
+            return 0
+        elif effective_points_physical < 1:
+            return attribute - self.skill.difficulty
+        elif effective_points_physical < 2:
+            return attribute - self.skill.difficulty + 1
+        elif effective_points_physical < 4:
+            return attribute - self.skill.difficulty + 2
+        elif effective_points_physical < 8:
+            return attribute - self.skill.difficulty + 3
+        else:
+            return attribute \
+                - self.skill.difficulty \
+                + (effective_points_physical // 8) \
+                + 3
 
 class Spell(models.Model):
     """A Spell available to characters
@@ -635,7 +629,7 @@ class Item(models.Model):
     description = models.TextField(max_length=MAX_LEN_DESCRIPTION, blank=True)
 
     # float fields
-    cost = models.FloatField(validators=[validate_not_negative])
+    value = models.FloatField(validators=[validate_not_negative])
     weight = models.FloatField(validators=[validate_not_negative])
 
     def __str__(self):
