@@ -2290,21 +2290,21 @@
     pk: 317
     fields:
         skillset:
-        name: Rites, Garou, Social <type>
+        name: Rites Garou Social <type>
         category: 1
         difficulty: 1
 -   model: gurps_manager.Skill
     pk: 318
     fields:
         skillset:
-        name: Rites, Garou, Spell (hard) <type>
+        name: Rites Garou Spell (hard) <type>
         category: 1
         difficulty: 3
 -   model: gurps_manager.Skill
     pk: 319
     fields:
         skillset:
-        name: Rites, Garou, Spell (very hard) <type>
+        name: Rites Garou Spell (very hard) <type>
         category: 1
         difficulty: 4
 -   model: gurps_manager.Skill
