@@ -231,3 +231,2881 @@
         name: Astronomy <TL>
         category: 1
         difficulty: 3
+
+-   model: gurps_manager.Skill
+    pk: 23
+    fields:
+        skillset:
+        name: Augury <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 24
+    fields:
+        skillset:
+        name: Autohypnosis
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 25
+    fields:
+        skillset:
+        name: Aviation <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 26
+    fields:
+        skillset:
+        name: Axe/Mace
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 27
+    fields:
+        skillset:
+        name: Axe Throwing
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 28
+    fields:
+        skillset:
+        name: Ball Game
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 29
+    fields:
+        skillset:
+        name: Barber
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 30
+    fields:
+        skillset:
+        name: Bard
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 31
+    fields:
+        skillset:
+        name: Bardic Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 32
+    fields:
+        skillset:
+        name: Bartender
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 33
+    fields:
+        skillset:
+        name: Battlesuit <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 34
+    fields:
+        skillset:
+        name: Beam Weapons <TL> <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 35
+    fields:
+        skillset:
+        name: Being Ridden
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 36
+    fields:
+        skillset:
+        name: Beverage-Making
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 37
+    fields:
+        skillset:
+        name: Bicycling
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 38
+    fields:
+        skillset:
+        name: Biochemistry <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 39
+    fields:
+        skillset:
+        name: Black Powder Weapons <TL> <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 40
+    fields:
+        skillset:
+        name: Blacksmith <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 41
+    fields:
+        skillset:
+        name: Blind Fighting
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 42
+    fields:
+        skillset:
+        name: Blinding Touch
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 43
+    fields:
+        skillset:
+        name: Blowpipe (Fukiya)
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 44
+    fields:
+        skillset:
+        name: Blowpipe
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 45
+    fields:
+        skillset:
+        name: Board Games <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 46
+    fields:
+        skillset:
+        name: Boating
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 47
+    fields:
+        skillset:
+        name: Body Control
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 48
+    fields:
+        skillset:
+        name: Body Language
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 49
+    fields:
+        skillset:
+        name: Body Sense
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 50
+    fields:
+        skillset:
+        name: Boinger
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 51
+    fields:
+        skillset:
+        name: Bolas
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 52
+    fields:
+        skillset:
+        name: Botany <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 53
+    fields:
+        skillset:
+        name: Bow and Palette
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 54
+    fields:
+        skillset:
+        name: Bow
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 55
+    fields:
+        skillset:
+        name: Boxing
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 56
+    fields:
+        skillset:
+        name: Brain Hacking
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 57
+    fields:
+        skillset:
+        name: Brawling
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 58
+    fields:
+        skillset:
+        name: Breaking Blow
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 59
+    fields:
+        skillset:
+        name: Breath Control
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 60
+    fields:
+        skillset:
+        name: Broadsword
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 61
+    fields:
+        skillset:
+        name: Buckler
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 62
+    fields:
+        skillset:
+        name: Bulldancing
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 63
+    fields:
+        skillset:
+        name: Bullfighting
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 64
+    fields:
+        skillset:
+        name: Bun Fu
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 65
+    fields:
+        skillset:
+        name: Calligraphy
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 66
+    fields:
+        skillset:
+        name: Camouflage
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 67
+    fields:
+        skillset:
+        name: Carousing
+        category: 4
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 68
+    fields:
+        skillset:
+        name: Carpentry
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 69
+    fields:
+        skillset:
+        name: Cartography
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 70
+    fields:
+        skillset:
+        name: Change Control
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 71
+    fields:
+        skillset:
+        name: Chemistry <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 72
+    fields:
+        skillset:
+        name: Chess
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 73
+    fields:
+        skillset:
+        name: Chi Treatment
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 74
+    fields:
+        skillset:
+        name: Choreography
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 75
+    fields:
+        skillset:
+        name: Climbing
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 76
+    fields:
+        skillset:
+        name: Cloak
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 77
+    fields:
+        skillset:
+        name: Combat Weapon Art (easy) <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 78
+    fields:
+        skillset:
+        name: Combat Weapon Art (average) <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 79
+    fields:
+        skillset:
+        name: Combat Weapon Art (hard) <type>
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 80
+    fields:
+        skillset:
+        name: Combat Weapon Sport (easy) <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 81
+    fields:
+        skillset:
+        name: Combat Weapon Sport (average) <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 82
+    fields:
+        skillset:
+        name: Combat Weapon Sport (hard) <type>
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 83
+    fields:
+        skillset:
+        name: Computer Hacking <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 84
+    fields:
+        skillset:
+        name: Computer Operation <TL>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 85
+    fields:
+        skillset:
+        name: Computer Programming <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 86
+    fields:
+        skillset:
+        name: Conducting
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 87
+    fields:
+        skillset:
+        name: Consonant Tree Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 88
+    fields:
+        skillset:
+        name: Conspiracy Theory
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 89
+    fields:
+        skillset:
+        name: Cooking
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 90
+    fields:
+        skillset:
+        name: Cooperage
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 91
+    fields:
+        skillset:
+        name: Courtesan
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 92
+    fields:
+        skillset:
+        name: Criminology <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 93
+    fields:
+        skillset:
+        name: Crossbow
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 94
+    fields:
+        skillset:
+        name: Crypanalysis <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 95
+    fields:
+        skillset:
+        name: Cryptography <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 96
+    fields:
+        skillset:
+        name: Cryptology <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 97
+    fields:
+        skillset:
+        name: Cyberaxe <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 98
+    fields:
+        skillset:
+        name: Cyberdeck Operation <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 99
+    fields:
+        skillset:
+        name: Cyphering
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 100
+    fields:
+        skillset:
+        name: Dancing
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 101
+    fields:
+        skillset:
+        name: Demolition <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 102
+    fields:
+        skillset:
+        name: Detect Lies
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 103
+    fields:
+        skillset:
+        name: Dexitroboping
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 104
+    fields:
+        skillset:
+        name: Diagnosis <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 105
+    fields:
+        skillset:
+        name: Diplomacy
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 106
+    fields:
+        skillset:
+        name: Directing
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 107
+    fields:
+        skillset:
+        name: Disguise
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 108
+    fields:
+        skillset:
+        name: Dislocating
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 109
+    fields:
+        skillset:
+        name: Distilling
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 110
+    fields:
+        skillset:
+        name: Dreaming
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 111
+    fields:
+        skillset:
+        name: Dreamlands Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 112
+    fields:
+        skillset:
+        name: Driving <TL> <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 113
+    fields:
+        skillset:
+        name: Drunken Fighting
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 114
+    fields:
+        skillset:
+        name: Dyeing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 115
+    fields:
+        skillset:
+        name: Ecology <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 116
+    fields:
+        skillset:
+        name: Economics
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 117
+    fields:
+        skillset:
+        name: Electronics Operation <TL> <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 118
+    fields:
+        skillset:
+        name: Electronics <TL> <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 119
+    fields:
+        skillset:
+        name: Emmfozing
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 120
+    fields:
+        skillset:
+        name: Engineer <TL> <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 121
+    fields:
+        skillset:
+        name: Enigmas
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 122
+    fields:
+        skillset:
+        name: Enthrallment: Captivate
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 123
+    fields:
+        skillset:
+        name: Enthrallment: Persuade
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 124
+    fields:
+        skillset:
+        name: Enthrallment: Suggest
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 125
+    fields:
+        skillset:
+        name: Enthrallment: Sway Emotions
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 126
+    fields:
+        skillset:
+        name: Equestrain Acrobatics
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 127
+    fields:
+        skillset:
+        name: Erotic Art
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 128
+    fields:
+        skillset:
+        name: Escape
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 129
+    fields:
+        skillset:
+        name: Exorcism
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 130
+    fields:
+        skillset:
+        name: Exoskeleton <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 131
+    fields:
+        skillset:
+        name: Explosive Ornance Displosal <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 132
+    fields:
+        skillset:
+        name: Falconry
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 133
+    fields:
+        skillset:
+        name: Fanning
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 134
+    fields:
+        skillset:
+        name: Fast Draw <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 135
+    fields:
+        skillset:
+        name: Fast Talk
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 136
+    fields:
+        skillset:
+        name: Featherworking
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 137
+    fields:
+        skillset:
+        name: Fencing
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 138
+    fields:
+        skillset:
+        name: Fiber Crafts
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 139
+    fields:
+        skillset:
+        name: Fight Choreography
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 140
+    fields:
+        skillset:
+        name: Filch
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 141
+    fields:
+        skillset:
+        name: Fire Eating
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 142
+    fields:
+        skillset:
+        name: Fire-Siphon
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 143
+    fields:
+        skillset:
+        name: Fire Walking
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 144
+    fields:
+        skillset:
+        name: Fireworks
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 145
+    fields:
+        skillset:
+        name: First Aid
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 146
+    fields:
+        skillset:
+        name: Fishing
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 147
+    fields:
+        skillset:
+        name: Flail
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 148
+    fields:
+        skillset:
+        name: Flight <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 149
+    fields:
+        skillset:
+        name: Flint Sparking
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 150
+    fields:
+        skillset:
+        name: Flower Arranging
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 151
+    fields:
+        skillset:
+        name: Flying Fists
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 152
+    fields:
+        skillset:
+        name: Flying Leap
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 153
+    fields:
+        skillset:
+        name: Fnord
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 154
+    fields:
+        skillset:
+        name: Force Shield
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 155
+    fields:
+        skillset:
+        name: Force Sword
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 156
+    fields:
+        skillset:
+        name: Force Whip <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 157
+    fields:
+        skillset:
+        name: Forensics <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 158
+    fields:
+        skillset:
+        name: Forgery <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 159
+    fields:
+        skillset:
+        name: Fortune Telling
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 160
+    fields:
+        skillset:
+        name: Forward Observer <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 161
+    fields:
+        skillset:
+        name: Free Fall <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 162
+    fields:
+        skillset:
+        name: Freight Handling
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 163
+    fields:
+        skillset:
+        name: Gambling
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 164
+    fields:
+        skillset:
+        name: Games <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 165
+    fields:
+        skillset:
+        name: Gardening
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 166
+    fields:
+        skillset:
+        name: Garrote
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 167
+    fields:
+        skillset:
+        name: Genetics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 168
+    fields:
+        skillset:
+        name: Geology <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 169
+    fields:
+        skillset:
+        name: Gesture
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 170
+    fields:
+        skillset:
+        name: Glassblowing
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 171
+    fields:
+        skillset:
+        name: Gunner <TL> <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 172
+    fields:
+        skillset:
+        name: Guns <TL> <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 173
+    fields:
+        skillset:
+        name: Hairdressing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 174
+    fields:
+        skillset:
+        name: Hand of Death
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 175
+    fields:
+        skillset:
+        name: Hard-Hat Diving <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 176
+    fields:
+        skillset:
+        name: Harpoon
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 177
+    fields:
+        skillset:
+        name: Hedgewise
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 178
+    fields:
+        skillset:
+        name: Heraldry
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 179
+    fields:
+        skillset:
+        name: Herbalist
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 180
+    fields:
+        skillset:
+        name: Herbary <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 181
+    fields:
+        skillset:
+        name: Hidden Lore <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 182
+    fields:
+        skillset:
+        name: Hiking
+        category: 4
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 183
+    fields:
+        skillset:
+        name: History
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 184
+    fields:
+        skillset:
+        name: History: Esoteric
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 185
+    fields:
+        skillset:
+        name: Holdout
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 186
+    fields:
+        skillset:
+        name: Howl <type>
+        category: 4
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 187
+    fields:
+        skillset:
+        name: Hyperborean Baton <type>
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 188
+    fields:
+        skillset:
+        name: Hyperspace Physics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 189
+    fields:
+        skillset:
+        name: Hypnotic Hands
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 190
+    fields:
+        skillset:
+        name: Hypnotism
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 191
+    fields:
+        skillset:
+        name: Illumination
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 192
+    fields:
+        skillset:
+        name: Illusion Art
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 193
+    fields:
+        skillset:
+        name: Immovable Stance
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 194
+    fields:
+        skillset:
+        name: Inertialess Agility
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 195
+    fields:
+        skillset:
+        name: Integrating Calculater Op
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 196
+    fields:
+        skillset:
+        name: Intelligence Analysis
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 197
+    fields:
+        skillset:
+        name: Interrogation
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 198
+    fields:
+        skillset:
+        name: Intimidation
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 199
+    fields:
+        skillset:
+        name: Invisibility Art
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 200
+    fields:
+        skillset:
+        name: Jeweler <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 201
+    fields:
+        skillset:
+        name: Jitte/Sai
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 202
+    fields:
+        skillset:
+        name: Judo
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 203
+    fields:
+        skillset:
+        name: Juggling
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 204
+    fields:
+        skillset:
+        name: Jumping
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 205
+    fields:
+        skillset:
+        name: Karate
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 206
+    fields:
+        skillset:
+        name: Katana
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 207
+    fields:
+        skillset:
+        name: Keneenk
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 208
+    fields:
+        skillset:
+        name: Kiai
+        category: 4
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 209
+    fields:
+        skillset:
+        name: Kite Flying
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 210
+    fields:
+        skillset:
+        name: Knife
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 211
+    fields:
+        skillset:
+        name: Knife Throwing
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 212
+    fields:
+        skillset:
+        name: Kosho
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 213
+    fields:
+        skillset:
+        name: Kusari
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 214
+    fields:
+        skillset:
+        name: Lance
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 215
+    fields:
+        skillset:
+        name: Language (easy) <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 216
+    fields:
+        skillset:
+        name: Language (average) <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 217
+    fields:
+        skillset:
+        name: Language (hard) <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 218
+    fields:
+        skillset:
+        name: Language (very hard) <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 219
+    fields:
+        skillset:
+        name: Lasso/Riata
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 220
+    fields:
+        skillset:
+        name: Law
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 221
+    fields:
+        skillset:
+        name: Leadership
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 222
+    fields:
+        skillset:
+        name: Leatherworking
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 223
+    fields:
+        skillset:
+        name: Lifting
+        category: 5
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 224
+    fields:
+        skillset:
+        name: Light Walk
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 225
+    fields:
+        skillset:
+        name: Linguistics
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 226
+    fields:
+        skillset:
+        name: Lip Reading
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 227
+    fields:
+        skillset:
+        name: Literature
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 228
+    fields:
+        skillset:
+        name: Lockpicking <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 229
+    fields:
+        skillset:
+        name: Low-G Flight <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 230
+    fields:
+        skillset:
+        name: Lucid Dreaming
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 231
+    fields:
+        skillset:
+        name: Magic Breath
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 232
+    fields:
+        skillset:
+        name: Magic Jet
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 233
+    fields:
+        skillset:
+        name: Main-Gauche
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 234
+    fields:
+        skillset:
+        name: Make-up <TL>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 235
+    fields:
+        skillset:
+        name: Masonry
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 236
+    fields:
+        skillset:
+        name: Masquerade
+        category: 4
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 237
+    fields:
+        skillset:
+        name: Mathematics
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 238
+    fields:
+        skillset:
+        name: Mechanic <TL> <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 239
+    fields:
+        skillset:
+        name: Meditation (realistic)
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 240
+    fields:
+        skillset:
+        name: Meditation (cinematic)
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 241
+    fields:
+        skillset:
+        name: Mental Strength
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 242
+    fields:
+        skillset:
+        name: Merchant
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 243
+    fields:
+        skillset:
+        name: Metallurgy <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 244
+    fields:
+        skillset:
+        name: Meteorology <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 245
+    fields:
+        skillset:
+        name: Mimic Non Rabbit
+        category: 4
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 246
+    fields:
+        skillset:
+        name: Mimicry
+        category: 4
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 247
+    fields:
+        skillset:
+        name: Mind Block
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 248
+    fields:
+        skillset:
+        name: Mixed Tree Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 249
+    fields:
+        skillset:
+        name: Monowire Whip
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 250
+    fields:
+        skillset:
+        name: Motorcycle <TL> <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 251
+    fields:
+        skillset:
+        name: Mountain Heart
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 252
+    fields:
+        skillset:
+        name: Muscle Reading <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 253
+    fields:
+        skillset:
+        name: Musical Composition
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 254
+    fields:
+        skillset:
+        name: Musical Instrument <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 255
+    fields:
+        skillset:
+        name: Musical Notation
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 256
+    fields:
+        skillset:
+        name: Mythos Lore
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 257
+    fields:
+        skillset:
+        name: Mythos Magick Rituals
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 258
+    fields:
+        skillset:
+        name: Naturalist
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 259
+    fields:
+        skillset:
+        name: Navigation <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 260
+    fields:
+        skillset:
+        name: NBC Warfare <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 261
+    fields:
+        skillset:
+        name: Needlecraft
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 262
+    fields:
+        skillset:
+        name: Nei Tan
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 263
+    fields:
+        skillset:
+        name: Net
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 264
+    fields:
+        skillset:
+        name: Netmaking
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 265
+    fields:
+        skillset:
+        name: Neurophon
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 266
+    fields:
+        skillset:
+        name: No-Landing Extraction
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 267
+    fields:
+        skillset:
+        name: Nuclear Physics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 268
+    fields:
+        skillset:
+        name: Nuclear Powerplant Engineer <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 269
+    fields:
+        skillset:
+        name: Nuclear Weapons Engineer <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 270
+    fields:
+        skillset:
+        name: Occultism
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 271
+    fields:
+        skillset:
+        name: Occultism: Demonology
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 272
+    fields:
+        skillset:
+        name: Occultism: Vampire
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 273
+    fields:
+        skillset:
+        name: Open-Dress Diving <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 274
+    fields:
+        skillset:
+        name: Oral Literature
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 275
+    fields:
+        skillset:
+        name: Orienteering
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 276
+    fields:
+        skillset:
+        name: Origami
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 277
+    fields:
+        skillset:
+        name: Packing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 278
+    fields:
+        skillset:
+        name: Paleontology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 279
+    fields:
+        skillset:
+        name: Panhandling
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 280
+    fields:
+        skillset:
+        name: Parachuting
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 281
+    fields:
+        skillset:
+        name: Paraphysics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 282
+    fields:
+        skillset:
+        name: Parry Missile Weapons
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 283
+    fields:
+        skillset:
+        name: Patolli
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 284
+    fields:
+        skillset:
+        name: Performance
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 285
+    fields:
+        skillset:
+        name: Performance/Ritual
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 286
+    fields:
+        skillset:
+        name: Pharmacy <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 287
+    fields:
+        skillset:
+        name: Philosophy <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 288
+    fields:
+        skillset:
+        name: Photography <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 289
+    fields:
+        skillset:
+        name: Photonics <TL> <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 290
+    fields:
+        skillset:
+        name: Physician <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 291
+    fields:
+        skillset:
+        name: Physiology <TL> <race>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 292
+    fields:
+        skillset:
+        name: Pickpocket
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 293
+    fields:
+        skillset:
+        name: Picture-Writing
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 294
+    fields:
+        skillset:
+        name: Piloting <TL> <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 295
+    fields:
+        skillset:
+        name: Planetology <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 296
+    fields:
+        skillset:
+        name: Poetry
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 297
+    fields:
+        skillset:
+        name: Poisons
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 298
+    fields:
+        skillset:
+        name: Polearm
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 299
+    fields:
+        skillset:
+        name: Politics
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 300
+    fields:
+        skillset:
+        name: Pottery
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 301
+    fields:
+        skillset:
+        name: Power Blow
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 302
+    fields:
+        skillset:
+        name: Powerboat <TL>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 303
+    fields:
+        skillset:
+        name: Precognitive Parry
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 304
+    fields:
+        skillset:
+        name: Pressure Points
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 305
+    fields:
+        skillset:
+        name: Pressure Secrets
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 306
+    fields:
+        skillset:
+        name: Probability Physics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 307
+    fields:
+        skillset:
+        name: Prospecting
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 308
+    fields:
+        skillset:
+        name: Psi Skills
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 309
+    fields:
+        skillset:
+        name: Psionics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 310
+    fields:
+        skillset:
+        name: Psychology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 311
+    fields:
+        skillset:
+        name: Punning
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 312
+    fields:
+        skillset:
+        name: Push
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 313
+    fields:
+        skillset:
+        name: Read Wathan
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 314
+    fields:
+        skillset:
+        name: Research
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 315
+    fields:
+        skillset:
+        name: Riding <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 316
+    fields:
+        skillset:
+        name: Riding <Flying Person>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 317
+    fields:
+        skillset:
+        name: Rites Garou Social <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 318
+    fields:
+        skillset:
+        name: Rites Garou Spell (hard) <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 319
+    fields:
+        skillset:
+        name: Rites Garou Spell (very hard) <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 320
+    fields:
+        skillset:
+        name: Ritual Magic <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 321
+    fields:
+        skillset:
+        name: Ritual Paths <Voodoo>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 322
+    fields:
+        skillset:
+        name: Rituals and Ceremonies
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 323
+    fields:
+        skillset:
+        name: Rune-Lore <type>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 324
+    fields:
+        skillset:
+        name: Rune (easy) <word>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 324
+    fields:
+        skillset:
+        name: Rune (average) <word>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 324
+    fields:
+        skillset:
+        name: Rune (hard) <word>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 324
+    fields:
+        skillset:
+        name: Rune (very hard) <word>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 325
+    fields:
+        skillset:
+        name: Running
+        category: 4
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 326
+    fields:
+        skillset:
+        name: Sacrifice
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 327
+    fields:
+        skillset:
+        name: Sailor <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 328
+    fields:
+        skillset:
+        name: Satire
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 329
+    fields:
+        skillset:
+        name: Savoir-Faire (focused) <type>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 330
+    fields:
+        skillset:
+        name: Savoir-Faire (broad) <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 331
+    fields:
+        skillset:
+        name: Scene Design
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 332
+    fields:
+        skillset:
+        name: Science!
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 333
+    fields:
+        skillset:
+        name: Scrounging
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 334
+    fields:
+        skillset:
+        name: Scuba
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 335
+    fields:
+        skillset:
+        name: Sculpting
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 336
+    fields:
+        skillset:
+        name: Seamanship <TL>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 337
+    fields:
+        skillset:
+        name: Sensie Interface
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 338
+    fields:
+        skillset:
+        name: Sensitivity
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 339
+    fields:
+        skillset:
+        name: Sex Appeal
+        category: 2
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 340
+    fields:
+        skillset:
+        name: Shadowing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 341
+    fields:
+        skillset:
+        name: Shapeshifting
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 342
+    fields:
+        skillset:
+        name: Shield
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 343
+    fields:
+        skillset:
+        name: Shipbuilding <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 344
+    fields:
+        skillset:
+        name: Shipbuilding (Starship) <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 345
+    fields:
+        skillset:
+        name: Shiphandling <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 346
+    fields:
+        skillset:
+        name: Short Staff
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 347
+    fields:
+        skillset:
+        name: Shortsword
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 348
+    fields:
+        skillset:
+        name: Shuriken
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 349
+    fields:
+        skillset:
+        name: SIGINT Collection/Jamming <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 350
+    fields:
+        skillset:
+        name: Sign Language <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 351
+    fields:
+        skillset:
+        name: Singing
+        category: 4
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 352
+    fields:
+        skillset:
+        name: Skaldic Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 353
+    fields:
+        skillset:
+        name: Skating
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 354
+    fields:
+        skillset:
+        name: Skiing
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 355
+    fields:
+        skillset:
+        name: Sleight of Hand
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 356
+    fields:
+        skillset:
+        name: Sling
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 357
+    fields:
+        skillset:
+        name: Slipping-the-Hammer
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 358
+    fields:
+        skillset:
+        name: Snake Charming
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 359
+    fields:
+        skillset:
+        name: Sonar Imaging
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 360
+    fields:
+        skillset:
+        name: Spear
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 361
+    fields:
+        skillset:
+        name: Spear Thrower
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 362
+    fields:
+        skillset:
+        name: Spear Throwing
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 363
+    fields:
+        skillset:
+        name: Speed-Load <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 364
+    fields:
+        skillset:
+        name: Speed Reading
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 365
+    fields:
+        skillset:
+        name: Spell Throwing <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 366
+    fields:
+        skillset:
+        name: Sports <type>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 367
+    fields:
+        skillset:
+        name: Staff
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 368
+    fields:
+        skillset:
+        name: Stage Combat
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 369
+    fields:
+        skillset:
+        name: Starglazing
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 370
+    fields:
+        skillset:
+        name: Stealth
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 371
+    fields:
+        skillset:
+        name: Stone Knapping
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 372
+    fields:
+        skillset:
+        name: Strategy <type>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 373
+    fields:
+        skillset:
+        name: Streetwise
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 374
+    fields:
+        skillset:
+        name: Style Analysis
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 375
+    fields:
+        skillset:
+        name: Sumo Wrestling
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 376
+    fields:
+        skillset:
+        name: Surgery <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 377
+    fields:
+        skillset:
+        name: Surverying <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 378
+    fields:
+        skillset:
+        name: Survival <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 379
+    fields:
+        skillset:
+        name: Swimming
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 380
+    fields:
+        skillset:
+        name: Symbol Drawing
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 381
+    fields:
+        skillset:
+        name: Tactics
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 382
+    fields:
+        skillset:
+        name: Talisman Creation
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 383
+    fields:
+        skillset:
+        name: Tanning
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 384
+    fields:
+        skillset:
+        name: Tattooing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 385
+    fields:
+        skillset:
+        name: Tea Ceremony
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 386
+    fields:
+        skillset:
+        name: Teaching
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 387
+    fields:
+        skillset:
+        name: Teamster <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 388
+    fields:
+        skillset:
+        name: Telegraphy
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 389
+    fields:
+        skillset:
+        name: Temporal Electronics <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 390
+    fields:
+        skillset:
+        name: Temporal Operation <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 391
+    fields:
+        skillset:
+        name: Temporal Physics <TL>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 392
+    fields:
+        skillset:
+        name: Thanatology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 393
+    fields:
+        skillset:
+        name: Thaumatology
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 394
+    fields:
+        skillset:
+        name: Theology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 395
+    fields:
+        skillset:
+        name: Throwing Art
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 396
+    fields:
+        skillset:
+        name: Throwing
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 397
+    fields:
+        skillset:
+        name: Throwing (Rock Dropping)
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 398
+    fields:
+        skillset:
+        name: Throwing Stick
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 399
+    fields:
+        skillset:
+        name: Thrown Weapon <type>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 400
+    fields:
+        skillset:
+        name: Tonfa
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 401
+    fields:
+        skillset:
+        name: Tournament Law <type>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 402
+    fields:
+        skillset:
+        name: Tracking
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 403
+    fields:
+        skillset:
+        name: Traffic Analysis <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 404
+    fields:
+        skillset:
+        name: Traps <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 405
+    fields:
+        skillset:
+        name: Two-Handed Axe/Mace
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 406
+    fields:
+        skillset:
+        name: Two-Handed Sword
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 407
+    fields:
+        skillset:
+        name: Typing
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 408
+    fields:
+        skillset:
+        name: Underwater Demolition <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 409
+    fields:
+        skillset:
+        name: Uttering of Base Coin <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 410
+    fields:
+        skillset:
+        name: Vacc Suit <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 411
+    fields:
+        skillset:
+        name: Vedodit Training
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 412
+    fields:
+        skillset:
+        name: Ventriloquism
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 413
+    fields:
+        skillset:
+        name: Veterinary <TL>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 414
+    fields:
+        skillset:
+        name: Vever Drawing
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 415
+    fields:
+        skillset:
+        name: Video Production <TL>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 416
+    fields:
+        skillset:
+        name: Vole Training
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 417
+    fields:
+        skillset:
+        name: Vowel Tree Lore
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 418
+    fields:
+        skillset:
+        name: Walker/Handler Operation
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 419
+    fields:
+        skillset:
+        name: Weaving
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 420
+    fields:
+        skillset:
+        name: Weird Magic
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 421
+    fields:
+        skillset:
+        name: Weird Science
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 422
+    fields:
+        skillset:
+        name: Whip
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 423
+    fields:
+        skillset:
+        name: Woodworking
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 424
+    fields:
+        skillset:
+        name: Wrestling
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 425
+    fields:
+        skillset:
+        name: Writing
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 426
+    fields:
+        skillset:
+        name: Xenobiology
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 427
+    fields:
+        skillset:
+        name: Xenology
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 428
+    fields:
+        skillset:
+        name: Yin/Yang Healing
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 429
+    fields:
+        skillset:
+        name: Zen Archery
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 430
+    fields:
+        skillset:
+        name: Zoology <TL>
+        category: 1
+        difficulty: 3
