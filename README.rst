@@ -27,6 +27,7 @@ modules:
 * django-tables2
 * factory_boy
 * pylint
+* pyyaml
 
 These modules can be installed via any of the usual methods: your package
 manager, manually, or with a pypi helper such as easy_install or pip. If you
