@@ -413,6 +413,7 @@ class Skill(models.Model):
         (3, 'Physical'),
         (4, 'Physical (health)'),
         (5, 'Physical (strength'),
+        (6, 'Psionic')
     )
     DIFFICULTY_CHOICES = (
         (1, 'Easy'),
@@ -478,6 +479,10 @@ class CharacterSkill(models.Model):
         elif self.skill.category == 5:
             return self._physical_skill_score(self.character.strength)
 
+        # psionic skill
+        elif self.skill.category == 6:
+            return self._psionic_skill_score()
+
         else:
             raise ValueError("The category referenced is outside the known set")
 
@@ -528,6 +533,28 @@ class CharacterSkill(models.Model):
                 - self.skill.difficulty \
                 + (effective_points_physical // 8) \
                 + 3
+
+    def _psionic_skill_score(self):
+        """Calculates the score of a mental skill with a given base attribute"""
+        if self.points < 0.5:
+            return 0
+        elif self.points < 1:
+            return self.character.intelligence - self.skill.difficulty
+        elif self.points < 2:
+            return self.character.intelligence - self.skill.difficulty + 1
+        elif self.points < 4:
+            return self.character.intelligence - self.skill.difficulty + 2
+        else:
+            if self.skill.difficulty < 4:
+                return self.character.intelligence \
+                    - self.skill.difficulty \
+                    + (self.points // 2) \
+                    + 1
+            else:
+                return self.character.intelligence \
+                    - self.skill.difficulty \
+                    + (self.points // 4) \
+                    + 2
 
 class Spell(models.Model):
     """A Spell available to characters
