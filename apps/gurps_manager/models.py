@@ -240,11 +240,13 @@ class Character(models.Model):
         return total_value
 
     def encumbrance_penalty(self):
-        """Returns the encumbrance penalty incurred by a character's total
-        possession weight.
+        """Returns the movement penalty incurred by a character's total
+        possession weight (encumbrance).
+
+        For reference of where all these magic numbers come from, see:
+            GURPS Basic Set 3rd Edition Revised, page 76
 
         """
-        # FIXME: What do these numbers represent? Is there a mapping somewhere?
         if self.total_possession_weight() < self.no_encumbrance():
             return 0
         elif self.total_possession_weight() < self.light_encumbrance():

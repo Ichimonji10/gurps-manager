@@ -162,7 +162,6 @@ class CharacterTestCase(TestCase):
 
     def test_encumbrance_penalty(self):
         """Test the ``encumbrance_penalty`` method."""
-        # FIXME: What do these numbers represent? Is there a mapping somewhere?
         character = factories.CharacterFactory.create()
 
         # total_possession_weight < no_encumbrance
