@@ -54,6 +54,22 @@ def campaign_description():
     """
     return _random_str(1, models.Campaign.MAX_LEN_DESCRIPTION)
 
+# TODO Make this actually work
+def campaign_skillsets():
+    """Return a value for the ``Campaign.skillsets`` model attribute.
+
+    >>> from gurps_manager.models import Campaign
+    >>> skillsets = campaign_skillsets()
+    >>> isinstance(skillsets, list)
+    True
+    >>> len(skillsets) >= 1
+    True
+    >>> len(skillsets) <= 20
+    True
+
+    """
+    return [1, 4, 7, 12, 15, 19]
+
 class CharacterFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Character`` object.
 

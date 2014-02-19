@@ -66,7 +66,7 @@ class Campaign(models.Model):
     MAX_LEN_DESCRIPTION = 2000
 
     # many-to-many fields
-    skillsets = models.ManyToManyField('SkillSet')
+    skillsets = models.ManyToManyField('SkillSet', blank=True)
 
     # string-based fields
     name = models.CharField(max_length=MAX_LEN_NAME)
