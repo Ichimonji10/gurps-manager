@@ -390,6 +390,17 @@ class CharacterTestCase(TestCase):
             points += trait2.points
         self.assertEqual(points, character.total_points_in_disadvantages())
 
+    def test_total_points_in_special_traits(self):
+        """Test the ``total_points_in_special_traits`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.total_points_in_special_traits(),
+            character.eidetic_memory \
+                + character.muscle_memory \
+                + character.wealth \
+                + character.appearance
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
