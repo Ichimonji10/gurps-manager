@@ -401,6 +401,19 @@ class CharacterTestCase(TestCase):
                 + character.appearance
         )
 
+    def test_total_points_spent(self):
+        """Test the ``total_points_spent`` method."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            character.total_points_spent(),
+            character.total_points_in_attributes() \
+                + character.total_points_in_advantages() \
+                + character.total_points_in_disadvantages() \
+                + character.total_points_in_skills() \
+                + character.total_points_in_spells() \
+                + character.total_points_in_special_traits()
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
