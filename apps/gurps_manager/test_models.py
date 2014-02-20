@@ -316,6 +316,23 @@ class CharacterTestCase(TestCase):
                 + character.points_in_health()
         )
 
+    def test_total_points_in_skills(self):
+        """Test the ``total_points_in_skills`` method."""
+        # Zero skills.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_points_in_skills())
+
+        # One skill.
+        skill1 = factories.CharacterSkillFactory.create(character=character)
+        self.assertEqual(skill1.points, character.total_points_in_skills())
+
+        # Two skills.
+        skill2 = factories.CharacterSkillFactory.create(character=character)
+        self.assertEqual(
+            skill1.points + skill2.points,
+            character.total_points_in_skills()
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
