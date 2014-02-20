@@ -333,6 +333,23 @@ class CharacterTestCase(TestCase):
             character.total_points_in_skills()
         )
 
+    def test_total_points_in_spells(self):
+        """Test the ``total_points_in_spells`` method."""
+        # Zero spells.
+        character = factories.CharacterFactory.create()
+        self.assertEqual(0, character.total_points_in_spells())
+
+        # One spell.
+        spell1 = factories.CharacterSpellFactory.create(character=character)
+        self.assertEqual(spell1.points, character.total_points_in_spells())
+
+        # Two spells.
+        spell2 = factories.CharacterSpellFactory.create(character=character)
+        self.assertEqual(
+            spell1.points + spell2.points,
+            character.total_points_in_spells()
+        )
+
 class SkillSetTestCase(TestCase):
     """Tests for ``SkillSet``."""
     def test_str(self):
