@@ -266,34 +266,34 @@ class CharacterTestCase(TestCase):
         # 8 > level
         level = random.randrange(-1000, 8)
         self.assertEqual(
-            character._points_in_attribute(level),
+            character._points_in_attribute(level), # pylint: disable=W0212
             (9 - level) * -10
         )
 
         # 9 > level
-        self.assertEqual(character._points_in_attribute(8), -15)
+        self.assertEqual(character._points_in_attribute(8), -15) # pylint: disable=W0212
 
         # 14 > level
         level = random.randrange(9, 14)
         self.assertEqual(
-            character._points_in_attribute(level),
+            character._points_in_attribute(level), # pylint: disable=W0212
             (level - 10) * 10
         )
 
         # 15 > level
-        self.assertEqual(character._points_in_attribute(14), 45)
+        self.assertEqual(character._points_in_attribute(14), 45) # pylint: disable=W0212
 
         # 18 > level
         level = random.randrange(15, 18)
         self.assertEqual(
-            character._points_in_attribute(level),
+            character._points_in_attribute(level), # pylint: disable=W0212
             (level - 12) * 20
         )
 
         # 18 <= level
         level = random.randrange(18, 1000)
         self.assertEqual(
-            character._points_in_attribute(level),
+            character._points_in_attribute(level), # pylint: disable=W0212
             (level - 13) * 25
         )
 
@@ -370,7 +370,7 @@ class CharacterTestCase(TestCase):
             points += trait2.points
         self.assertEqual(points, character.total_points_in_advantages())
 
-    def test_total_points_in_disadvantages(self):
+    def test_total_points_in_disadvantages(self): # pylint: disable=C0103
         """Test the ``total_points_in_disadvantages`` method."""
         character = factories.CharacterFactory.create()
 
@@ -390,7 +390,7 @@ class CharacterTestCase(TestCase):
             points += trait2.points
         self.assertEqual(points, character.total_points_in_disadvantages())
 
-    def test_total_points_in_special_traits(self):
+    def test_total_points_in_special_traits(self): # pylint: disable=C0103
         """Test the ``total_points_in_special_traits`` method."""
         character = factories.CharacterFactory.create()
         self.assertEqual(
