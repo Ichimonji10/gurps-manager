@@ -368,7 +368,7 @@ class Character(models.Model):
             + self.wealth \
             + self.appearance
 
-    def total_character_points_spent(self):
+    def total_points_spent(self):
         """Returns the points a character has spent in total"""
         return self.total_points_in_attributes() \
             + self.total_points_in_advantages() \
