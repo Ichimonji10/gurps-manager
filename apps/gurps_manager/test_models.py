@@ -398,7 +398,8 @@ class CharacterTestCase(TestCase):
             character.eidetic_memory \
                 + character.muscle_memory \
                 + character.wealth \
-                + character.appearance
+                + character.appearance \
+                + character.points_in_magery()
         )
 
     def test_total_points_spent(self):
