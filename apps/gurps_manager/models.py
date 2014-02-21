@@ -414,7 +414,7 @@ class Skill(models.Model):
         (2, 'Mental (health)'),
         (3, 'Physical'),
         (4, 'Physical (health)'),
-        (5, 'Physical (strength'),
+        (5, 'Physical (strength)'),
         (6, 'Psionic')
     )
     DIFFICULTY_CHOICES = (
@@ -457,17 +457,11 @@ class Skill(models.Model):
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
     MAX_LEN_COMMENTS = 50
-    # key fields
+
     skill = models.ForeignKey(Skill)
     character = models.ForeignKey(Character)
-
-    # string-based fields
     comments = models.CharField(max_length=MAX_LEN_COMMENTS, blank=True)
-
-    # integer fields
     bonus_level = models.IntegerField(default=0)
-
-    # float fields
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def score(self):
@@ -478,27 +472,27 @@ class CharacterSkill(models.Model):
 
         """
         # intelligence based mental skill
-        if self.skill.category == 1:
+        if self.skill.category == Skill.get_category_id('Mental'):
             return self._mental_skill_score(self.character.intelligence)
 
         # health based mental skill
-        elif self.skill.category == 2:
+        elif self.skill.category == Skill.get_category_id('Mental (health)'):
             return self._mental_skill_score(self.character.health)
 
         # dexterity based physical skill
-        elif self.skill.category == 3:
+        elif self.skill.category == Skill.get_category_id('Physical'):
             return self._physical_skill_score(self.character.dexterity)
 
         # health based physical skill
-        elif self.skill.category == 4:
+        elif self.skill.category == Skill.get_category_id('Physical (health)'):
             return self._physical_skill_score(self.character.health)
 
         # strength based physical skill
-        elif self.skill.category == 5:
+        elif self.skill.category == Skill.get_category_id('Physical (strength)'):
             return self._physical_skill_score(self.character.strength)
 
         # psionic skill
-        elif self.skill.category == 6:
+        elif self.skill.category == Skill.get_category_id('Psionic'):
             return self._psionic_skill_score()
 
         else:
