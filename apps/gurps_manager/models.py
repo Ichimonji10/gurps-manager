@@ -603,15 +603,26 @@ class Spell(models.Model):
 
 class CharacterSpell(models.Model):
     """A spell that a character may know"""
-    # key fields
     spell = models.ForeignKey(Spell)
     character = models.ForeignKey(Character)
-
-    # integer fields
     bonus_level = models.IntegerField(default=0)
-
-    # float fields
     points = models.FloatField(validators=[validate_quarter], default=0)
+
+    # FIXME: should the doctest assert that the return val is a float or an int?
+    def _base_score(self):
+        """Return a base score used to calculate an actual score.
+
+        >>> from gurps_manager.factories import CharacterSpellFactory
+        >>> character_spell = CharacterSpellFactory.build()
+        >>> isinstance(character_spell._base_score(), float)
+        True
+
+        """
+        eidetic_memory_factor = self.character.eidetic_memory / 30
+        return self.character.intelligence \
+            + self.character.magery \
+            - self.spell.difficulty \
+            + eidetic_memory_factor
 
     def score(self):
         """Returns a character's score in a given spell
@@ -621,42 +632,21 @@ class CharacterSpell(models.Model):
             (spells are simply a special subset of skills)
 
         """
-
-        eidetic_memory_factor = self.character.eidetic_memory / 30
+        base_score = self._base_score()
         if self.points < 0.5:
             return 0
         elif self.points < 1:
-            return self.character.intelligence \
-                - self.skill.difficulty \
-                + eidetic_memory_factor \
-                + self.magery
+            return base_score
         elif self.points < 2:
-            return self.character.intelligence \
-                - self.skill.difficulty \
-                + eidetic_memory_factor \
-                + self.magery \
-                + 1
+            return base_score + 1
         elif self.points < 4:
-            return self.character.intelligence \
-                - self.skill.difficulty \
-                + eidetic_memory_factor \
-                + self.magery \
-                + 2
+            return base_score + 2
+        elif self.spell.difficulty < 4:
+            # self.points >= 4
+            return base_score + (self.points // 2) + 1
         else:
-            if self.skill.difficulty < 4:
-                return self.character.intelligence \
-                    - self.skill.difficulty \
-                    + (self.points // 2) \
-                    + eidetic_memory_factor \
-                    + self.magery \
-                    + 1
-            else:
-                return self.character.intelligence \
-                    - self.skill.difficulty \
-                    + (self.points // 4) \
-                    + eidetic_memory_factor \
-                    + self.magery \
-                    + 2
+            # self.points >= 4 and self.spell.difficulty >= 4
+            return base_score + (self.points // 4) + 2
 
 class Item(models.Model):
     """An item that a character may possess"""
