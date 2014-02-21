@@ -545,3 +545,69 @@ class CharacterSkillTestCase(TestCase):
         skill = factories.SkillFactory(category=7)
         character_skill = factories.CharacterSkillFactory.create(skill=skill)
         self.assertRaises(ValueError, character_skill.score)
+
+class CharacterSpellTestCase(TestCase):
+    """Tests for ``CharacterSpell``."""
+    def test_score_v1(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 0.0 points.
+
+        """
+        char_spell = factories.CharacterSpellFactory(points=0)
+        self.assertEqual(char_spell.score(), 0)
+
+    def test_score_v2(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 0.75 points.
+
+        """
+        char_spell = factories.CharacterSpellFactory(points=0.75)
+        self.assertEqual(char_spell.score(), char_spell._base_score()) # pylint: disable=W0212
+
+    def test_score_v3(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 1.5 points.
+
+        """
+        char_spell = factories.CharacterSpellFactory(points=1.5)
+        self.assertEqual(char_spell.score(), char_spell._base_score() + 1) # pylint: disable=W0212
+
+    def test_score_v4(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 3.0 points.
+
+        """
+        char_spell = factories.CharacterSpellFactory(points=3)
+        self.assertEqual(char_spell.score(), char_spell._base_score() + 2) # pylint: disable=W0212
+
+    def test_score_v5(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 5.0 points and a 'Hard' ``Spell``.
+
+        """
+        # FIXME: Properly reference the spell's difficulty. No magic numbers.
+        spell = factories.SpellFactory(difficulty=3)
+        char_spell = factories.CharacterSpellFactory(points=5, spell=spell)
+        self.assertEqual(
+            char_spell.score(),
+            char_spell._base_score() + (char_spell.points // 2) + 1 # pylint: disable=W0212
+        )
+
+    def test_score_v6(self):
+        """Test method ``score``.
+
+        Use a ``CharacterSpell`` having 5.0 points and a 'Very Hard' ``Spell``.
+
+        """
+        # FIXME: Properly reference the spell's difficulty. No magic numbers.
+        spell = factories.SpellFactory(difficulty=4)
+        char_spell = factories.CharacterSpellFactory(points=5, spell=spell)
+        self.assertEqual(
+            char_spell.score(),
+            char_spell._base_score() + (char_spell.points // 4) + 2 # pylint: disable=W0212
+        )
