@@ -438,6 +438,22 @@ class Skill(models.Model):
         """Returns a string representation of the object"""
         return self.name
 
+    @classmethod
+    def get_category_id(cls, category_name):
+        """Given a category name from ``CATEGORY_CHOICES``, return its ID.
+
+        >>> Skill.get_category_id('Mental')
+        1
+        >>> Skill.get_category_id('Psionic')
+        6
+
+        """
+        # ['Mental', 'Mental (health)', 'Physical', ...]
+        category_names = [category[1] for category in cls.CATEGORY_CHOICES]
+        # (1, 'Mental')
+        category = cls.CATEGORY_CHOICES[category_names.index(category_name)]
+        return category[0]
+
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
     MAX_LEN_COMMENTS = 50
