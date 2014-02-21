@@ -5,7 +5,7 @@ Each test case in this module tests a single model. For example, the
 
 """
 from django.test import TestCase
-from gurps_manager import factories
+from gurps_manager import factories, models
 from math import floor
 import random
 
@@ -461,3 +461,87 @@ class HitLocationTestCase(TestCase):
         name = factories.hitlocation_name()
         hitlocation = factories.HitLocationFactory.build(name=name)
         self.assertEqual(name, str(hitlocation))
+
+class CharacterSkillTestCase(TestCase):
+    """Tests for ``CharacterSkill``."""
+    def test_score_v1(self):
+        """Create a 'Mental' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Mental')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._mental_skill_score( # pylint: disable=W0212
+                character_skill.character.intelligence
+            )
+        )
+
+    def test_score_v2(self):
+        """Create a 'Mental (health)' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Mental (health)')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._mental_skill_score( # pylint: disable=W0212
+                character_skill.character.health
+            )
+        )
+
+    def test_score_v3(self):
+        """Create a 'Physical' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Physical')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._physical_skill_score( # pylint: disable=W0212
+                character_skill.character.dexterity
+            )
+        )
+
+    def test_score_v4(self):
+        """Create a 'Physical (health)' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Physical (health)')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._physical_skill_score( # pylint: disable=W0212
+                character_skill.character.health
+            )
+        )
+
+    def test_score_v5(self):
+        """Create a 'Physical (strength)' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Physical (strength)')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._physical_skill_score( # pylint: disable=W0212
+                character_skill.character.strength
+            )
+        )
+
+    def test_score_v6(self):
+        """Create a 'Psionic' skill, then test method ``score``."""
+        skill = factories.SkillFactory(
+            category=models.Skill.get_category_id('Psionic')
+        )
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertEqual(
+            character_skill.score(),
+            character_skill._psionic_skill_score() # pylint: disable=W0212
+        )
+
+    def test_score_v7(self):
+        """Create an invalid skill, then test method ``score``."""
+        skill = factories.SkillFactory(category=7)
+        character_skill = factories.CharacterSkillFactory.create(skill=skill)
+        self.assertRaises(ValueError, character_skill.score)
