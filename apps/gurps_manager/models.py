@@ -366,7 +366,8 @@ class Character(models.Model):
         return self.eidetic_memory \
             + self.muscle_memory \
             + self.wealth \
-            + self.appearance
+            + self.appearance \
+            + self.points_in_magery()
 
     def total_points_spent(self):
         """Returns the points a character has spent in total"""
