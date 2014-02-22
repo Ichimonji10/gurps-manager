@@ -612,13 +612,12 @@ class CharacterSpell(models.Model):
     bonus_level = models.IntegerField(default=0)
     points = models.FloatField(validators=[validate_quarter], default=0)
 
-    # FIXME: should the doctest assert that the return val is a float or an int?
     def _base_score(self):
         """Return a base score used to calculate an actual score.
 
         >>> from gurps_manager.factories import CharacterSpellFactory
         >>> character_spell = CharacterSpellFactory.build()
-        >>> isinstance(character_spell._base_score(), float)
+        >>> isinstance(character_spell._base_score(), int)
         True
 
         """
