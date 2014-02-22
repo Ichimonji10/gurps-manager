@@ -322,7 +322,10 @@ class Character(models.Model):
 
     def points_in_magery(self):
         """Returns the points a character has spent in magery"""
-        return (self.magery * 10) + 5
+        if self.magery == 0:
+            return 0
+        else:
+            return (self.magery * 10) + 5
 
     def total_points_in_attributes(self):
         """Returns the points a character has spent in attributes"""

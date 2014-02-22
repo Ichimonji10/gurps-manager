@@ -49,7 +49,7 @@ class CharacterTable(tables.Table):
         ``record`` represents a row of data from this table.
 
         """
-        return record.total_character_points_spent()
+        return record.total_points_spent()
 
     def render_description(self, value):
         """Define how the ``description`` column should be rendered.
