@@ -3,43 +3,69 @@
 {% block title %}Character {{ character.id }}{% endblock %}
 
 {% block body %}
-    {% block character_basic %}
-        <h1>Character {{ character.id }}</h1>
-        <dl>
-            <dt>Name</dt>
-                <dd>{{ character.name }}</dd>
-            <dt>Description</dt>
-                <dd>{{ character.description }}</dd>
-            <dt>Story</dt>
-                <dd>{{ character.story }}</dd>
-        </dl>
-    {% endblock %}
-    {% block character_campaign %}
-        <h3>Campaign {{ character.campaign.id }}</h3>
-        <dl>
-            <dt>Name</dt>
-                <dd>{{ character.campaign.name }}</dd>
-        </dl>
-    {% endblock %}
-    {% block character_special_traits %}
-        <h3>Special Traits</h3>
-        <h4>Points in special traits: {{character.total_points_in_special_traits }}</h4>
-        <dl>
-            <dt>Appearance:</dt>
-                <dd>{{ character.get_appearance_display }}</dd>
-                <dd>{{ character.appearance }} points</dd>
-            <dt>Wealth:</dt>
-                <dd>{{ character.get_wealth_display }}</dd>
-                <dd>{{ character.wealth }}</dd>
-            <dt>Eidetic Memory:</dt>
-                <dd>{{ character.get_eidetic_memory_display }}</dd>
-                <dd>{{ character.eidetic_memory }} points</dd>
-            <dt>Muscle Memory:</dt>
-                <dd>{{ character.get_muscle_memory.display }}</dd>
-                <dd>{{ character.muscle_memory }} points</dd>
-            <dt>Magery:</dt>
-                <dd>Level {{ character.magery }}</dd>
-                <dd>{{ character.points_in_magery }} points</dd>
-        </dl>
+    {% block character %}
+        <section>
+           <h1>Character {{ character.id }}</h1>
+            <dl>
+                <dt>Name</dt>
+                    <dd>{{ character.name }}</dd>
+                <dt>Description</dt>
+                    <dd>{{ character.description }}</dd>
+                <dt>Story</dt>
+                    <dd>{{ character.story }}</dd>
+                <dt>Character points limit</dt>
+                    <dd>{{ character.total_points }}</dd>
+                <dt>Character points spent</dt>
+                    <dd>{{ character.total_points_spent }}</dd>
+                <dt>Character points remaining</dt>
+                    <dd>{{ character.points_remaining }}</dd>
+            </dl>
+        </section>
+        <section>
+            <h3>Attributes</h3>
+            <dl>
+                <dt>Strength</dt>
+                    <dd>{{ character.strength }}</dd>
+                    <dd>{{ character.points_in_strength }} points</dd>
+                <dt>Dexterity</dt>
+                    <dd>{{ character.dexterity }}</dd>
+                    <dd>{{ character.points_in_dexterity }} points</dd>
+                <dt>Intelligence</dt>
+                    <dd>{{ character.intelligence }}</dd>
+                    <dd>{{ character.points_in_intelligence }} points</dd>
+                <dt>Health</dt>
+                    <dd>{{ character.health }}</dd>
+                    <dd>{{ character.points_in_health }} points</dd>
+            </dl>
+            <h4>Points in attributes: {{character.total_points_in_attributes }}</h4>
+        </section>
+        <section>
+            <h3>Campaign {{ character.campaign.id }}</h3>
+            <dl>
+                <dt>Name</dt>
+                    <dd>{{ character.campaign.name }}</dd>
+            </dl>
+        </section>
+        <section>
+            <h3>Special Traits</h3>
+            <dl>
+                <dt>Appearance</dt>
+                    <dd>{{ character.get_appearance_display }}</dd>
+                    <dd>{{ character.appearance }} points</dd>
+                <dt>Wealth</dt>
+                    <dd>{{ character.get_wealth_display }}</dd>
+                    <dd>{{ character.wealth }}</dd>
+                <dt>Eidetic Memory</dt>
+                    <dd>{{ character.get_eidetic_memory_display }}</dd>
+                    <dd>{{ character.eidetic_memory }} points</dd>
+                <dt>Muscle Memory</dt>
+                    <dd>{{ character.get_muscle_memory_display }}</dd>
+                    <dd>{{ character.muscle_memory }} points</dd>
+                <dt>Magery</dt>
+                    <dd>Level {{ character.magery }}</dd>
+                    <dd>{{ character.points_in_magery }} points</dd>
+            </dl>
+            <h4>Points in special traits: {{character.total_points_in_special_traits }}</h4>
+        </section>
     {% endblock %}
 {% endblock %}
