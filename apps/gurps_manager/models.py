@@ -381,6 +381,10 @@ class Character(models.Model):
             + self.total_points_in_spells() \
             + self.total_points_in_special_traits()
 
+    def points_remaining(self):
+        """Returns the points a character has left to spend"""
+        return self.total_points - self.total_points_spent()
+
     def __str__(self):
         """Returns a string representation of the object"""
         return self.name
