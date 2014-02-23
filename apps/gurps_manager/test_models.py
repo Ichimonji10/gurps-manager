@@ -232,7 +232,8 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.create()
         self.assertEqual(
             character.points_in_strength(),
-            character._points_in_attribute(character.strength) # pylint: disable=W0212
+            character._points_in_attribute(character.strength
+                                            - character.free_strength) # pylint: disable=W0212
         )
 
     def test_points_in_dexterity(self):
@@ -240,7 +241,8 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.create()
         self.assertEqual(
             character.points_in_dexterity(),
-            character._points_in_attribute(character.dexterity) # pylint: disable=W0212
+            character._points_in_attribute(character.dexterity
+                                            - character.free_dexterity) # pylint: disable=W0212
         )
 
     def test_points_in_intelligence(self):
@@ -248,7 +250,8 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.create()
         self.assertEqual(
             character.points_in_intelligence(),
-            character._points_in_attribute(character.intelligence) # pylint: disable=W0212
+            character._points_in_attribute(character.intelligence
+                                            - character.free_intelligence) # pylint: disable=W0212
         )
 
     def test_points_in_health(self):
@@ -256,7 +259,8 @@ class CharacterTestCase(TestCase):
         character = factories.CharacterFactory.create()
         self.assertEqual(
             character.points_in_health(),
-            character._points_in_attribute(character.health) # pylint: disable=W0212
+            character._points_in_attribute(character.health
+                                            - character.free_health) # pylint: disable=W0212
         )
 
     def test_points_in_attribute(self):

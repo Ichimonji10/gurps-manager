@@ -625,7 +625,7 @@ class CharacterSpell(models.Model):
         True
 
         """
-        eidetic_memory_factor = self.character.eidetic_memory / 30
+        eidetic_memory_factor = self.character.eidetic_memory // 30
         return self.character.intelligence \
             + self.character.magery \
             - self.spell.difficulty \
