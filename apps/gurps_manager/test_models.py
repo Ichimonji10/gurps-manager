@@ -305,9 +305,17 @@ class CharacterTestCase(TestCase):
             (level - 13) * 25
         )
 
-    def test_points_in_magery(self):
+    def test_points_in_magery_v1(self):
         """Test the ``points_in_magery`` method."""
-        character = factories.CharacterFactory.create()
+        character = factories.CharacterFactory.create(magery=0)
+        self.assertEqual(character.points_in_magery(), 0)
+
+    def test_points_in_magery_v2(self):
+        """Test the ``points_in_magery`` method. Use a non-zero magery."""
+        magery = factories.character_intfield()
+        if magery == 0:
+            magery += 1
+        character = factories.CharacterFactory.create(magery=magery)
         self.assertEqual(
             character.points_in_magery(),
             (character.magery * 10) + 5
