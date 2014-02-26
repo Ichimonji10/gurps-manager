@@ -284,19 +284,27 @@ class Character(models.Model):
 
     def points_in_strength(self):
         """Returns the points a character has spent in strength"""
-        return self._points_in_attribute(self.strength - self.free_strength)
+        return self._points_in_attribute(
+            self.strength - self.free_strength
+            )
 
     def points_in_dexterity(self):
         """Returns the points a character has spent in dexterity"""
-        return self._points_in_attribute(self.dexterity - self.free_dexterity)
+        return self._points_in_attribute(
+            self.dexterity - self.free_dexterity
+            )
 
     def points_in_intelligence(self):
         """Returns the points a character has spent in intelligence"""
-        return self._points_in_attribute(self.intelligence - self.free_intelligence)
+        return self._points_in_attribute(
+            self.intelligence - self.free_intelligence
+            )
 
     def points_in_health(self):
         """Returns the points a character has spent in health"""
-        return self._points_in_attribute(self.health - self.free_health)
+        return self._points_in_attribute(
+            self.health - self.free_health
+            )
 
     @classmethod
     def _points_in_attribute(cls, level):
@@ -496,7 +504,7 @@ class CharacterSkill(models.Model):
             return self._physical_skill_score(self.character.health)
 
         # strength based physical skill
-        elif self.skill.category == Skill.get_category_id('Physical (strength)'):
+        elif self.skill.category == Skill.get_category_id('Physical (strength)'): # pylint: disable=C0301
             return self._physical_skill_score(self.character.strength)
 
         # psionic skill
