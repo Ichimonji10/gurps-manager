@@ -563,6 +563,68 @@ class CharacterSkillTestCase(TestCase):
         character_skill = factories.CharacterSkillFactory.create(skill=skill)
         self.assertRaises(ValueError, character_skill.score)
 
+    def test_psionic_skill_score_v1(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(points=0.25)
+        self.assertEqual(character_skill._psionic_skill_score(), 0) # pylint: disable=W0212
+
+    def test_psionic_skill_score_v2(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(points=0.75)
+        self.assertEqual(
+            character_skill._psionic_skill_score(), # pylint: disable=W0212
+            character_skill.character.intelligence \
+                - character_skill.skill.difficulty
+        )
+
+    def test_psionic_skill_score_v3(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(points=1.5)
+        self.assertEqual(
+            character_skill._psionic_skill_score(), # pylint: disable=W0212
+            character_skill.character.intelligence \
+                - character_skill.skill.difficulty \
+                + 1
+        )
+
+    def test_psionic_skill_score_v4(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(points=3)
+        self.assertEqual(
+            character_skill._psionic_skill_score(), # pylint: disable=W0212
+            character_skill.character.intelligence \
+                - character_skill.skill.difficulty \
+                + 2
+        )
+
+    def test_psionic_skill_score_v5(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(
+            points=3,
+            skill=factories.SkillFactory(difficulty=3)
+        )
+        self.assertEqual(
+            character_skill._psionic_skill_score(), # pylint: disable=W0212
+            character_skill.character.intelligence \
+                - character_skill.skill.difficulty \
+                + (character_skill.points // 2) \
+                + 1
+        )
+
+    def test_psionic_skill_score_v6(self):
+        """Test method ``_psionic_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(
+            points=4,
+            skill=factories.SkillFactory(difficulty=4)
+        )
+        self.assertEqual(
+            character_skill._psionic_skill_score(), # pylint: disable=W0212
+            character_skill.character.intelligence \
+                - character_skill.skill.difficulty \
+                + (character_skill.points // 4) \
+                + 2
+        )
+
 class CharacterSpellTestCase(TestCase):
     """Tests for ``CharacterSpell``."""
     def test_score_v1(self):

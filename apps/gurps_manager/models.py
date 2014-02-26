@@ -563,24 +563,19 @@ class CharacterSkill(models.Model):
 
     def _psionic_skill_score(self):
         """Calculates the score of a mental skill with a given base attribute"""
+        base_score = self.character.intelligence - self.skill.difficulty
         if self.points < 0.5:
             return 0
         elif self.points < 1:
-            return self.character.intelligence - self.skill.difficulty
+            return base_score
         elif self.points < 2:
-            return self.character.intelligence - self.skill.difficulty + 1
+            return base_score + 1
         elif self.points < 4:
-            return self.character.intelligence - self.skill.difficulty + 2
+            return base_score + 2
         elif self.skill.difficulty < 4:
-            return self.character.intelligence \
-                - self.skill.difficulty \
-                + (self.points // 2) \
-                + 1
+            return base_score + (self.points // 2) + 1
         else:
-            return self.character.intelligence \
-                - self.skill.difficulty \
-                + (self.points // 4) \
-                + 2
+            return base_score + (self.points // 4) + 2
 
 class Spell(models.Model):
     """A Spell available to characters
