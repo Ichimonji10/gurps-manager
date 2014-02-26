@@ -514,52 +514,67 @@ class CharacterSkill(models.Model):
         else:
             raise ValueError("The category referenced is outside the known set")
 
-    def _mental_skill_score(self, attribute):
-        """Calculates the score of a mental skill with a given base attribute"""
-        effective_points_mental = self.points * (
+    def _effective_points_mental(self):
+        """Calculate effective mental points.
+
+        >>> from gurps_manager import factories
+        >>> character_skill = factories.CharacterSkillFactory.create()
+        >>> isinstance(character_skill._effective_points_mental(), float)
+        True
+
+        """
+        return self.points * (
             1 if self.character.eidetic_memory == 0
             else (self.character.eidetic_memory / 15)
         )
+
+    def _mental_skill_score(self, attribute):
+        """Calculates the score of a mental skill with a given base attribute"""
+        effective_points_mental = self._effective_points_mental()
+        base_score = attribute - self.skill.difficulty
         if effective_points_mental < 0.5:
             return 0
         elif effective_points_mental < 1:
-            return attribute - self.skill.difficulty
+            return base_score
         elif effective_points_mental < 2:
-            return attribute - self.skill.difficulty + 1
+            return base_score + 1
         elif effective_points_mental < 4:
-            return attribute - self.skill.difficulty + 2
+            return base_score + 2
         elif self.skill.difficulty < 4:
-            return attribute \
-                - self.skill.difficulty \
-                + (effective_points_mental // 2) \
-                + 1
+            return base_score + (effective_points_mental // 2) + 1
         else:
-            return attribute \
-                - self.skill.difficulty \
-                + (effective_points_mental // 4) \
-                + 2
+            return base_score + (effective_points_mental // 4) + 2
 
-    def _physical_skill_score(self, attribute):
-        """Calculates the score of a mental skill with a given base attribute"""
-        effective_points_physical = self.points * (
+    def _effective_points_physical(self):
+        """Calculate effective physical points.
+
+        >>> from gurps_manager import factories
+        >>> character_skill = factories.CharacterSkillFactory.create()
+        >>> isinstance(character_skill._effective_points_physical(), float)
+        True
+
+        """
+        return self.points * (
             1 if self.character.muscle_memory == 0
             else (self.character.muscle_memory / 15)
         )
+
+    def _physical_skill_score(self, attribute):
+        """Calculates the score of a mental skill with a given base attribute"""
+        effective_points_physical = self._effective_points_physical()
+        base_score = attribute - self.skill.difficulty
         if effective_points_physical < 0.5:
             return 0
         elif effective_points_physical < 1:
-            return attribute - self.skill.difficulty
+            return base_score
         elif effective_points_physical < 2:
-            return attribute - self.skill.difficulty + 1
+            return base_score + 1
         elif effective_points_physical < 4:
-            return attribute - self.skill.difficulty + 2
+            return base_score + 2
         elif effective_points_physical < 8:
-            return attribute - self.skill.difficulty + 3
+            return base_score + 3
         else:
-            return attribute \
-                - self.skill.difficulty \
-                + (effective_points_physical // 8) \
-                + 3
+            return base_score + (effective_points_physical // 8) + 3
 
     def _psionic_skill_score(self):
         """Calculates the score of a mental skill with a given base attribute"""
