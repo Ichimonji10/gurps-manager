@@ -563,6 +563,73 @@ class CharacterSkillTestCase(TestCase):
         character_skill = factories.CharacterSkillFactory.create(skill=skill)
         self.assertRaises(ValueError, character_skill.score)
 
+    def test_mental_skill_score_v1(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create()
+        character_skill._effective_points_mental = lambda: 0.25
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(character_skill._mental_skill_score(attribute), 0)
+
+    def test_mental_skill_score_v2(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create()
+        character_skill._effective_points_mental = lambda: 0.75
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(
+            character_skill._mental_skill_score(attribute),
+            attribute - character_skill.skill.difficulty
+        )
+
+    def test_mental_skill_score_v3(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create()
+        character_skill._effective_points_mental = lambda: 1.5
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(
+            character_skill._mental_skill_score(attribute),
+            attribute - character_skill.skill.difficulty + 1
+        )
+
+    def test_mental_skill_score_v4(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create()
+        character_skill._effective_points_mental = lambda: 3
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(
+            character_skill._mental_skill_score(attribute),
+            attribute - character_skill.skill.difficulty + 2
+        )
+
+    def test_mental_skill_score_v5(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(
+            skill=factories.SkillFactory.create(difficulty=3)
+        )
+        character_skill._effective_points_mental = lambda: 4
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(
+            character_skill._mental_skill_score(attribute),
+            attribute \
+                - character_skill.skill.difficulty \
+                + (character_skill._effective_points_mental() // 2) \
+                + 1
+        )
+
+    def test_mental_skill_score_v6(self):
+        """Test method ``_mental_skill_score``."""
+        character_skill = factories.CharacterSkillFactory.create(
+            skill=factories.SkillFactory.create(difficulty=4)
+        )
+        character_skill._effective_points_mental = lambda: 4
+        attribute = random.randrange(-100, 100)
+        self.assertEqual(
+            character_skill._mental_skill_score(attribute),
+            attribute \
+                - character_skill.skill.difficulty \
+                + (character_skill._effective_points_mental() // 4) \
+                + 2
+        )
+
     def test_psionic_skill_score_v1(self):
         """Test method ``_psionic_skill_score``."""
         character_skill = factories.CharacterSkillFactory.create(points=0.25)
