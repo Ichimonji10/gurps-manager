@@ -528,17 +528,16 @@ class CharacterSkill(models.Model):
             return attribute - self.skill.difficulty + 1
         elif effective_points_mental < 4:
             return attribute - self.skill.difficulty + 2
+        elif self.skill.difficulty < 4:
+            return attribute \
+                - self.skill.difficulty \
+                + (effective_points_mental // 2) \
+                + 1
         else:
-            if self.skill.difficulty < 4:
-                return attribute \
-                    - self.skill.difficulty \
-                    + (effective_points_mental // 2) \
-                    + 1
-            else:
-                return attribute \
-                    - self.skill.difficulty \
-                    + (effective_points_mental // 4) \
-                    + 2
+            return attribute \
+                - self.skill.difficulty \
+                + (effective_points_mental // 4) \
+                + 2
 
     def _physical_skill_score(self, attribute):
         """Calculates the score of a mental skill with a given base attribute"""
@@ -572,17 +571,16 @@ class CharacterSkill(models.Model):
             return self.character.intelligence - self.skill.difficulty + 1
         elif self.points < 4:
             return self.character.intelligence - self.skill.difficulty + 2
+        elif self.skill.difficulty < 4:
+            return self.character.intelligence \
+                - self.skill.difficulty \
+                + (self.points // 2) \
+                + 1
         else:
-            if self.skill.difficulty < 4:
-                return self.character.intelligence \
-                    - self.skill.difficulty \
-                    + (self.points // 2) \
-                    + 1
-            else:
-                return self.character.intelligence \
-                    - self.skill.difficulty \
-                    + (self.points // 4) \
-                    + 2
+            return self.character.intelligence \
+                - self.skill.difficulty \
+                + (self.points // 4) \
+                + 2
 
 class Spell(models.Model):
     """A Spell available to characters
