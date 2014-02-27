@@ -5,6 +5,8 @@ then be displayed in templates. See:
 https://github.com/bradleyayers/django-tables2
 
 """
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from gurps_manager import models
 import django_tables2 as tables
 
@@ -35,8 +37,8 @@ class CampaignTable(tables.Table):
 
 class CharacterTable(tables.Table):
     """An HTML table displaying ``Campaign`` objects."""
-
     spent_points = tables.Column(empty_values=())
+    actions = tables.Column(empty_values=(), orderable=False)
 
     class Meta(object):
         """Table attributes that are not custom fields."""
@@ -59,7 +61,75 @@ class CharacterTable(tables.Table):
         """
         return _truncate_string(value)
 
+    def render_actions(self, record):
+        """Define how the ``actions`` column should be rendered.
+
+        ``record`` represents a row of data from the database (and,
+        consequently, a row in the table).
+
+        """
+        return mark_safe(_restful_links('character', record.id))
+
 # private methods --------------------------------------------------------------
+
+def _read_url(resource, resource_id):
+    """Generate the path for reading ``resource`` number ``resource_id``.
+
+    >>> import re
+    >>> None != re.search(r'/campaign/1234/$', _read_url('campaign', 1234))
+    True
+
+    """
+    return reverse(
+        'gurps-manager-{}-id'.format(resource),
+        args=[resource_id]
+    )
+
+def _update_url(resource, resource_id):
+    """Generate the path for updating ``resource`` number ``resource_id``.
+
+    >>> import re
+    >>> None != re.search(
+    ...     r'/campaign/1234/update-form/$',
+    ...     _update_url('campaign', 1234)
+    ... )
+    True
+
+    """
+    return reverse(
+        'gurps-manager-{}-id-update-form'.format(resource),
+        args=[resource_id]
+    )
+
+def _delete_url(resource, resource_id):
+    """Generate the path for deleting ``resource`` number ``resource_id``.
+
+    >>> import re
+    >>> None != re.search(
+    ...     r'/campaign/1234/delete-form/$',
+    ...     _delete_url('campaign', 1234)
+    ... )
+    True
+
+    """
+    return reverse(
+        'gurps-manager-{}-id-delete-form'.format(resource),
+        args=[resource_id]
+    )
+
+def _restful_links(resource, resource_id):
+    """Generate links for reading, updating and deleting ``resource`` number
+    ``resource_id``.
+
+    """
+    return \
+        '<a href="{}">View</a> - ' \
+        '<a href="{}">Edit</a> - ' \
+        '<a href="{}">Delete</a>'.format(
+            _read_url(resource, resource_id),
+            _update_url(resource, resource_id),
+            _delete_url(resource, resource_id),
+        )
 
 def _truncate_string(string):
     """If ``string`` is too long, truncate it and append an ellipsis.
