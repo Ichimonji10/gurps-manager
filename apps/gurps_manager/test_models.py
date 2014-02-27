@@ -799,8 +799,9 @@ class CharacterSpellTestCase(TestCase):
         Use a ``CharacterSpell`` having 5.0 points and a 'Hard' ``Spell``.
 
         """
-        # FIXME: Properly reference the spell's difficulty. No magic numbers.
-        spell = factories.SpellFactory(difficulty=3)
+        spell = factories.SpellFactory(
+            difficulty=models.Spell.get_difficulty_id('Hard')
+        )
         char_spell = factories.CharacterSpellFactory(points=5, spell=spell)
         self.assertEqual(
             char_spell.score(),
@@ -813,8 +814,9 @@ class CharacterSpellTestCase(TestCase):
         Use a ``CharacterSpell`` having 5.0 points and a 'Very Hard' ``Spell``.
 
         """
-        # FIXME: Properly reference the spell's difficulty. No magic numbers.
-        spell = factories.SpellFactory(difficulty=4)
+        spell = factories.SpellFactory(
+            difficulty=models.Spell.get_difficulty_id('Very Hard')
+        )
         char_spell = factories.CharacterSpellFactory(points=5, spell=spell)
         self.assertEqual(
             char_spell.score(),

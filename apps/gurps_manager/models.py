@@ -168,6 +168,7 @@ class Character(models.Model):
     used_fatigue = models.FloatField(default=0, validators=[validate_quarter])
 
     # lookup fields
+    # FIXME: do not use magic numbers
     appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
     wealth = models.IntegerField(choices=WEALTH_CHOICES, default=0)
     eidetic_memory = models.IntegerField(
@@ -455,8 +456,8 @@ class Skill(models.Model):
         return self.name
 
     @classmethod
-    def get_category_id(cls, category_name):
-        """Given a category name from ``CATEGORY_CHOICES``, return its ID.
+    def get_category_id(cls, name):
+        """Given a name from ``CATEGORY_CHOICES``, return its ID.
 
         >>> Skill.get_category_id('Mental')
         1
@@ -464,11 +465,7 @@ class Skill(models.Model):
         6
 
         """
-        # ['Mental', 'Mental (health)', 'Physical', ...]
-        category_names = [category[1] for category in cls.CATEGORY_CHOICES]
-        # (1, 'Mental')
-        category = cls.CATEGORY_CHOICES[category_names.index(category_name)]
-        return category[0]
+        return _get_choice_id(cls.CATEGORY_CHOICES, name)
 
 class CharacterSkill(models.Model):
     """A skill that a character possesses"""
@@ -625,6 +622,18 @@ class Spell(models.Model):
         """Returns a string representation of the object"""
         return self.name
 
+    @classmethod
+    def get_difficulty_id(cls, name):
+        """Given a name from ``DIFFICULTY_CHOICES``, return its ID.
+
+        >>> Spell.get_difficulty_id('Hard')
+        3
+        >>> Spell.get_difficulty_id('Very Hard')
+        4
+
+        """
+        return _get_choice_id(cls.DIFFICULTY_CHOICES, name)
+
 class CharacterSpell(models.Model):
     """A spell that a character may know"""
     spell = models.ForeignKey(Spell)
@@ -721,3 +730,23 @@ class HitLocation(models.Model):
     def __str__(self):
         """Returns a string representation of the object"""
         return self.name
+
+def _get_choice_id(choices, choice_name):
+    """Given a name from ``choices``, return its ID.
+
+    ``choices`` is a tuple of tuples.
+
+    >>> choices = ((1, 'foo'), (2, 'bar'), (42, 'biz'))
+    >>> _get_choice_id(choices, 'foo')
+    1
+    >>> _get_choice_id(choices, 'bar')
+    2
+    >>> _get_choice_id(choices, 'biz')
+    42
+
+    """
+    # e.g. ['foo', 'bar', 'biz']
+    choice_names = [choice[1] for choice in choices]
+    # e.g. (1, 'foo')
+    choice = choices[choice_names.index(choice_name)]
+    return choice[0]
