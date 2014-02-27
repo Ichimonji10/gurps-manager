@@ -23,6 +23,8 @@ import django_tables2 as tables
 
 class CampaignTable(tables.Table):
     """An HTML table displaying ``Campaign`` objects."""
+    actions = tables.Column(empty_values=(), orderable=False)
+
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.Campaign
@@ -34,6 +36,15 @@ class CampaignTable(tables.Table):
 
         """
         return _truncate_string(value)
+
+    def render_actions(self, record):
+        """Define how the ``actions`` column should be rendered.
+
+        ``record`` represents a row of data from the database (and,
+        consequently, a row in the table).
+
+        """
+        return mark_safe(_restful_links('campaign', record.id))
 
 class CharacterTable(tables.Table):
     """An HTML table displaying ``Campaign`` objects."""
