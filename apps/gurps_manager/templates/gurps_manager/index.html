@@ -12,7 +12,12 @@
 </head>
 <body>
     <nav>
-        <a href='http://www.sjgames.com/gurps/'><img src='{% static 'gurps_manager/images/minisjgbanner.gif' %}' alt='Steve Jackson Games' /></a>
+        <a href='http://www.sjgames.com/gurps/'>
+            <img
+                src='{% static 'gurps_manager/images/minisjgbanner.gif' %}'
+                alt='Steve Jackson Games'
+            />
+        </a>
         <a href='{% url 'gurps-manager-index' %}'>Home</a>
         <a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a>
         <a href='{% url 'gurps-manager-character' %}'>Characters</a>
@@ -22,7 +27,16 @@
     <p>This is placeholder content.</p>
     {% endblock %}
     <footer>
-        <p>GURPS is a trademark of Steve Jackson Games, and its rules and art are copyrighted by Steve Jackson Games. All rights are reserved by Steve Jackson Games. This game aid is the original creation of Henry M. Corse &amp; Jeremy R. Audet and is released for free distribution, and not for resale, under the permissions granted in the <a href="http://www.sjgames.com/general/online_policy.html">Steve Jackson Games Online Policy</a></p>
+        <p>
+            GURPS is a trademark of Steve Jackson Games, and its rules and art
+            are copyrighted by Steve Jackson Games. All rights are reserved by
+            Steve Jackson Games. This game aid is the original creation of Henry
+            M. Corse &amp; Jeremy R. Audet and is released for free
+            distribution, and not for resale, under the permissions granted in
+            the <a
+            href='http://www.sjgames.com/general/online_policy.html'>Steve
+            Jackson Games Online Policy</a>.
+        </p>
     </footer>
 </body>
 </html>
