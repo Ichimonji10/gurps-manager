@@ -168,7 +168,6 @@ class Character(models.Model):
     used_fatigue = models.FloatField(default=0, validators=[validate_quarter])
 
     # lookup fields
-    # FIXME: do not use magic numbers
     appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
     wealth = models.IntegerField(choices=WEALTH_CHOICES, default=0)
     eidetic_memory = models.IntegerField(
@@ -471,10 +470,17 @@ class CharacterSkill(models.Model):
     """A skill that a character possesses"""
     MAX_LEN_COMMENTS = 50
 
+    # key fields
     skill = models.ForeignKey(Skill)
     character = models.ForeignKey(Character)
+
+    # string-based fields
     comments = models.CharField(max_length=MAX_LEN_COMMENTS, blank=True)
+
+    # integer fields
     bonus_level = models.IntegerField(default=0)
+
+    # float fields
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def score(self):
@@ -636,9 +642,14 @@ class Spell(models.Model):
 
 class CharacterSpell(models.Model):
     """A spell that a character may know"""
+    # key fields
     spell = models.ForeignKey(Spell)
     character = models.ForeignKey(Character)
+
+    # integer fields
     bonus_level = models.IntegerField(default=0)
+
+    # float fields
     points = models.FloatField(validators=[validate_quarter], default=0)
 
     def _base_score(self):
