@@ -14,6 +14,11 @@ URL                                            POST     GET    PUT      DELETE
 ``campaign/<id>/``                                      *      *        *
 ``campaign/<id>/update-form/``                          *
 ``campaign/<id>/delete-form/``                          *
+``character/``                                 *        *
+``character/create-form/``                              *
+``character/<id>/``                                     *      *        *
+``character/<id>/update-form/``                         *
+``character/<id>/delete-form/``                         *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
