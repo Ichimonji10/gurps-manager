@@ -139,7 +139,7 @@ class Character(models.Model):
     items = models.ManyToManyField('Item', through='Possession', blank=True)
 
     # string-based fields
-    name = models.CharField(max_length=MAX_LEN_NAME)
+    name = models.CharField(max_length=MAX_LEN_NAME, default='New Character')
     description = models.TextField(max_length=MAX_LEN_DESCRIPTION, blank=True)
     story = models.TextField(max_length=MAX_LEN_STORY, blank=True)
 
