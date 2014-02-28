@@ -270,7 +270,7 @@ class CharacterSkillsUpdateForm(View):
         character = models.Character.objects.get(pk=character_id)
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, max_num=5
-            )
+        )
         formset = characterskill_formset(request.POST, instance=character)
         if formset.is_valid():
             formset.save()

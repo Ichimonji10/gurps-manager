@@ -111,7 +111,7 @@ urlpatterns = patterns( # pylint: disable=C0103
         views.CharacterIdDeleteForm.as_view(),
         name='gurps-manager-character-id-delete-form',
     ),
-    url(
+    url( #TODO update the docstring at the top of the file
         r'^character/(\d+)/skills/update-form/$',
         views.CharacterSkillsUpdateForm.as_view(),
         name='gurps-manager-character-id-skills-update-form',
