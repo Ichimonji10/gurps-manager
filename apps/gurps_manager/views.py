@@ -4,6 +4,7 @@ from django import http
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from django.views.generic.base import View
+from django.forms.models import inlineformset_factory
 from gurps_manager import forms, models, tables
 import json
 
@@ -261,6 +262,28 @@ class CharacterIdDeleteForm(View):
             'gurps_manager/character_templates/character-id-delete-form.html',
             {'character': character}
         )
+
+class CharacterSkillsUpdateForm(View):
+    """Handle a request for ``character/<id>/skills/update-form``."""
+    def post(self, request, character_id):
+        """Create and update a character's skills"""
+        character = models.Character.objects.get(pk=character_id)
+        characterskill_formset = inlineformset_factory(
+            models.Character, models.CharacterSkill, max_num=5
+            )
+        formset = characterskill_formset(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-skills-update-form'
+            ))
 
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
