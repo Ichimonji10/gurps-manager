@@ -168,7 +168,6 @@ class Character(models.Model):
     used_fatigue = models.FloatField(default=0, validators=[validate_quarter])
 
     # lookup fields
-    # FIXME: do not use magic numbers
     appearance = models.IntegerField(choices=APPEARANCE_CHOICES, default=0)
     wealth = models.IntegerField(choices=WEALTH_CHOICES, default=0)
     eidetic_memory = models.IntegerField(
