@@ -265,17 +265,34 @@ class CharacterIdDeleteForm(View):
 
 class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
+    def get(self, request, character_id):
+        """Return a form for updating character ``character_id``'s skills."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        characterskill = _get_model_object_or_404(models.CharacterSkill, 1)
+        characterskill_formset = inlineformset_factory(
+            models.Character, models.CharacterSkill, extra=5
+        )
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            formset = characterskill_formset(instance=character)
+        else:
+            formset = characterskill_formset(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-skills-update-form.html',
+            {'character': character, 'formset': formset}
+        )
     def post(self, request, character_id):
         """Create and update a character's skills"""
         character = models.Character.objects.get(pk=character_id)
         characterskill_formset = inlineformset_factory(
-            models.Character, models.CharacterSkill, max_num=5
+            models.Character, models.CharacterSkill, extra=5
         )
         formset = characterskill_formset(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id',
+                'gurps-manager-character-id-skills-update-form',
                 args=[character_id]
             ))
         else:
