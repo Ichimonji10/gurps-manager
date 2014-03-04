@@ -268,7 +268,6 @@ class CharacterSkillsUpdateForm(View):
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s skills."""
         character = _get_model_object_or_404(models.Character, character_id)
-        characterskill = _get_model_object_or_404(models.CharacterSkill, 1)
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, extra=5
         )
@@ -279,7 +278,7 @@ class CharacterSkillsUpdateForm(View):
             formset = characterskill_formset(json.loads(form_data))
         return render(
             request,
-            'gurps_manager/character_templates/character-id-skills-update-form.html',
+            'gurps_manager/character_templates/character-id-skills-update-form.html', # pylint: disable=C0301
             {'character': character, 'formset': formset}
         )
     def post(self, request, character_id):
