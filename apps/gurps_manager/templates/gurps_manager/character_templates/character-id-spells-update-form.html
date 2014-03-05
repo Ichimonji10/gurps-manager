@@ -1,0 +1,13 @@
+{% extends 'gurps_manager/index.html' %}
+
+{% block title %}Character {{ character.name }} Spells{% endblock %}
+
+{% block body %}
+    <h1>Update Spells for Character "{{ character.name }}"</h1>
+    <form method='post' action='{% url 'gurps-manager-character-id-spells-update-form' character.id %}'>
+        {% csrf_token %}
+        <input type='hidden' name='_method' value='PUT' />
+        {{ formset.as_p }}
+        <p><button>Submit</button></p>
+    </form>
+{% endblock %}

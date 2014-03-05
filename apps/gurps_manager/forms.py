@@ -40,3 +40,17 @@ class CharacterSkillForm(ModelForm):
     class Meta(object):
         """Form attributes that are not custom fields."""
         model = models.CharacterSkill
+
+class CharacterSpellForm(ModelForm):
+    """A form for creating and editing a CharacterSpell."""
+
+    class Meta(object):
+        """Form attributes that are not custom fields."""
+        model = models.CharacterSpell
+
+class PossessionForm(ModelForm):
+    """A form for creating and editing a Possession."""
+
+    class Meta(object):
+        """Form attributes that are not custom fields."""
+        model = models.Possession
