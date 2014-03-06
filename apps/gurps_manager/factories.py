@@ -5,11 +5,80 @@ fixtures. Rather than simply defining a static set of test data, factories can
 be used to generate disgustingly random data. (perfect for testing!)
 
 """
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyAttribute
-from factory import SubFactory
+from factory import Sequence, SubFactory
 from gurps_manager import models
 import random
+
+# See ``user_username`` for details on why this charset was chosen.
+USERNAME_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_@+.-'
+
+class UserFactory(DjangoModelFactory):
+    """Builds a ``django.contrib.auth.models.User`` object.
+
+    The user built has a random username and password. Both the username and
+    password consist of a set of UTF-8 characters.
+
+    >>> UserFactory.build().full_clean()
+    >>> UserFactory.create().id is None
+    False
+    >>> UserFactory.build(
+    ...     password=make_password('hackme')
+    ... ).check_password('hackme')
+    True
+
+    """
+    # pylint: disable=R0903
+    # pylint: disable=W0232
+    FACTORY_FOR = User
+    username = Sequence(lambda n: user_username(n)) # pylint: disable=W0108
+    password = FuzzyAttribute(lambda: user_password()) # pylint: disable=W0108
+
+def user_username(prefix=''):
+    """Return a value suitable for the ``User.username`` model attribute.
+
+    For details on why usernames are composed from USERNAME_CHARSET, see:
+    https://docs.djangoproject.com/en/dev/ref/contrib/auth/#django.contrib.auth.models.User.username
+
+    >>> username = user_username()
+    >>> len(username) in range(1, 31)
+    True
+    >>> username[0] in USERNAME_CHARSET
+    True
+    >>> username[-1] in USERNAME_CHARSET
+    True
+
+    """
+    username = str(prefix)
+    for i in range(random.randint(1, 30 - len(username))):
+        username += random.choice(USERNAME_CHARSET)
+    return username
+
+def user_password():
+    """Return a value suitable for the ``User.password`` model attribute."""
+    return make_password(_random_str(1, 20))
+
+def create_user():
+    """Build and save a User.
+
+    Return an array of two objects: a User and a it's unencrypted password.
+
+    >>> user, password = create_user()
+    >>> user.check_password(password)
+    True
+    >>> user.id is None
+    False
+
+    """
+    # This function promises that it will return an unencrypted password, but an
+    # unencrypted password cannot be fetched from a User object. The solution is
+    # to make an unencrypted password and _then_ create the User object.
+    password = _random_str(1, 20)
+    user = UserFactory.create(password=make_password(password))  # pylint: disable=E1101
+    return [user, password]
 
 class CampaignFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Campaign`` object.
