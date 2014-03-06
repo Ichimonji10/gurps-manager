@@ -21,7 +21,7 @@ DEBUG = True
 # that to take advantage of this setting.
 TEMPLATE_DEBUG = DEBUG
 
-LOGIN_URL = 'gurps_manager.views.login'
+LOGIN_URL = 'gurps-manager-login'
 
 DATABASES = {
     # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
