@@ -44,6 +44,29 @@ class IndexTestCase(TestCase):
         response = self.client.delete(self.PATH, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
 
+class LoginTestCase(TestCase):
+    """Tests for the ``login/`` path."""
+    PATH = reverse('gurps-manager-login')
+
+    # FIXME: POST self.PATH, correctly
+
+    def test_post_failure(self):
+        """POST ``self.PATH``, incorrectly."""
+        response = self.client.post(self.PATH, {})
+        self.assertRedirects(response, self.PATH)
+
+    def test_get(self):
+        """GET ``self.PATH``."""
+        response = self.client.get(self.PATH)
+        self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    # FIXME: DELETE self.PATH
+
 class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
     PATH = reverse('gurps-manager-campaign')
