@@ -48,7 +48,14 @@ class LoginTestCase(TestCase):
     """Tests for the ``login/`` path."""
     PATH = reverse('gurps-manager-login')
 
-    # FIXME: POST self.PATH, correctly
+    def test_post(self):
+        """POST ``self.PATH``, thus logging in."""
+        user, password = factories.create_user()
+        response = self.client.post(
+            self.PATH,
+            {'username': user.username, 'password': password}
+        )
+        self.assertRedirects(response, reverse('gurps-manager-index'))
 
     def test_post_failure(self):
         """POST ``self.PATH``, incorrectly."""
@@ -65,7 +72,15 @@ class LoginTestCase(TestCase):
         response = self.client.put(self.PATH, {'_method': 'PUT'})
         self.assertEqual(response.status_code, 405)
 
-    # FIXME: DELETE self.PATH
+    def test_delete(self):
+        """POST ``self.PATH`` ane emulate a DELETE request, thus logging out."""
+        _login(self.client)
+        response = self.client.post(self.PATH, {'_method': 'DELETE'})
+        self.assertRedirects(response, self.PATH)
+
+    def test__login(self):
+        """Test ``_login()``."""
+        self.assertTrue(_login(self.client))
 
 class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
@@ -477,3 +492,8 @@ class CharacterIdDeleteFormTestCase(TestCase):
         """POST ``self.path`` and emulate a DELETE request."""
         response = self.client.delete(self.path, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
+
+def _login(client):
+    """Create a user and use it to log in ``client``."""
+    user, password = factories.create_user()
+    return client.login(username=user.username, password=password)
