@@ -1,4 +1,6 @@
 """Business logic for all URLs in the ``gurps_manager`` application."""
+from django.contrib import auth
+from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.urlresolvers import reverse
 from django import http
 from django.shortcuts import render
@@ -17,6 +19,63 @@ class Index(View):
     def get(self, request):
         """Return the homepage for this application."""
         return render(request, 'gurps_manager/index.html', {})
+
+class Login(View):
+    """Handle a request for ``login/``."""
+    def get(self, request):
+        """Return a form for logging in."""
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            form = forms.LoginForm()
+        else:
+            form = forms.LoginForm(json.loads(form_data))
+        return render(request, 'gurps_manager/login.html', {'form': form})
+
+    def post(self, request):
+        """Log in user.
+
+        If login suceeds, redirect user to ``index`` view. Otherwise, redirect
+        user to ``login`` view.
+
+        """
+        # Check validity of submitted data
+        form = forms.LoginForm(request.POST)
+        if not form.is_valid():
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse('gurps-manager-login'))
+
+        # Check for invalid credentials.
+        user = auth.authenticate(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password'],
+        )
+        if user is None:
+            form._errors[NON_FIELD_ERRORS] = form.error_class([
+                'Credentials are invalid.'
+            ])
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse('gurps-manager-login'))
+
+        # Check for inactive user
+        if not user.is_active:
+            form._errors[NON_FIELD_ERRORS] = form.error_class([
+                'Account is inactive.'
+            ])
+            request.session['form_data'] = json.dumps(form.data)
+            return http.HttpResponseRedirect(reverse('gurps-manager-login'))
+
+        # Everything checks out. Let 'em in.
+        auth.login(request, user)
+        return http.HttpResponseRedirect(reverse('gurps-manager-index'))
+
+    def delete(self, request):
+        """Log out user.
+
+        Redirect user to ``login`` after logging out user.
+
+        """
+        auth.logout(request)
+        return http.HttpResponseRedirect(reverse('gurps-manager-login'))
 
 class Campaign(View):
     """Handle a request for ``campaign/``."""

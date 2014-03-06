@@ -9,6 +9,7 @@ URL                                            POST     GET    PUT      DELETE
                                                (create) (read) (update) (delete)
 ============================================== ======== ====== ======== ========
 ``/``                                                   *
+``login/``                                     *        *               *
 ``campaign/``                                  *        *
 ``campaign/create-form/``                               *
 ``campaign/<id>/``                                      *      *        *
@@ -57,6 +58,7 @@ from gurps_manager import views
 urlpatterns = patterns( # pylint: disable=C0103
     '',
     url(r'^$', views.Index.as_view(), name='gurps-manager-index'),
+    url(r'^login/$', views.Login.as_view(), name='gurps-manager-login'),
 
     # campaign-related paths
     url(

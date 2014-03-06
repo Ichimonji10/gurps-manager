@@ -1,0 +1,20 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>GURPS Manager Login</title>
+        {{ head }}
+    </head>
+    <body>
+        <div>
+            <h1>GURPS Manager</h1>
+            <form method='post' action='{% url 'gurps-manager-login' %}'>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p><button>Submit</button></p>
+            </form>
+        </div>
+    </body>
+</html>
