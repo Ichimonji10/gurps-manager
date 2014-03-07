@@ -28,6 +28,10 @@ class IndexTestCase(TestCase):
         """Authenticate the test client."""
         _login(self.client)
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -90,6 +94,10 @@ class CampaignTestCase(TestCase):
         """Authenticate the test client."""
         _login(self.client)
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         num_campaigns = models.Campaign.objects.count()
@@ -137,6 +145,10 @@ class CampaignCreateFormTestCase(TestCase):
         """Authenticate the test client."""
         _login(self.client)
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -171,6 +183,10 @@ class CampaignIdTestCase(TestCase):
             'gurps-manager-campaign-id',
             args=[self.campaign.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -228,6 +244,10 @@ class CampaignIdUpdateFormTestCase(TestCase):
             args=[self.campaign.id]
         )
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
     def test_post(self):
         """POST ``self.path``."""
         response = self.client.post(self.path)
@@ -269,6 +289,10 @@ class CampaignIdDeleteFormTestCase(TestCase):
             args=[self.campaign.id]
         )
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
     def test_post(self):
         """POST ``self.path``."""
         response = self.client.post(self.path)
@@ -302,6 +326,10 @@ class CharacterTestCase(TestCase):
     def setUp(self):
         """Authenticate the test client."""
         _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
 
     def test_post(self):
         """POST ``self.PATH``."""
@@ -356,6 +384,10 @@ class CharacterCreateFormTestCase(TestCase):
         """Authenticate the test client."""
         _login(self.client)
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -390,6 +422,10 @@ class CharacterIdTestCase(TestCase):
             'gurps-manager-character-id',
             args=[self.character.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -448,6 +484,10 @@ class CharacterIdUpdateFormTestCase(TestCase):
             args=[self.character.id]
         )
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
     def test_post(self):
         """POST ``self.path``."""
         response = self.client.post(self.path)
@@ -489,6 +529,10 @@ class CharacterIdDeleteFormTestCase(TestCase):
             args=[self.character.id]
         )
 
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
     def test_post(self):
         """POST ``self.path``."""
         response = self.client.post(self.path)
@@ -519,3 +563,25 @@ def _login(client):
     """Create a user and use it to log in ``client``."""
     user, password = factories.create_user()
     return client.login(username=user.username, password=password)
+
+def _test_login_required(test_case, url=None):
+    """Logout ``test_case.client``, then GET ``url``.
+
+    ``test_case`` is an instance of a ``TestCase`` subclass. A caller should
+    typically pass ``self`` to this method.
+
+    ``url`` is a string such as ``campaign/15/``. If no value is provided,
+    ``url`` defaults to ``test_case.URL``.
+
+    This method logs out the test client, then attempts to GET ``url``. The
+    client should be redirected to the ``gurps-manager-login`` view with the
+    ``next`` URL argument set to ``url``.
+
+    """
+    if url is None:
+        url = test_case.PATH
+    test_case.client.logout()
+    test_case.assertRedirects(
+        test_case.client.get(url),
+        '{}?next={}'.format(reverse('gurps-manager-login'), url)
+    )
