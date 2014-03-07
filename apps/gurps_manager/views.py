@@ -263,6 +263,21 @@ class CharacterIdDeleteForm(View):
             {'character': character}
         )
 
+class CharacterSkills(View):
+    """Handle a request for ``character/<id>/skills``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``'s skills."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        table = tables.CharacterSkillTable(
+                    models.CharacterSkill.objects.filter(character=character_id)
+                )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-skills.html',
+            {'character': character, 'table': table, 'request': request}
+        )
+
 class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
     def get(self, request, character_id):

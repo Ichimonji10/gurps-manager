@@ -19,6 +19,12 @@ URL                                            POST     GET    PUT      DELETE
 ``character/<id>/``                                     *      *        *
 ``character/<id>/update-form/``                         *
 ``character/<id>/delete-form/``                         *
+``character/<id>/skills/``                              *
+``character/<id>/spells/``                              *
+``character/<id>/possessions/``                         *
+``character/<id>/skills/update-form/``         *        *
+``character/<id>/spells/update-form/``         *        *
+``character/<id>/possessions/update-form/``    *        *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
@@ -111,7 +117,12 @@ urlpatterns = patterns( # pylint: disable=C0103
         views.CharacterIdDeleteForm.as_view(),
         name='gurps-manager-character-id-delete-form',
     ),
-    url( #TODO update the docstring at the top of the file
+    url(
+        r'^character/(\d+)/skills/$',
+        views.CharacterSkills.as_view(),
+        name='gurps-manager-character-id-skills',
+    ),
+    url(
         r'^character/(\d+)/skills/update-form/$',
         views.CharacterSkillsUpdateForm.as_view(),
         name='gurps-manager-character-id-skills-update-form',

@@ -81,6 +81,41 @@ class CharacterTable(tables.Table):
         """
         return mark_safe(_restful_links('character', record.id))
 
+class CharacterSkillTable(tables.Table):
+    """An HTML table displaying ``CharacterSkill`` objects."""
+    score = tables.Column(empty_values=(), orderable=False)
+    category = tables.Column(empty_values=(), orderable=False)
+    difficulty = tables.Column(empty_values=(), orderable=False)
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.CharacterSkill
+        exclude = ('character',)
+
+    def render_difficulty(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.skill.get_difficulty_display
+
+    def render_category(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.skill.get_category_display
+
+    def render_score(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.score()
+
 # private methods --------------------------------------------------------------
 
 def _read_url(resource, resource_id):
