@@ -24,6 +24,10 @@ class IndexTestCase(TestCase):
     """Tests for the ``/`` path."""
     PATH = reverse('gurps-manager-index')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -82,6 +86,10 @@ class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
     PATH = reverse('gurps-manager-campaign')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
     def test_post(self):
         """POST ``self.PATH``."""
         num_campaigns = models.Campaign.objects.count()
@@ -125,6 +133,10 @@ class CampaignCreateFormTestCase(TestCase):
     """Tests for the ``campaign/create-form/`` path."""
     PATH = reverse('gurps-manager-campaign-create-form')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -153,6 +165,7 @@ class CampaignIdTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id',
@@ -208,6 +221,7 @@ class CampaignIdUpdateFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-update-form',
@@ -248,6 +262,7 @@ class CampaignIdDeleteFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-delete-form',
@@ -283,6 +298,10 @@ class CampaignIdDeleteFormTestCase(TestCase):
 class CharacterTestCase(TestCase):
     """Tests for the ``character/`` path."""
     PATH = reverse('gurps-manager-character')
+
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
 
     def test_post(self):
         """POST ``self.PATH``."""
@@ -333,6 +352,10 @@ class CharacterCreateFormTestCase(TestCase):
     """Tests for the ``character/create-form/`` path."""
     PATH = reverse('gurps-manager-character-create-form')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -361,6 +384,7 @@ class CharacterIdTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id',
@@ -417,6 +441,7 @@ class CharacterIdUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id-update-form',
@@ -457,6 +482,7 @@ class CharacterIdDeleteFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id-delete-form',
