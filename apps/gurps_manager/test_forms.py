@@ -20,7 +20,10 @@ class CampaignFormTestCase(TestCase):
     """Tests for ``CampaignForm``."""
     def test_valid(self):
         """Create a valid CampaignForm."""
-        form = forms.CampaignForm({'name': factories.campaign_name()})
+        form = forms.CampaignForm({
+            'name': factories.campaign_name(),
+            'owner': factories.UserFactory.create().id
+        })
         self.assertTrue(form.is_valid())
 
     def test_missing_name(self):
@@ -33,6 +36,7 @@ class CampaignFormTestCase(TestCase):
         form = forms.CampaignForm({
             'name': factories.campaign_name(),
             'description': factories.campaign_description(),
+            'owner': factories.UserFactory.create().id,
         })
         self.assertTrue(form.is_valid())
 
@@ -43,6 +47,7 @@ class CharacterFormTestCase(TestCase):
         """Return a dict of attributes for populating a CharacterForm."""
         return {
             'campaign': factories.CampaignFactory.create().id,
+            'owner': factories.UserFactory.create().id,
 
             # many-to-fields
             # 'skills', 'spells', and 'items' are optional

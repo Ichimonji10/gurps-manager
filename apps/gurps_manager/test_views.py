@@ -100,11 +100,14 @@ class CampaignTestCase(TestCase):
 
     def test_post(self):
         """POST ``self.PATH``."""
+        # A Campaign object contains FKs pointing to other objects. Save those
+        # remote objects, and place their IDs in a dict.
+        campaign_attrs = factories.CampaignFactory.attributes()
+        campaign_attrs['owner'].save()
+        campaign_attrs['owner'] = campaign_attrs['owner'].id
+
         num_campaigns = models.Campaign.objects.count()
-        response = self.client.post(
-            self.PATH,
-            factories.CampaignFactory.attributes()
-        )
+        response = self.client.post(self.PATH, campaign_attrs)
         self.assertEqual(models.Campaign.objects.count(), num_campaigns + 1)
         self.assertRedirects(
             response,
@@ -207,6 +210,8 @@ class CampaignIdTestCase(TestCase):
     def test_put(self):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CampaignFactory.attributes()
+        data['owner'].save()
+        data['owner'] = data['owner'].id
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
@@ -333,11 +338,12 @@ class CharacterTestCase(TestCase):
 
     def test_post(self):
         """POST ``self.PATH``."""
-        # char_attrs['campaign'] is a Campaign object. Save the object and place
-        # its ID in the dict.
+        # A Character object contains FKs pointing to other objects. Save those
+        # remote objects, and place their IDs in a dict.
         char_attrs = factories.CharacterFactory.attributes()
-        char_attrs['campaign'].save()
-        char_attrs['campaign'] = char_attrs['campaign'].id
+        char_attrs['campaign'] = factories.CampaignFactory.create().id
+        char_attrs['owner'].save()
+        char_attrs['owner'] = char_attrs['owner'].id
 
         # POSTing to self.PATH should create a new Character object.
         num_characters = models.Character.objects.count()
@@ -447,6 +453,7 @@ class CharacterIdTestCase(TestCase):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CharacterFactory.attributes()
         data['campaign'] = self.character.campaign.id # Make FK attribute sane
+        data['owner'] = self.character.owner.id # Make FK attribute sane
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)

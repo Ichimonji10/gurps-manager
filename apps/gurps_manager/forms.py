@@ -21,7 +21,7 @@ class CampaignForm(ModelForm):
     class Meta(object):
         """Form attributes that are not custom fields."""
         model = models.Campaign
-        fields = ['name', 'description', 'skillsets']
+        fields = ['name', 'description', 'skillsets', 'owner']
 
 class CharacterForm(ModelForm):
     """A form for creating and editing a Character."""

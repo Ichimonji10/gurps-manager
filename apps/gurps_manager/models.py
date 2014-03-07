@@ -8,11 +8,12 @@ column named ``id``. Django will not generate ``id`` if you pass ``primary_key =
 True`` to some other column.
 
 """
-import re
-from math import floor
 from decimal import Decimal
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from math import floor
+import re
 
 # pylint: disable=E1101
 # no-member. Used when a variable is accessed for a nonexistent member.
@@ -64,6 +65,9 @@ class Campaign(models.Model):
     """A single role-playing campaign."""
     MAX_LEN_NAME = 50
     MAX_LEN_DESCRIPTION = 2000
+
+    # key fields
+    owner = models.ForeignKey(User)
 
     # many-to-many fields
     skillsets = models.ManyToManyField('SkillSet', blank=True)
@@ -132,6 +136,7 @@ class Character(models.Model):
 
     # key fields
     campaign = models.ForeignKey(Campaign)
+    owner = models.ForeignKey(User)
 
     # many-to-many fields
     skills = models.ManyToManyField('Skill', through='CharacterSkill', blank=True) # pylint: disable=C0301

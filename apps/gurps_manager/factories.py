@@ -83,8 +83,9 @@ def create_user():
 class CampaignFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Campaign`` object.
 
-    >>> CampaignFactory.build().full_clean()
-    >>> CampaignFactory.create().id is None
+    >>> campaign = CampaignFactory.create()
+    >>> campaign.full_clean()
+    >>> campaign.id is None
     False
 
     """
@@ -92,6 +93,7 @@ class CampaignFactory(DjangoModelFactory):
     # pylint: disable=W0232
     FACTORY_FOR = models.Campaign
     name = FuzzyAttribute(lambda: campaign_name()) # pylint: disable=W0108
+    owner = SubFactory(UserFactory)
 
 def campaign_name():
     """Return a value for the ``Campaign.name`` model attribute.
@@ -158,6 +160,7 @@ class CharacterFactory(DjangoModelFactory):
     FACTORY_FOR = models.Character
 
     campaign = SubFactory(CampaignFactory)
+    owner = SubFactory(UserFactory)
     name = FuzzyAttribute(lambda: character_name())
 
     # integer-based fields
