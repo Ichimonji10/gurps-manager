@@ -24,6 +24,14 @@ class IndexTestCase(TestCase):
     """Tests for the ``/`` path."""
     PATH = reverse('gurps-manager-index')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -44,17 +52,62 @@ class IndexTestCase(TestCase):
         response = self.client.delete(self.PATH, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
 
+class LoginTestCase(TestCase):
+    """Tests for the ``login/`` path."""
+    PATH = reverse('gurps-manager-login')
+
+    def test_post(self):
+        """POST ``self.PATH``, thus logging in."""
+        user, password = factories.create_user()
+        response = self.client.post(
+            self.PATH,
+            {'username': user.username, 'password': password}
+        )
+        self.assertRedirects(response, reverse('gurps-manager-index'))
+
+    def test_post_failure(self):
+        """POST ``self.PATH``, incorrectly."""
+        response = self.client.post(self.PATH, {})
+        self.assertRedirects(response, self.PATH)
+
+    def test_get(self):
+        """GET ``self.PATH``."""
+        response = self.client.get(self.PATH)
+        self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        """POST ``self.PATH`` and emulate a PUT request."""
+        response = self.client.put(self.PATH, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.PATH`` ane emulate a DELETE request, thus logging out."""
+        _login(self.client)
+        response = self.client.post(self.PATH, {'_method': 'DELETE'})
+        self.assertRedirects(response, self.PATH)
+
 class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
     PATH = reverse('gurps-manager-campaign')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
+        # A Campaign object contains FKs pointing to other objects. Save those
+        # remote objects, and place their IDs in a dict.
+        campaign_attrs = factories.CampaignFactory.attributes()
+        campaign_attrs['owner'].save()
+        campaign_attrs['owner'] = campaign_attrs['owner'].id
+
         num_campaigns = models.Campaign.objects.count()
-        response = self.client.post(
-            self.PATH,
-            factories.CampaignFactory.attributes()
-        )
+        response = self.client.post(self.PATH, campaign_attrs)
         self.assertEqual(models.Campaign.objects.count(), num_campaigns + 1)
         self.assertRedirects(
             response,
@@ -91,6 +144,14 @@ class CampaignCreateFormTestCase(TestCase):
     """Tests for the ``campaign/create-form/`` path."""
     PATH = reverse('gurps-manager-campaign-create-form')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -119,11 +180,16 @@ class CampaignIdTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id',
             args=[self.campaign.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -144,6 +210,8 @@ class CampaignIdTestCase(TestCase):
     def test_put(self):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CampaignFactory.attributes()
+        data['owner'].save()
+        data['owner'] = data['owner'].id
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
@@ -174,11 +242,16 @@ class CampaignIdUpdateFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-update-form',
             args=[self.campaign.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -214,11 +287,16 @@ class CampaignIdDeleteFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
+        _login(self.client)
         self.campaign = factories.CampaignFactory.create()
         self.path = reverse(
             'gurps-manager-campaign-id-delete-form',
             args=[self.campaign.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -250,13 +328,22 @@ class CharacterTestCase(TestCase):
     """Tests for the ``character/`` path."""
     PATH = reverse('gurps-manager-character')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
-        # char_attrs['campaign'] is a Campaign object. Save the object and place
-        # its ID in the dict.
+        # A Character object contains FKs pointing to other objects. Save those
+        # remote objects, and place their IDs in a dict.
         char_attrs = factories.CharacterFactory.attributes()
-        char_attrs['campaign'].save()
-        char_attrs['campaign'] = char_attrs['campaign'].id
+        char_attrs['campaign'] = factories.CampaignFactory.create().id
+        char_attrs['owner'].save()
+        char_attrs['owner'] = char_attrs['owner'].id
 
         # POSTing to self.PATH should create a new Character object.
         num_characters = models.Character.objects.count()
@@ -299,6 +386,14 @@ class CharacterCreateFormTestCase(TestCase):
     """Tests for the ``character/create-form/`` path."""
     PATH = reverse('gurps-manager-character-create-form')
 
+    def setUp(self):
+        """Authenticate the test client."""
+        _login(self.client)
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self)
+
     def test_post(self):
         """POST ``self.PATH``."""
         response = self.client.post(self.PATH)
@@ -327,11 +422,16 @@ class CharacterIdTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id',
             args=[self.character.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -353,6 +453,7 @@ class CharacterIdTestCase(TestCase):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CharacterFactory.attributes()
         data['campaign'] = self.character.campaign.id # Make FK attribute sane
+        data['owner'] = self.character.owner.id # Make FK attribute sane
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
@@ -383,11 +484,16 @@ class CharacterIdUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id-update-form',
             args=[self.character.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -423,11 +529,16 @@ class CharacterIdDeleteFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
+        _login(self.client)
         self.character = factories.CharacterFactory.create()
         self.path = reverse(
             'gurps-manager-character-id-delete-form',
             args=[self.character.id]
         )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
 
     def test_post(self):
         """POST ``self.path``."""
@@ -454,3 +565,30 @@ class CharacterIdDeleteFormTestCase(TestCase):
         """POST ``self.path`` and emulate a DELETE request."""
         response = self.client.delete(self.path, {'_method': 'DELETE'})
         self.assertEqual(response.status_code, 405)
+
+def _login(client):
+    """Create a user and use it to log in ``client``."""
+    user, password = factories.create_user()
+    return client.login(username=user.username, password=password)
+
+def _test_login_required(test_case, url=None):
+    """Logout ``test_case.client``, then GET ``url``.
+
+    ``test_case`` is an instance of a ``TestCase`` subclass. A caller should
+    typically pass ``self`` to this method.
+
+    ``url`` is a string such as ``campaign/15/``. If no value is provided,
+    ``url`` defaults to ``test_case.URL``.
+
+    This method logs out the test client, then attempts to GET ``url``. The
+    client should be redirected to the ``gurps-manager-login`` view with the
+    ``next`` URL argument set to ``url``.
+
+    """
+    if url is None:
+        url = test_case.PATH
+    test_case.client.logout()
+    test_case.assertRedirects(
+        test_case.client.get(url),
+        '{}?next={}'.format(reverse('gurps-manager-login'), url)
+    )

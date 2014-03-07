@@ -11,6 +11,11 @@
     <!-- <script type='text/javascript' src='./scripts.js'></script> -->
 </head>
 <body>
+    <form method='post' action='{% url 'gurps-manager-login' %}'>
+        {% csrf_token %}
+        <input type='hidden' name='_method' value='DELETE' />
+        <button>log out</button>
+    </form>
     <nav>
         <a href='http://www.sjgames.com/gurps/'>
             <img

@@ -9,6 +9,7 @@ URL                                            POST     GET    PUT      DELETE
                                                (create) (read) (update) (delete)
 ============================================== ======== ====== ======== ========
 ``/``                                                   *
+``login/``                                     *        *               *
 ``campaign/``                                  *        *
 ``campaign/create-form/``                               *
 ``campaign/<id>/``                                      *      *        *
@@ -53,6 +54,7 @@ curious are encouraged to do some research.
 
 """
 from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import login_required
 from gurps_manager import views
 
 # WARNING! URL names must be unique in all django apps. If any URLs have the
@@ -62,59 +64,64 @@ from gurps_manager import views
 # pylint: disable=E1120
 urlpatterns = patterns( # pylint: disable=C0103
     '',
-    url(r'^$', views.Index.as_view(), name='gurps-manager-index'),
+    url(
+        r'^$',
+        login_required(views.Index.as_view()),
+        name='gurps-manager-index'
+    ),
+    url(r'^login/$', views.Login.as_view(), name='gurps-manager-login'),
 
     # campaign-related paths
     url(
         r'^campaign/$',
-        views.Campaign.as_view(),
+        login_required(views.Campaign.as_view()),
         name='gurps-manager-campaign'
     ),
     url(
         r'^campaign/create-form/$',
-        views.CampaignCreateForm.as_view(),
+        login_required(views.CampaignCreateForm.as_view()),
         name='gurps-manager-campaign-create-form'
     ),
     url(
         r'^campaign/(\d+)/$',
-        views.CampaignId.as_view(),
+        login_required(views.CampaignId.as_view()),
         name='gurps-manager-campaign-id',
     ),
     url(
         r'^campaign/(\d+)/update-form/$',
-        views.CampaignIdUpdateForm.as_view(),
+        login_required(views.CampaignIdUpdateForm.as_view()),
         name='gurps-manager-campaign-id-update-form',
     ),
     url(
         r'^campaign/(\d+)/delete-form/$',
-        views.CampaignIdDeleteForm.as_view(),
+        login_required(views.CampaignIdDeleteForm.as_view()),
         name='gurps-manager-campaign-id-delete-form',
     ),
 
     # character-related paths
     url(
         r'^character/$',
-        views.Character.as_view(),
+        login_required(views.Character.as_view()),
         name='gurps-manager-character'
     ),
     url(
         r'^character/create-form/$',
-        views.CharacterCreateForm.as_view(),
+        login_required(views.CharacterCreateForm.as_view()),
         name='gurps-manager-character-create-form'
     ),
     url(
         r'^character/(\d+)/$',
-        views.CharacterId.as_view(),
+        login_required(views.CharacterId.as_view()),
         name='gurps-manager-character-id',
     ),
     url(
         r'^character/(\d+)/update-form/$',
-        views.CharacterIdUpdateForm.as_view(),
+        login_required(views.CharacterIdUpdateForm.as_view()),
         name='gurps-manager-character-id-update-form',
     ),
     url(
         r'^character/(\d+)/delete-form/$',
-        views.CharacterIdDeleteForm.as_view(),
+        login_required(views.CharacterIdDeleteForm.as_view()),
         name='gurps-manager-character-id-delete-form',
     ),
     url(

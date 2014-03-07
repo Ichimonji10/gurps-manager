@@ -4,7 +4,7 @@ Unless otherwise noted, all forms defined herein can be used to either create or
 update an object.
 
 """
-from django.forms import ModelForm
+from django.forms import CharField, Form, ModelForm, widgets
 from gurps_manager import models
 
 # pylint: disable=R0903
@@ -15,13 +15,22 @@ from gurps_manager import models
 # "Class has no __init__ method"
 # It is both common and OK for a form to have no __init__ method.
 
+class LoginForm(Form):
+    """A form for logging in a user."""
+    username = CharField()
+    password = CharField(widget=widgets.PasswordInput)
+
+    class Meta(object):
+        """Form attributes that are not fields."""
+        fields = ['username', 'password']
+
 class CampaignForm(ModelForm):
     """A form for a Campaign."""
 
     class Meta(object):
         """Form attributes that are not custom fields."""
         model = models.Campaign
-        fields = ['name', 'description', 'skillsets']
+        fields = ['name', 'description', 'skillsets', 'owner']
 
 class CharacterForm(ModelForm):
     """A form for creating and editing a Character."""
@@ -54,3 +63,4 @@ class PossessionForm(ModelForm):
     class Meta(object):
         """Form attributes that are not custom fields."""
         model = models.Possession
+
