@@ -78,10 +78,6 @@ class LoginTestCase(TestCase):
         response = self.client.post(self.PATH, {'_method': 'DELETE'})
         self.assertRedirects(response, self.PATH)
 
-    def test__login(self):
-        """Test ``_login()``."""
-        self.assertTrue(_login(self.client))
-
 class CampaignTestCase(TestCase):
     """Tests for the ``campaign/`` path."""
     PATH = reverse('gurps-manager-campaign')
