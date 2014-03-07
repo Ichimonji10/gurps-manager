@@ -197,6 +197,58 @@ class CharacterSpellTable(tables.Table):
         return record.spell.get_difficulty_display
 
 
+class PossessionTable(tables.Table):
+    """An HTML table displaying ``Possession`` objects."""
+    value = tables.Column(empty_values=(), orderable=False)
+    total_value = tables.Column(empty_values=(), orderable=False)
+    weight = tables.Column(empty_values=(), orderable=False)
+    total_weight = tables.Column(empty_values=(), orderable=False)
+    description = tables.Column(empty_values=(), orderable=False)
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Possession
+        exclude = ('character',)
+
+    def render_description(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return _truncate_string(record.item.description)
+
+    def render_value(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return '{:.2f}'.format(record.item.value)
+
+    def render_total_value(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return '{:.2f}'.format(record.item.value * record.quantity)
+
+    def render_weight(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return '{:.2f} lbs.'.format(record.item.weight)
+
+    def render_total_weight(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return '{:.2f} lbs.'.format(record.item.weight * record.quantity)
 
 # private methods --------------------------------------------------------------
 

@@ -369,6 +369,21 @@ class CharacterSpellsUpdateForm(View):
                 'gurps-manager-character-id-spells-update-form'
             ))
 
+class Possessions(View):
+    """Handle a request for ``character/<id>/possessions``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``'s possessions."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        table = tables.PossessionTable(
+                    models.Possession.objects.filter(character=character_id)
+                )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-possessions.html',
+            {'character': character, 'table': table, 'request': request}
+        )
+
 class PossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
     def get(self, request, character_id):
