@@ -47,8 +47,8 @@ class CampaignTable(tables.Table):
         return mark_safe(_restful_links('campaign', record.id))
 
 class CharacterTable(tables.Table):
-    """An HTML table displaying ``Campaign`` objects."""
-    spent_points = tables.Column(empty_values=())
+    """An HTML table displaying ``Character`` objects."""
+    spent_points = tables.Column(empty_values=(), orderable=False)
     actions = tables.Column(empty_values=(), orderable=False)
 
     class Meta(object):
@@ -115,6 +115,88 @@ class CharacterSkillTable(tables.Table):
 
         """
         return record.score()
+
+class CharacterSpellTable(tables.Table):
+    """An HTML table displaying ``CharacterSpell`` objects."""
+    score = tables.Column(empty_values=(), orderable=False)
+    school = tables.Column(empty_values=(), orderable=False)
+    resist = tables.Column(empty_values=(), orderable=False)
+    duration = tables.Column(empty_values=(), orderable=False)
+    cast_time = tables.Column(empty_values=(), orderable=False)
+    initial_fatigue_cost = tables.Column(empty_values=(), orderable=False)
+    maintenance_fatigue_cost = tables.Column(empty_values=(), orderable=False)
+    difficulty = tables.Column(empty_values=(), orderable=False)
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.CharacterSpell
+        exclude = ('character',)
+
+    def render_score(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.score()
+
+    def render_school(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.school
+
+    def render_resist(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.resist
+
+    def render_duration(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.duration
+
+    def render_cast_time(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return str(record.spell.cast_time) + ' seconds'
+
+    def render_initial_fatigue_cost(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.initial_fatigue_cost
+
+    def render_maintenance_fatigue_cost(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.maintenance_fatigue_cost
+
+    def render_difficulty(self, record):
+        """Define how the ``score`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.spell.get_difficulty_display
+
+
 
 # private methods --------------------------------------------------------------
 

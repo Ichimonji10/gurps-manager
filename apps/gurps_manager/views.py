@@ -316,6 +316,21 @@ class CharacterSkillsUpdateForm(View):
                 'gurps-manager-character-id-skills-update-form'
             ))
 
+class CharacterSpells(View):
+    """Handle a request for ``character/<id>/spells``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``'s spells."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        table = tables.CharacterSpellTable(
+                    models.CharacterSpell.objects.filter(character=character_id)
+                )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-spells.html',
+            {'character': character, 'table': table, 'request': request}
+        )
+
 class CharacterSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
     def get(self, request, character_id):
