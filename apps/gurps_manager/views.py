@@ -250,7 +250,13 @@ class CharacterId(View):
         redirect user to ``CharacterIdUpdateForm`` view.
 
         """
+        # Does the requested character exist, and is the user authorized to
+        # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to update the character.
         form = forms.CharacterForm(request.POST, instance=character)
         if form.is_valid():
             form.save()
@@ -271,7 +277,10 @@ class CharacterId(View):
         After delete, redirect user to ``Character`` view.
 
         """
-        _get_model_object_or_404(models.Character, character_id).delete()
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        character.delete()
         return http.HttpResponseRedirect(reverse('gurps-manager-character'))
 
     def dispatch(self, request, *args, **kwargs):
@@ -298,7 +307,13 @@ class CharacterIdUpdateForm(View):
     """Handle a request for ``character/<id>/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``."""
+        # Does the requested character exist, and is the user authorized to
+        # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Populate and return an update form.
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             form = forms.CharacterForm(instance=character)
@@ -315,6 +330,8 @@ class CharacterIdDeleteForm(View):
     def get(self, request, character_id):
         """Return a form for deleting character ``character_id``."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         return render(
             request,
             'gurps_manager/character_templates/character-id-delete-form.html',
@@ -373,3 +390,14 @@ def _get_model_object_or_404(model, object_id):
         return model.objects.get(id=object_id)
     except model.DoesNotExist:
         raise http.Http404
+
+def _user_owns_character(user, character):
+    """Check whether ``user`` owns ``character``, directly or indirectly.
+
+    Return ``True`` if ``user`` owns ``character``, or if ``user`` owns the
+    campaign to which ``character`` belongs. Else, return ``False``.
+
+    """
+    if character.owner == user or character.campaign.owner == user:
+        return True
+    return False
