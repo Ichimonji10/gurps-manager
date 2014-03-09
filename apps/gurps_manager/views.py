@@ -397,6 +397,16 @@ def _user_owns_character(user, character):
     Return ``True`` if ``user`` owns ``character``, or if ``user`` owns the
     campaign to which ``character`` belongs. Else, return ``False``.
 
+    >>> from gurps_manager import factories
+    >>> character = factories.CharacterFactory.create()
+    >>> _user_owns_character(character.owner, character)
+    True
+    >>> _user_owns_character(character.campaign.owner, character)
+    True
+    >>> other_user = factories.UserFactory.create()
+    >>> _user_owns_character(other_user, character)
+    False
+
     """
     if character.owner == user or character.campaign.owner == user:
         return True
