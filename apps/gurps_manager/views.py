@@ -2,6 +2,7 @@
 from django.contrib import auth
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django import http
 from django.shortcuts import render
 from django_tables2 import RequestConfig
@@ -223,8 +224,33 @@ class Character(View):
             ))
 
     def get(self, request):
-        """Return a list of all characters."""
-        table = tables.CharacterTable(models.Character.objects.all())
+        """Return a list of characters.
+
+        Only show characters that fulfill one of the following conditions:
+        * the user owns that character
+        * the user is the game master for that character's campaign
+
+        Additionally, show other characters in the same campaign as the
+        characters above.
+
+        """
+        # The user owns these characters directly, or the user is the game
+        # master for these characters.
+        characters = models.Character.objects.filter(
+            Q(owner__exact=request.user) |
+            Q(campaign__owner__exact=request.user)
+        )
+
+        # find all campaigns that the above characters belong to
+        campaigns = set()
+        for character in characters:
+            campaigns.add(character.campaign)
+
+        # finally, find all "related" characters
+        related_characters = \
+            models.Character.objects.filter(campaign__in=campaigns)
+
+        table = tables.CharacterTable(related_characters)
         RequestConfig(request).configure(table)
         return render(
             request,
