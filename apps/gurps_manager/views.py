@@ -311,7 +311,7 @@ class CharacterIdUpdateForm(View):
         # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden('Error: you do not own this character.')
 
         # Populate and return an update form.
         form_data = request.session.pop('form_data', None)
@@ -331,7 +331,7 @@ class CharacterIdDeleteForm(View):
         """Return a form for deleting character ``character_id``."""
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden('Error: you do not own this character.')
         return render(
             request,
             'gurps_manager/character_templates/character-id-delete-form.html',
