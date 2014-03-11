@@ -2,6 +2,7 @@
 from django.contrib import auth
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django import http
 from django.shortcuts import render
 from django_tables2 import RequestConfig
@@ -224,8 +225,13 @@ class Character(View):
             ))
 
     def get(self, request):
-        """Return a list of all characters."""
-        table = tables.CharacterTable(models.Character.objects.all())
+        """Return information about several characters.
+
+        Only show characters that ``_viewable_characters`` returns.
+
+        """
+        characters = _viewable_characters(request.user)
+        table = tables.CharacterTable(characters)
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -238,6 +244,10 @@ class CharacterId(View):
     def get(self, request, character_id):
         """Return information about character ``character_id``."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if character not in _viewable_characters(request.user):
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
         return render(
             request,
             'gurps_manager/character_templates/character-id.html',
@@ -251,7 +261,13 @@ class CharacterId(View):
         redirect user to ``CharacterIdUpdateForm`` view.
 
         """
+        # Does the requested character exist, and is the user authorized to
+        # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to update the character.
         form = forms.CharacterForm(request.POST, instance=character)
         if form.is_valid():
             form.save()
@@ -272,7 +288,10 @@ class CharacterId(View):
         After delete, redirect user to ``Character`` view.
 
         """
-        _get_model_object_or_404(models.Character, character_id).delete()
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        character.delete()
         return http.HttpResponseRedirect(reverse('gurps-manager-character'))
 
     def dispatch(self, request, *args, **kwargs):
@@ -299,7 +318,15 @@ class CharacterIdUpdateForm(View):
     """Handle a request for ``character/<id>/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``."""
+        # Does the requested character exist, and is the user authorized to
+        # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
+
+        # Populate and return an update form.
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             form = forms.CharacterForm(instance=character)
@@ -316,6 +343,10 @@ class CharacterIdDeleteForm(View):
     def get(self, request, character_id):
         """Return a form for deleting character ``character_id``."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
         return render(
             request,
             'gurps_manager/character_templates/character-id-delete-form.html',
@@ -533,3 +564,79 @@ def _get_model_object_or_404(model, object_id):
         return model.objects.get(id=object_id)
     except model.DoesNotExist:
         raise http.Http404
+
+def _user_owns_character(user, character):
+    """Check whether ``user`` owns ``character``, directly or indirectly.
+
+    Return ``True`` if ``user`` owns ``character``, or if ``user`` owns the
+    campaign to which ``character`` belongs. Else, return ``False``.
+
+    >>> from gurps_manager import factories
+    >>> character = factories.CharacterFactory.create()
+    >>> _user_owns_character(character.owner, character)
+    True
+    >>> _user_owns_character(character.campaign.owner, character)
+    True
+    >>> other_user = factories.UserFactory.create()
+    >>> _user_owns_character(other_user, character)
+    False
+
+    """
+    if character.owner == user or character.campaign.owner == user:
+        return True
+    return False
+
+def _viewable_characters(user):
+    """Return a list of characters that ``user`` can view.
+
+    ``user`` is a ``User`` model object. That is, ``user`` is a user of the
+    application.
+
+    Only return characters that fulfill one of the following conditions:
+    * the user owns that character
+    * the user is the game master for that character's campaign
+
+    Additionally, include other characters in the same campaigns as the
+    characters above.
+
+    >>> from gurps_manager import factories
+    >>> campaign = factories.CampaignFactory.create()
+    >>> character1 = factories.CharacterFactory.create(campaign=campaign)
+    >>> character2 = factories.CharacterFactory.create(campaign=campaign)
+    >>> characters = _viewable_characters(campaign.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+    >>> characters = _viewable_characters(character1.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+    >>> characters = _viewable_characters(character2.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+
+    """
+    # The user owns these characters directly, or the user is the game master
+    # for these characters.
+    characters = models.Character.objects.filter(
+        Q(owner__exact=user) |
+        Q(campaign__owner__exact=user)
+    )
+
+    # find all campaigns that the above characters belong to
+    campaigns = set()
+    for character in characters:
+        campaigns.add(character.campaign)
+
+    # finally, find all "related" characters
+    return models.Character.objects.filter(campaign__in=campaigns)
