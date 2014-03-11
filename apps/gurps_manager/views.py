@@ -224,33 +224,13 @@ class Character(View):
             ))
 
     def get(self, request):
-        """Return a list of characters.
+        """Return information about several characters.
 
-        Only show characters that fulfill one of the following conditions:
-        * the user owns that character
-        * the user is the game master for that character's campaign
-
-        Additionally, show other characters in the same campaign as the
-        characters above.
+        Only show characters that ``_viewable_characters`` returns.
 
         """
-        # The user owns these characters directly, or the user is the game
-        # master for these characters.
-        characters = models.Character.objects.filter(
-            Q(owner__exact=request.user) |
-            Q(campaign__owner__exact=request.user)
-        )
-
-        # find all campaigns that the above characters belong to
-        campaigns = set()
-        for character in characters:
-            campaigns.add(character.campaign)
-
-        # finally, find all "related" characters
-        related_characters = \
-            models.Character.objects.filter(campaign__in=campaigns)
-
-        table = tables.CharacterTable(related_characters)
+        characters = _viewable_characters(request.user)
+        table = tables.CharacterTable(characters)
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -441,3 +421,32 @@ def _user_owns_character(user, character):
     if character.owner == user or character.campaign.owner == user:
         return True
     return False
+
+def _viewable_characters(user):
+    """Return a list of characters that ``user`` can view.
+
+    ``user`` is a ``User`` model object. That is, ``user`` is a user of the
+    application.
+
+    Only return characters that fulfill one of the following conditions:
+    * the user owns that character
+    * the user is the game master for that character's campaign
+
+    Additionally, include other characters in the same campaigns as the
+    characters above.
+
+    """
+    # The user owns these characters directly, or the user is the game master
+    # for these characters.
+    characters = models.Character.objects.filter(
+        Q(owner__exact=user) |
+        Q(campaign__owner__exact=user)
+    )
+
+    # find all campaigns that the above characters belong to
+    campaigns = set()
+    for character in characters:
+        campaigns.add(character.campaign)
+
+    # finally, find all "related" characters
+    return models.Character.objects.filter(campaign__in=campaigns)
