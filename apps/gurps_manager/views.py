@@ -243,6 +243,10 @@ class CharacterId(View):
     def get(self, request, character_id):
         """Return information about character ``character_id``."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if character not in _viewable_characters(request.user):
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
         return render(
             request,
             'gurps_manager/character_templates/character-id.html',

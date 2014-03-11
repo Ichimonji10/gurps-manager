@@ -451,6 +451,13 @@ class CharacterIdTestCase(TestCase):
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
 
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then try to get it."""
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
     def test_put(self):
         """Update ``self.character``."""
         data = factories.CharacterFactory.attributes()
