@@ -330,8 +330,7 @@ class CharacterTestCase(TestCase):
 
     def setUp(self):
         """Authenticate the test client."""
-        self.user, password = factories.create_user()
-        self.client.login(username=self.user.username, password=password)
+        self.user, password = _login(self.client)
 
     def test_login_required(self):
         """Ensure user must be logged in to GET this URL."""
@@ -423,8 +422,7 @@ class CharacterIdTestCase(TestCase):
         user owns the character.
 
         """
-        user, password = factories.create_user()
-        self.client.login(username=user.username, password=password)
+        user, password = _login(self.client)
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id',
@@ -507,8 +505,7 @@ class CharacterIdUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = factories.create_user()
-        self.client.login(username=user.username, password=password)
+        user, password = _login(self.client)
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-update-form',
@@ -560,8 +557,7 @@ class CharacterIdDeleteFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = factories.create_user()
-        self.client.login(username=user.username, password=password)
+        user, password = _login(self.client)
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-delete-form',
@@ -606,9 +602,14 @@ class CharacterIdDeleteFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 def _login(client):
-    """Create a user and use it to log in ``client``."""
+    """Create a user and log it in to ``client``.
+
+    Return the User object and its plaintext password as a two-element list.
+
+    """
     user, password = factories.create_user()
-    return client.login(username=user.username, password=password)
+    client.login(username=user.username, password=password)
+    return [user, password]
 
 def _test_login_required(test_case, url=None):
     """Logout ``test_case.client``, then GET ``url``.
