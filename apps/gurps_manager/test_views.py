@@ -330,7 +330,8 @@ class CharacterTestCase(TestCase):
 
     def setUp(self):
         """Authenticate the test client."""
-        _login(self.client)
+        self.user, password = factories.create_user()
+        self.client.login(username=self.user.username, password=password)
 
     def test_login_required(self):
         """Ensure user must be logged in to GET this URL."""
@@ -342,8 +343,7 @@ class CharacterTestCase(TestCase):
         # remote objects, and place their IDs in a dict.
         char_attrs = factories.CharacterFactory.attributes()
         char_attrs['campaign'] = factories.CampaignFactory.create().id
-        char_attrs['owner'].save()
-        char_attrs['owner'] = char_attrs['owner'].id
+        char_attrs['owner'] = self.user.id
 
         # POSTing to self.PATH should create a new Character object.
         num_characters = models.Character.objects.count()

@@ -439,6 +439,32 @@ def _viewable_characters(user):
     Additionally, include other characters in the same campaigns as the
     characters above.
 
+    >>> from gurps_manager import factories
+    >>> campaign = factories.CampaignFactory.create()
+    >>> character1 = factories.CharacterFactory.create(campaign=campaign)
+    >>> character2 = factories.CharacterFactory.create(campaign=campaign)
+    >>> characters = _viewable_characters(campaign.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+    >>> characters = _viewable_characters(character1.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+    >>> characters = _viewable_characters(character2.owner)
+    >>> len(characters)
+    2
+    >>> character1 in characters
+    True
+    >>> character2 in characters
+    True
+
     """
     # The user owns these characters directly, or the user is the game master
     # for these characters.
