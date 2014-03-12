@@ -8,6 +8,7 @@
         {% csrf_token %}
         <input type='hidden' name='_method' value='PUT' />
         {{ formset.as_p }}
+        {{ formset.management_form }}
         <p><button>Submit</button></p>
     </form>
 {% endblock %}

@@ -358,6 +358,8 @@ class CharacterSkills(View):
     def get(self, request, character_id):
         """Return information about character ``character_id``'s skills."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         table = tables.CharacterSkillTable(
                     models.CharacterSkill.objects.filter(character=character_id)
                 )
@@ -373,6 +375,8 @@ class CharacterSkillsUpdateForm(View):
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s skills."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, extra=5
         )
@@ -411,6 +415,8 @@ class CharacterSpells(View):
     def get(self, request, character_id):
         """Return information about character ``character_id``'s spells."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         table = tables.CharacterSpellTable(
                     models.CharacterSpell.objects.filter(character=character_id)
                 )
@@ -426,6 +432,8 @@ class CharacterSpellsUpdateForm(View):
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s spells."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         characterspell_formset = inlineformset_factory(
             models.Character, models.CharacterSpell, extra=5
         )
@@ -464,6 +472,8 @@ class Possessions(View):
     def get(self, request, character_id):
         """Return information about character ``character_id``'s possessions."""
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         table = tables.PossessionTable(
                     models.Possession.objects.filter(character=character_id)
                 )
@@ -479,6 +489,8 @@ class PossessionsUpdateForm(View):
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s possessions.""" # pylint: disable=C0301
         character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
         characterpossession_formset = inlineformset_factory(
             models.Character, models.Possession, extra=5
         )

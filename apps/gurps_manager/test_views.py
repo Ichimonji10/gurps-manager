@@ -7,6 +7,7 @@ Each test case  in this module tests a single view. For example,
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from gurps_manager import factories, models
+from django.forms.models import inlineformset_factory
 
 # pylint: disable=E1101
 # Class 'Campaign' has no 'objects' member (no-member)
@@ -561,6 +562,349 @@ class CharacterIdDeleteFormTestCase(TestCase):
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-delete-form',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdSkillsUpdateFormTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-skills-update-form',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        characterskill_formset = inlineformset_factory(
+            models.Character, models.CharacterSkill
+        )
+        data = {
+            'form-TOTAL_FORMS': u'1',
+            'form-INITIAL_FORMS': u'0',
+            'form-MAX_NUM_FORMS': u'',
+            'form-0-name': u'',
+        }
+        formset = characterskill_formset(data)
+        response = self.client.post(self.path, formset)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdSkillsTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-skills',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdSpellsUpdateFormTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-spells-update-form',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        characterspell_formset = inlineformset_factory(
+            models.Character, models.CharacterSpell
+        )
+        data = {
+            'form-TOTAL_FORMS': u'1',
+            'form-INITIAL_FORMS': u'0',
+            'form-MAX_NUM_FORMS': u'',
+            'form-0-name': u'',
+        }
+        formset = characterspell_formset(data)
+        print(formset)
+        response = self.client.post(self.path, formset)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdSpellsTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-spells',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdPossessionsUpdateFormTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-possessions-update-form',
+            args=[self.character.id]
+        )
+
+    def test_login_required(self):
+        """Ensure user must be logged in to GET this URL."""
+        _test_login_required(self, self.path)
+
+    def test_post(self):
+        """POST ``self.path``."""
+        characterpossession_formset = inlineformset_factory(
+            models.Character, models.Possession
+        )
+        data = {
+            'form-TOTAL_FORMS': u'1',
+            'form-INITIAL_FORMS': u'0',
+            'form-MAX_NUM_FORMS': u'',
+            'form-0-name': u'',
+        }
+        formset = characterpossession_formset(data)
+        response = self.client.post(self.path, formset)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get(self):
+        """GET ``self.path``."""
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_bad_id(self):
+        """GET ``self.path`` with a bad ID."""
+        self.character.delete()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Let some other user own ``self.character``, then GET ``self.path``.""" # pylint: disable=C0301
+        self.character.owner = factories.UserFactory.create()
+        self.character.save()
+        response = self.client.get(self.path)
+        self.assertEqual(response.status_code, 403)
+
+    def test_put(self):
+        """POST ``self.path`` and emulate a PUT request."""
+        response = self.client.put(self.path, {'_method': 'PUT'})
+        self.assertEqual(response.status_code, 405)
+
+    def test_delete(self):
+        """POST ``self.path`` and emulate a DELETE request."""
+        response = self.client.delete(self.path, {'_method': 'DELETE'})
+        self.assertEqual(response.status_code, 405)
+
+class CharacterIdPossessionsTestCase(TestCase):
+    """Tests for the ``character/<id>/delete-form/`` path."""
+    def setUp(self):
+        """Create a character and set ``self.path``.
+
+        The created character is accessible as ``self.character``.
+
+        """
+        user, password = _login(self.client)
+        self.character = factories.CharacterFactory.create(owner=user)
+        self.path = reverse(
+            'gurps-manager-character-id-possessions',
             args=[self.character.id]
         )
 

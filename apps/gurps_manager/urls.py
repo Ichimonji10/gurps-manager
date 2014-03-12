@@ -126,32 +126,32 @@ urlpatterns = patterns( # pylint: disable=C0103
     ),
     url(
         r'^character/(\d+)/skills/$',
-        views.CharacterSkills.as_view(),
+        login_required(views.CharacterSkills.as_view()),
         name='gurps-manager-character-id-skills',
     ),
     url(
         r'^character/(\d+)/skills/update-form/$',
-        views.CharacterSkillsUpdateForm.as_view(),
+        login_required(views.CharacterSkillsUpdateForm.as_view()),
         name='gurps-manager-character-id-skills-update-form',
     ),
     url(
         r'^character/(\d+)/spells/$',
-        views.CharacterSpells.as_view(),
+        login_required(views.CharacterSpells.as_view()),
         name='gurps-manager-character-id-spells',
     ),
     url(
         r'^character/(\d+)/spells/update-form/$',
-        views.CharacterSpellsUpdateForm.as_view(),
+        login_required(views.CharacterSpellsUpdateForm.as_view()),
         name='gurps-manager-character-id-spells-update-form',
     ),
     url(
         r'^character/(\d+)/possessions/$',
-        views.Possessions.as_view(),
+        login_required(views.Possessions.as_view()),
         name='gurps-manager-character-id-possessions',
     ),
     url(
         r'^character/(\d+)/possessions/update-form/$',
-        views.PossessionsUpdateForm.as_view(),
+        login_required(views.PossessionsUpdateForm.as_view()),
         name='gurps-manager-character-id-possessions-update-form',
     ),
 )
