@@ -331,7 +331,7 @@ class CharacterTestCase(TestCase):
 
     def setUp(self):
         """Authenticate the test client."""
-        self.user, password = _login(self.client)
+        self.user = _login(self.client)[0]
 
     def test_login_required(self):
         """Ensure user must be logged in to GET this URL."""
@@ -423,7 +423,7 @@ class CharacterIdTestCase(TestCase):
         user owns the character.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id',
@@ -506,7 +506,7 @@ class CharacterIdUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-update-form',
@@ -558,7 +558,7 @@ class CharacterIdDeleteFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-delete-form',
@@ -610,7 +610,7 @@ class CharacterIdSkillsUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-skills-update-form',
@@ -672,7 +672,7 @@ class CharacterIdSkillsTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-skills',
@@ -724,7 +724,7 @@ class CharacterIdSpellsUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-spells-update-form',
@@ -787,7 +787,7 @@ class CharacterIdSpellsTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-spells',
@@ -839,7 +839,7 @@ class CharacterIdPossessionsUpdateFormTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-possessions-update-form',
@@ -901,7 +901,7 @@ class CharacterIdPossessionsTestCase(TestCase):
         The created character is accessible as ``self.character``.
 
         """
-        user, password = _login(self.client)
+        user = _login(self.client)[0]
         self.character = factories.CharacterFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-character-id-possessions',
