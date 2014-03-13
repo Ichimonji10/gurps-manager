@@ -361,8 +361,8 @@ class CharacterSkills(View):
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
         table = tables.CharacterSkillTable(
-                    models.CharacterSkill.objects.filter(character=character_id)
-                )
+            models.CharacterSkill.objects.filter(character=character_id)
+        )
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -390,13 +390,16 @@ class CharacterSkillsUpdateForm(View):
             'gurps_manager/character_templates/character-id-skills-update-form.html', # pylint: disable=C0301
             {'character': character, 'formset': formset}
         )
+
     def post(self, request, character_id):
         """Create and update a character's skills"""
-        character = models.Character.objects.get(pk=character_id)
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, extra=5
         )
-        formset = characterskill_formset(request.POST, instance=character)
+        formset = characterskill_formset(
+            request.POST, instance=models.Character.objects.get(pk=character_id)
+        )
+
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
