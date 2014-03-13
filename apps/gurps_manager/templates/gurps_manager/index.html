@@ -5,30 +5,41 @@
 <head>
     <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
-    <!-- <style type='text/css'></style> -->
-    <!-- <link rel="stylesheet" href="default.css"> -->
-    <!-- <script type='text/javascript'></script> -->
-    <!-- <script type='text/javascript' src='./scripts.js'></script> -->
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/base.css' %}'>
 </head>
 <body>
     <form method='post' action='{% url 'gurps-manager-login' %}'>
         {% csrf_token %}
         <input type='hidden' name='_method' value='DELETE' />
+        <p>Hello, {{ user.username }}.</p>
         <button>log out</button>
     </form>
-    <nav>
-        <a href='http://www.sjgames.com/gurps/'>
-            <img
+    <nav class='clearfix'>
+        <!--
+        There are several arguments in favor of placing this paragraph and image
+        in the <nav> section:
+        * This banner is a navigation element, as its purpose is to send users
+          to the Steve Jackson Games website.
+        * This banner is a "major navigation" element. This entire application
+          would not exist if not for Steve Jackson games, so let's give the link
+          the prominence it deserves.
+        * "the first use of a product logo on any webpage [...] must link back
+          to our official page for that product"
+        -->
+        <p>
+            <a href='http://www.sjgames.com/gurps/'><img
                 src='{% static 'gurps_manager/images/minisjgbanner.gif' %}'
                 alt='Steve Jackson Games'
-            />
-        </a>
-        <a href='{% url 'gurps-manager-index' %}'>Home</a>
-        <a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a>
-        <a href='{% url 'gurps-manager-character' %}'>Characters</a>
+            /></a>
+        </p>
+        <ul>
+            <li><a href='{% url 'gurps-manager-index' %}'>Home</a></li>
+            <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+            <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        </ul>
     </nav>
     {% block body %}
-    <h1>gurps manager</h1>
+    <h1>GURPS Manager</h1>
     <p>This is placeholder content.</p>
     {% endblock %}
     <footer>
