@@ -7,8 +7,12 @@
     <form method='post' action='{% url 'gurps-manager-character-id-skills-update-form' character.id %}'>
         {% csrf_token %}
         <input type='hidden' name='_method' value='PUT' />
-        {{ formset.as_p }}
         {{ formset.management_form }}
+        <table>
+            {% for form in formset %}
+            <p>{{ form }}</p>
+            {% endfor %}
+        </table>
         <p><button>Submit</button></p>
     </form>
 {% endblock %}

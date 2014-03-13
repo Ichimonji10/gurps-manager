@@ -603,7 +603,7 @@ class CharacterIdDeleteFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdSkillsUpdateFormTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/skills/update-form/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
@@ -665,7 +665,7 @@ class CharacterIdSkillsUpdateFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdSkillsTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/skills/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
@@ -717,7 +717,7 @@ class CharacterIdSkillsTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdSpellsUpdateFormTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/spells/update-form/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
@@ -780,7 +780,7 @@ class CharacterIdSpellsUpdateFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdSpellsTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/spells/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
@@ -832,7 +832,7 @@ class CharacterIdSpellsTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdPossessionsUpdateFormTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/possessions/update-form/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
@@ -894,7 +894,7 @@ class CharacterIdPossessionsUpdateFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
 class CharacterIdPossessionsTestCase(TestCase):
-    """Tests for the ``character/<id>/delete-form/`` path."""
+    """Tests for the ``character/<id>/possessions/`` path."""
     def setUp(self):
         """Create a character and set ``self.path``.
 
