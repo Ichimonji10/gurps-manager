@@ -1,0 +1,126 @@
+/*------------------------------------------------------------------------------
+ * Basic Layout
+ *
+ * The following rules specify rules that can be applied to all pages in the
+ * entire app, with the exception of the login page. Sample HTML:
+ *
+ * <body>
+ *     <form>...</form>
+ *     <nav>...</nav>
+ *     ...
+ * </body>
+ *----------------------------------------------------------------------------*/
+
+html {
+    /* Demote the visual importance of whitespace. */
+    background-color: #E4E3E8;
+    /* Separate the browser viewport from the <body> tag. */
+    padding: 0.5em;
+}
+
+/* Style the page contents. */
+body {
+    /* Center the page contents. */
+    max-width: 60em;
+    margin-left: auto;
+    margin-right: auto;
+    /* Separate <body> tag from its content. */
+    padding: 0.5em 0.5em 1px 0.5em;
+    /* Visually promote the body, relative to the background. */
+    background-color: white;
+    box-shadow: 0 0 0.2em 0.2em #8291A0;
+}
+
+/* Style the log out form. */
+body > form:first-child {
+    float: right;
+    clear: right;
+    text-align: right;
+}
+body > form:first-child p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Style the navbar. Sample HTML:
+ *
+ * <nav>
+ *     <p><a><img /></a></p>
+ *     <ul>
+ *         <li><a>...</a></li>
+ *         <li><a>...</a></li>
+ *     </ul>
+ * </nav>
+ *
+ */
+
+/* Start by creating the basic layout. */
+nav > ul li { float: left; }
+nav > ul, nav + * {
+    clear: left;
+}
+
+/* Remove ugly space around the banner image. */
+nav > p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Make the links line up horizontally. */
+nav > ul {
+    list-style: none outside none;
+    padding-left: 0;
+    margin-top: 0;
+}
+nav > ul li {
+    display: block;
+    margin: 0.5em;
+}
+
+nav {border-bottom: medium solid #8291A0;}
+
+/*------------------------------------------------------------------------------
+ * Tables
+ *----------------------------------------------------------------------------*/
+th, td {
+    padding: 0.5em;
+    border-bottom: thin solid #2C5873;
+}
+
+th.asc:after {
+    content: '\2193';
+}
+
+th.desc:after {
+    content: '\2191';
+}
+
+/*------------------------------------------------------------------------------
+ * Clearfix
+ *
+ * The famous and essential clearfix, used to make a block wrap floated content.
+ * See more here: http://csscreator.com/attributes/containedfloat.php
+ *----------------------------------------------------------------------------*/
+.clearfix:after {
+    /* Create some "block" content, */
+    content: '.';
+    display: block;
+    /* make it invisible */
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+    /* and force `.floatcontainer` to expand and contain it. */
+    clear: both;
+}
+
+/*------------------------------------------------------------------------------
+Other Rules
+------------------------------------------------------------------------------*/
+
+/* Push textareas down below their label. */
+textarea {display: block;}
+
+/* FIXME: place in separate stylesheet */
+/* This stylesheet can be used with any of the "object" templates, such as
+ * tag.html or lend.html.
+ */
