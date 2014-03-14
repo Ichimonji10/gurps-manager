@@ -7,7 +7,6 @@ Each test case  in this module tests a single view. For example,
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from gurps_manager import factories, models
-from django.forms.models import inlineformset_factory
 import unittest
 
 # pylint: disable=E1101
