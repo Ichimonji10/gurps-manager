@@ -10,7 +10,7 @@
         {{ formset.management_form }}
         <table>
             {% for form in formset %}
-            <p>{{ form }}</p>
+            {{ form }}
             {% endfor %}
         </table>
         <p><button>Submit</button></p>
