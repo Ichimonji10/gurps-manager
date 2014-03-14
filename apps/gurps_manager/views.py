@@ -373,17 +373,22 @@ class CharacterSkills(View):
 class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
     @classmethod
-    def _generate_formset(cls):
-        """Generate an inline formset class.
+    def _generate_formset(cls, character):
+        """Generate an inline formset class for ``CharacterSkill`` objects.
 
-        The formset class returned is suitable for editing ``CharacterSkill``s
-        belonging to a ``Character``.
+        ``character`` is a ``Character`` model object.
+
+        The inline formset can be used to edit ``CharacterSkill`` objects
+        belonging to ``character``. For details on how each individual form in
+        the inline formset behaves, see the documentation for function
+        ``forms.generate_character_skill_form``.
 
         """
         return inlineformset_factory(
             models.Character,
             models.CharacterSkill,
-            extra=5
+            extra=5,
+            form=forms.generate_character_skill_form(character)
         )
 
     def get(self, request, character_id):
@@ -394,11 +399,12 @@ class CharacterSkillsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form for updating the character's skills.
+        formset_cls = self._generate_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            formset = self._generate_formset()(instance=character)
+            formset = formset_cls(instance=character)
         else:
-            formset = self._generate_formset()(json.loads(form_data))
+            formset = formset_cls(json.loads(form_data))
 
         # Everything is set. Let's hand it back in a nice format.
         return render(
@@ -415,7 +421,8 @@ class CharacterSkillsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Attempt to update the character's skills.
-        formset = self._generate_formset()(request.POST, instance=character)
+        formset_cls = self._generate_formset(character)
+        formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
