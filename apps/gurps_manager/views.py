@@ -372,9 +372,19 @@ class CharacterSkills(View):
 
 class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
-    # FIXME: There is duplicate code at the beginning of `get` and `post`. It
-    # should be refactored out, perhaps by placing it in `__init__` or a private
-    # method.
+    @classmethod
+    def _generate_formset(cls):
+        """Generate an inline formset class.
+
+        The formset class returned is suitable for editing ``CharacterSkill``s
+        belonging to a ``Character``.
+
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.CharacterSkill,
+            extra=5
+        )
 
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s skills."""
@@ -384,14 +394,11 @@ class CharacterSkillsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form for updating the character's skills.
-        characterskill_formset = inlineformset_factory(
-            models.Character, models.CharacterSkill, extra=5
-        )
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            formset = characterskill_formset(instance=character)
+            formset = self._generate_formset()(instance=character)
         else:
-            formset = characterskill_formset(json.loads(form_data))
+            formset = self._generate_formset()(json.loads(form_data))
 
         # Everything is set. Let's hand it back in a nice format.
         return render(
@@ -407,15 +414,8 @@ class CharacterSkillsUpdateForm(View):
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
 
-        # Create and populate a formset.
-        characterskill_formset = inlineformset_factory(
-            models.Character, models.CharacterSkill, extra=5
-        )
-        formset = characterskill_formset(
-            request.POST, instance=character
-        )
-
         # Attempt to update the character's skills.
+        formset = self._generate_formset()(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
