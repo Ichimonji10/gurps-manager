@@ -372,11 +372,18 @@ class CharacterSkills(View):
 
 class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
+    # FIXME: There is duplicate code at the beginning of `get` and `post`. It
+    # should be refactored out, perhaps by placing it in `__init__` or a private
+    # method.
+
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s skills."""
+        # Check whether the character exists, and whether we own it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
+
+        # Generate a form for updating the character's skills.
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, extra=5
         )
@@ -385,6 +392,8 @@ class CharacterSkillsUpdateForm(View):
             formset = characterskill_formset(instance=character)
         else:
             formset = characterskill_formset(json.loads(form_data))
+
+        # Everything is set. Let's hand it back in a nice format.
         return render(
             request,
             'gurps_manager/character_templates/character-id-skills-update-form.html', # pylint: disable=C0301
@@ -393,13 +402,20 @@ class CharacterSkillsUpdateForm(View):
 
     def post(self, request, character_id):
         """Create and update a character's skills"""
+        # Check whether the character exists, and whether we own it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Create and populate a formset.
         characterskill_formset = inlineformset_factory(
             models.Character, models.CharacterSkill, extra=5
         )
         formset = characterskill_formset(
-            request.POST, instance=models.Character.objects.get(pk=character_id)
+            request.POST, instance=character
         )
 
+        # Attempt to update the character's skills.
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
@@ -507,6 +523,7 @@ class PossessionsUpdateForm(View):
             'gurps_manager/character_templates/character-id-possessions-update-form.html', # pylint: disable=C0301
             {'character': character, 'formset': formset}
         )
+
     def post(self, request, character_id):
         """Create and update a character's possessions"""
         character = models.Character.objects.get(pk=character_id)
