@@ -44,11 +44,11 @@ class CharacterForm(ModelForm):
         # or `exclude`.
 
 def generate_character_skill_form(character):
-    """Create and return a custom formset class.
+    """Generate a form class for ``CharacterSkill`` objects.
 
     ``character`` is a ``Character`` model object.
 
-    The formset class returned is suitable for creating, editing and deleting
+    The form class returned is suitable for creating, editing and deleting
     ``CharacterSkill``s belonging to character ``character``. Not all skills can
     be assigned to ``character``. Instead, a skill will only be available if
     that skill's skillset belongs to ``character``'s campaign.

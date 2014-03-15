@@ -374,10 +374,14 @@ class CharacterSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
     @classmethod
     def _generate_formset(cls, character):
-        """Generate an inline formset class.
+        """Generate an inline formset class for ``CharacterSkill`` objects.
 
-        For details on how the returned formset class behaves, see the
-        documentation for function ``forms.generate_character_skill_form``.
+        ``character`` is a ``Character`` model object.
+
+        The inline formset can be used to edit ``CharacterSkill`` objects
+        belonging to ``character``. For details on how each individual form in
+        the inline formset behaves, see the documentation for function
+        ``forms.generate_character_skill_form``.
 
         """
         return inlineformset_factory(
