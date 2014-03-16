@@ -1,0 +1,13 @@
+{% extends 'gurps_manager/index.html' %}
+{% load render_table from django_tables2 %}
+
+{% block title %}Traits{% endblock %}
+
+{% block body %}
+    <h1>Traits</h1>
+    <p>
+        Add or update spells <a
+        href='{% url 'gurps-manager-character-id-traits-update-form' character.id %}'>here</a>.
+    </p>
+    {% render_table table %}
+{% endblock %}
