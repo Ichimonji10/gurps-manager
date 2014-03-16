@@ -23,9 +23,13 @@ URL                                            POST     GET    PUT      DELETE
 ``character/<id>/skills/``                              *
 ``character/<id>/spells/``                              *
 ``character/<id>/possessions/``                         *
+``character/<id>/traits/``                              *
+``character/<id>/hit-locations/``                       *
 ``character/<id>/skills/update-form/``         *        *
 ``character/<id>/spells/update-form/``         *        *
 ``character/<id>/possessions/update-form/``    *        *
+``character/<id>/traits/update-form/``         *        *
+``character/<id>/hit-locations/update-form/``  *        *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
@@ -153,5 +157,25 @@ urlpatterns = patterns( # pylint: disable=C0103
         r'^character/(\d+)/possessions/update-form/$',
         login_required(views.PossessionsUpdateForm.as_view()),
         name='gurps-manager-character-id-possessions-update-form',
+    ),
+    url(
+        r'^character/(\d+)/traits/$',
+        login_required(views.Possessions.as_view()),
+        name='gurps-manager-character-id-traits',
+    ),
+    url(
+        r'^character/(\d+)/traits/update-form/$',
+        login_required(views.PossessionsUpdateForm.as_view()),
+        name='gurps-manager-character-id-traits-update-form',
+    ),
+    url(
+        r'^character/(\d+)/hit-locations/$',
+        login_required(views.Possessions.as_view()),
+        name='gurps-manager-character-id-hit-locations',
+    ),
+    url(
+        r'^character/(\d+)/hit-locations/update-form/$',
+        login_required(views.PossessionsUpdateForm.as_view()),
+        name='gurps-manager-character-id-hit-locations-update-form',
     ),
 )
