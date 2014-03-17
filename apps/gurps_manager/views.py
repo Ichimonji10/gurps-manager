@@ -551,6 +551,136 @@ class PossessionsUpdateForm(View):
                 'gurps-manager-character-id-possessions-update-form'
             ))
 
+class Traits(View):
+    """Handle a request for ``character/<id>/traits``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``'s traits."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        table = tables.TraitTable(
+                    models.Trait.objects.filter(character=character_id)
+                )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-traits.html',
+            {'character': character, 'table': table, 'request': request}
+        )
+
+class TraitsUpdateForm(View):
+    """Handle a request for ``character/<id>/traits/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """
+        Generate an inline formset class for ``Trait`` objects.
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.Trait,
+            extra=5
+        )
+
+    def get(self, request, character_id):
+        """Return a form for updating character ``character_id``'s traits.""" # pylint: disable=C0301
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        charactertrait_formset = self._generate_formset()
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            formset = charactertrait_formset(instance=character)
+        else:
+            formset = charactertrait_formset(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-traits-update-form.html', # pylint: disable=C0301
+            {'character': character, 'formset': formset}
+        )
+
+    def post(self, request, character_id):
+        """Create and update a character's traits"""
+        character = models.Character.objects.get(pk=character_id)
+        charactertrait_formset = self._generate_formset()
+        formset = charactertrait_formset(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-traits-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-traits-update-form'
+            ))
+
+class HitLocations(View):
+    """Handle a request for ``character/<id>/hit-locations``."""
+    def get(self, request, character_id):
+        """Return information about character ``character_id``'s hit-locations."""
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        table = tables.HitLocationTable(
+                    models.HitLocation.objects.filter(character=character_id)
+                )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-hit-locations.html',
+            {'character': character, 'table': table, 'request': request}
+        )
+
+class HitLocationsUpdateForm(View):
+    """Handle a request for ``character/<id>/hit-locations/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """
+        Generate an inline formset class for ``HitLocation`` objects.
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.HitLocation,
+            extra=5
+        )
+
+    def get(self, request, character_id):
+        """Return a form for updating character ``character_id``'s hit-locations.""" # pylint: disable=C0301
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+        characterhitlocation_formset = self._generate_formset()
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            formset = characterhitlocation_formset(instance=character)
+        else:
+            formset = characterhitlocation_formset(json.loads(form_data))
+        return render(
+            request,
+            'gurps_manager/character_templates/character-id-hit-locations-update-form.html', # pylint: disable=C0301
+            {'character': character, 'formset': formset}
+        )
+
+    def post(self, request, character_id):
+        """Create and update a character's hit-locations"""
+        character = models.Character.objects.get(pk=character_id)
+        characterhitlocation_formset = self._generate_formset()
+        formset = characterhitlocation_formset(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-hit-locations-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-hit-locations-update-form'
+            ))
+
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
 
