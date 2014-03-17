@@ -10,6 +10,9 @@ from django.utils.safestring import mark_safe
 from gurps_manager import models
 import django_tables2 as tables
 
+# FIXME: Add doctests for the various render_* methods in this module. See
+# `CampaignTable.render_description` for inspiration.
+
 # pylint: disable=R0903
 # "Too few public methods (0/2)"
 # It is both common and OK for a table class to have no methods.
@@ -33,6 +36,16 @@ class CampaignTable(tables.Table):
         """Define how the ``description`` column should be rendered.
 
         ``value`` represents a single cell of data from the table.
+
+        >>> from gurps_manager.models import Campaign
+        >>> from gurps_manager.tables import _truncate_string
+        >>> table = CampaignTable(Campaign.objects.all())
+        >>> string = 'a' * 130
+        >>> table.render_description(string) == _truncate_string(string)
+        True
+        >>> string = 'a' * 150
+        >>> table.render_description(string) == _truncate_string(string)
+        True
 
         """
         return _truncate_string(value)
