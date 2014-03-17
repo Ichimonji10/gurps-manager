@@ -353,7 +353,7 @@ class CharacterIdDeleteForm(View):
             {'character': character}
         )
 
-class CharacterSkills(View):
+class CharacterIdSkills(View):
     """Handle a request for ``character/<id>/skills``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s skills."""
@@ -370,7 +370,7 @@ class CharacterSkills(View):
             {'character': character, 'table': table, 'request': request}
         )
 
-class CharacterSkillsUpdateForm(View):
+class CharacterIdSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
     @classmethod
     def _generate_formset(cls, character):
@@ -436,7 +436,7 @@ class CharacterSkillsUpdateForm(View):
                 'gurps-manager-character-id-skills-update-form'
             ))
 
-class CharacterSpells(View):
+class CharacterIdSpells(View):
     """Handle a request for ``character/<id>/spells``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s spells."""
@@ -453,7 +453,7 @@ class CharacterSpells(View):
             {'character': character, 'table': table, 'request': request}
         )
 
-class CharacterSpellsUpdateForm(View):
+class CharacterIdSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s spells."""
@@ -493,7 +493,7 @@ class CharacterSpellsUpdateForm(View):
                 'gurps-manager-character-id-spells-update-form'
             ))
 
-class Possessions(View):
+class CharacterIdPossessions(View):
     """Handle a request for ``character/<id>/possessions``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s possessions."""
@@ -510,7 +510,7 @@ class Possessions(View):
             {'character': character, 'table': table, 'request': request}
         )
 
-class PossessionsUpdateForm(View):
+class CharacterIdPossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s possessions.""" # pylint: disable=C0301
