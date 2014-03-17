@@ -455,14 +455,23 @@ class CharacterSpells(View):
 
 class CharacterSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """
+        Generate an inline formset class for ``CharacterSpell`` objects.
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.CharacterSpell,
+            extra=5
+        )
+
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s spells."""
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
-        characterspell_formset = inlineformset_factory(
-            models.Character, models.CharacterSpell, extra=5
-        )
+        characterspell_formset = self._generate_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = characterspell_formset(instance=character)
@@ -476,9 +485,7 @@ class CharacterSpellsUpdateForm(View):
     def post(self, request, character_id):
         """Create and update a character's spells"""
         character = models.Character.objects.get(pk=character_id)
-        characterspell_formset = inlineformset_factory(
-            models.Character, models.CharacterSpell, extra=5
-        )
+        characterspell_formset = self._generate_formset()
         formset = characterspell_formset(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -512,14 +519,23 @@ class Possessions(View):
 
 class PossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """
+        Generate an inline formset class for ``Possession`` objects.
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.Possession,
+            extra=5
+        )
+
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s possessions.""" # pylint: disable=C0301
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
-        characterpossession_formset = inlineformset_factory(
-            models.Character, models.Possession, extra=5
-        )
+        characterpossession_formset = self._generate_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = characterpossession_formset(instance=character)
@@ -534,9 +550,7 @@ class PossessionsUpdateForm(View):
     def post(self, request, character_id):
         """Create and update a character's possessions"""
         character = models.Character.objects.get(pk=character_id)
-        characterpossession_formset = inlineformset_factory(
-            models.Character, models.Possession, extra=5
-        )
+        characterpossession_formset = self._generate_formset()
         formset = characterpossession_formset(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
