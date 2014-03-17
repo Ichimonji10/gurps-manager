@@ -267,7 +267,7 @@ class CharacterId(View):
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
 
-        # Attempt to update the character.
+        # Attempt to save changes. Reply.
         form = forms.CharacterForm(request.POST, instance=character)
         if form.is_valid():
             form.save()
@@ -357,9 +357,12 @@ class CharacterIdSkills(View):
     """Handle a request for ``character/<id>/skills``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s skills."""
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
+
+        # Reply.
         table = tables.CharacterSkillTable(
             models.CharacterSkill.objects.filter(character=character_id)
         )
@@ -398,7 +401,7 @@ class CharacterIdSkillsUpdateForm(View):
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
 
-        # Generate a form for updating the character's skills.
+        # Generate a form.
         formset_cls = self._generate_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
@@ -406,7 +409,7 @@ class CharacterIdSkillsUpdateForm(View):
         else:
             formset = formset_cls(json.loads(form_data))
 
-        # Everything is set. Let's hand it back in a nice format.
+        # Reply.
         return render(
             request,
             'gurps_manager/character_templates/character-id-skills-update-form.html', # pylint: disable=C0301
@@ -415,12 +418,12 @@ class CharacterIdSkillsUpdateForm(View):
 
     def post(self, request, character_id):
         """Create and update a character's skills"""
-        # Check whether the character exists, and whether we own it.
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
 
-        # Attempt to update the character's skills.
+        # Attempt to save changes. Reply.
         formset_cls = self._generate_formset(character)
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
@@ -440,12 +443,15 @@ class CharacterIdSpells(View):
     """Handle a request for ``character/<id>/spells``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s spells."""
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
+
+        # Reply.
         table = tables.CharacterSpellTable(
-                    models.CharacterSpell.objects.filter(character=character_id)
-                )
+            models.CharacterSpell.objects.filter(character=character_id)
+        )
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -455,31 +461,52 @@ class CharacterIdSpells(View):
 
 class CharacterIdSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """Generate an inline formset class for ``CharacterSpell`` objects.
+
+        The inline formset class can be used to edit ``CharacterSpell`` objects
+        belonging to a particular ``Character`` object.
+
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.CharacterSpell,
+            extra=5
+        )
+
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s spells."""
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
-        characterspell_formset = inlineformset_factory(
-            models.Character, models.CharacterSpell, extra=5
-        )
+
+        # Generate a form.
+        formset_cls = self._generate_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            formset = characterspell_formset(instance=character)
+            formset = formset_cls(instance=character)
         else:
-            formset = characterspell_formset(json.loads(form_data))
+            formset = formset_cls(json.loads(form_data))
+
+        # Reply.
         return render(
             request,
             'gurps_manager/character_templates/character-id-spells-update-form.html', # pylint: disable=C0301
             {'character': character, 'formset': formset}
         )
+
     def post(self, request, character_id):
         """Create and update a character's spells"""
-        character = models.Character.objects.get(pk=character_id)
-        characterspell_formset = inlineformset_factory(
-            models.Character, models.CharacterSpell, extra=5
-        )
-        formset = characterspell_formset(request.POST, instance=character)
+        # Check whether the character exists, and whether the user owns it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
@@ -497,12 +524,15 @@ class CharacterIdPossessions(View):
     """Handle a request for ``character/<id>/possessions``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s possessions."""
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
+
+        # Generate a reply.
         table = tables.PossessionTable(
-                    models.Possession.objects.filter(character=character_id)
-                )
+            models.Possession.objects.filter(character=character_id)
+        )
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -512,19 +542,36 @@ class CharacterIdPossessions(View):
 
 class CharacterIdPossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
+    @classmethod
+    def _generate_formset(cls):
+        """Generate an inline formset class for ``Possession`` objects.
+
+        The inline formset class can be used to edit ``Possession`` objects
+        belonging to a particular ``Character`` object.
+
+        """
+        return inlineformset_factory(
+            models.Character,
+            models.Possession,
+            extra=5
+        )
+
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s possessions.""" # pylint: disable=C0301
+        # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
-        characterpossession_formset = inlineformset_factory(
-            models.Character, models.Possession, extra=5
-        )
+
+        # Generate a form.
+        formset_cls = self._generate_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
-            formset = characterpossession_formset(instance=character)
+            formset = formset_cls(instance=character)
         else:
-            formset = characterpossession_formset(json.loads(form_data))
+            formset = formset_cls(json.loads(form_data))
+
+        # Reply.
         return render(
             request,
             'gurps_manager/character_templates/character-id-possessions-update-form.html', # pylint: disable=C0301
@@ -533,11 +580,14 @@ class CharacterIdPossessionsUpdateForm(View):
 
     def post(self, request, character_id):
         """Create and update a character's possessions"""
-        character = models.Character.objects.get(pk=character_id)
-        characterpossession_formset = inlineformset_factory(
-            models.Character, models.Possession, extra=5
-        )
-        formset = characterpossession_formset(request.POST, instance=character)
+        # Check whether the character exists, and whether the user owns it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
