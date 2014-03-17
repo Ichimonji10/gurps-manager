@@ -401,11 +401,7 @@ class CharacterIdSkillsUpdateForm(View):
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
 
-<<<<<<< HEAD
-        # Generate a form for updating the character's skills.
-=======
         # Generate a form.
->>>>>>> origin/ui-improvements
         formset_cls = self._generate_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
@@ -673,7 +669,7 @@ class TraitsUpdateForm(View):
 class HitLocations(View):
     """Handle a request for ``character/<id>/hit-locations``."""
     def get(self, request, character_id):
-        """Return information about character ``character_id``'s hit-locations."""
+        """Return information about character ``character_id``'s hit-locations.""" # pylint: disable=C0301
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
             return http.HttpResponseForbidden()
