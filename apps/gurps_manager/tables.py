@@ -250,6 +250,22 @@ class PossessionTable(tables.Table):
         """
         return '{:.2f} lbs.'.format(record.item.weight * record.quantity)
 
+class TraitTable(tables.Table):
+    """An HTML table displaying ``Trait`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Trait
+        exclude = ('character',)
+
+class HitLocationTable(tables.Table):
+    """An HTML table displaying ``HitLocation`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.HitLocation
+        exclude = ('character',)
+
 # private methods --------------------------------------------------------------
 
 def _read_url(resource, resource_id):
