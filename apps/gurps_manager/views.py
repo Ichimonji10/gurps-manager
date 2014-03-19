@@ -373,6 +373,29 @@ class CharacterIdSkills(View):
             {'character': character, 'table': table, 'request': request}
         )
 
+    def post(self, request, character_id):
+        """Create and update a character's skills"""
+        # Check whether the character exists, and whether the user owns it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = self._generate_formset(character)
+        formset = formset_cls(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-skills-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-skills-update-form'
+            ))
+
 class CharacterIdSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
     @classmethod
@@ -416,29 +439,6 @@ class CharacterIdSkillsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-    def post(self, request, character_id):
-        """Create and update a character's skills"""
-        # Check whether the character exists, and whether the user owns it.
-        character = _get_model_object_or_404(models.Character, character_id)
-        if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
-
-        # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset(character)
-        formset = formset_cls(request.POST, instance=character)
-        if formset.is_valid():
-            formset.save()
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-skills-update-form',
-                args=[character_id]
-            ))
-        else:
-            # Put formset data into session. Destination view will use it.
-            request.session['form_data'] = json.dumps(formset.data)
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-skills-update-form'
-            ))
-
 class CharacterIdSpells(View):
     """Handle a request for ``character/<id>/spells``."""
     def get(self, request, character_id):
@@ -458,6 +458,29 @@ class CharacterIdSpells(View):
             'gurps_manager/character_templates/character-id-spells.html',
             {'character': character, 'table': table, 'request': request}
         )
+
+    def post(self, request, character_id):
+        """Create and update a character's spells"""
+        # Check whether the character exists, and whether the user owns it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-spells-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-spells-update-form'
+            ))
 
 class CharacterIdSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
@@ -497,29 +520,6 @@ class CharacterIdSpellsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-    def post(self, request, character_id):
-        """Create and update a character's spells"""
-        # Check whether the character exists, and whether the user owns it.
-        character = _get_model_object_or_404(models.Character, character_id)
-        if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
-
-        # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
-        formset = formset_cls(request.POST, instance=character)
-        if formset.is_valid():
-            formset.save()
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-spells-update-form',
-                args=[character_id]
-            ))
-        else:
-            # Put formset data into session. Destination view will use it.
-            request.session['form_data'] = json.dumps(formset.data)
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-spells-update-form'
-            ))
-
 class CharacterIdPossessions(View):
     """Handle a request for ``character/<id>/possessions``."""
     def get(self, request, character_id):
@@ -539,6 +539,29 @@ class CharacterIdPossessions(View):
             'gurps_manager/character_templates/character-id-possessions.html',
             {'character': character, 'table': table, 'request': request}
         )
+
+    def post(self, request, character_id):
+        """Create and update a character's possessions"""
+        # Check whether the character exists, and whether the user owns it.
+        character = _get_model_object_or_404(models.Character, character_id)
+        if not _user_owns_character(request.user, character):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-possessions-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-possessions-update-form'
+            ))
 
 class CharacterIdPossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
@@ -578,29 +601,6 @@ class CharacterIdPossessionsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-    def post(self, request, character_id):
-        """Create and update a character's possessions"""
-        # Check whether the character exists, and whether the user owns it.
-        character = _get_model_object_or_404(models.Character, character_id)
-        if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
-
-        # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
-        formset = formset_cls(request.POST, instance=character)
-        if formset.is_valid():
-            formset.save()
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-possessions-update-form',
-                args=[character_id]
-            ))
-        else:
-            # Put formset data into session. Destination view will use it.
-            request.session['form_data'] = json.dumps(formset.data)
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-possessions-update-form'
-            ))
-
 class Traits(View):
     """Handle a request for ``character/<id>/traits``."""
     def get(self, request, character_id):
@@ -617,6 +617,24 @@ class Traits(View):
             'gurps_manager/character_templates/character-id-traits.html',
             {'character': character, 'table': table, 'request': request}
         )
+
+    def post(self, request, character_id):
+        """Create and update a character's traits"""
+        character = models.Character.objects.get(pk=character_id)
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-traits-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-traits-update-form'
+            ))
 
 class TraitsUpdateForm(View):
     """Handle a request for ``character/<id>/traits/update-form``."""
@@ -648,24 +666,6 @@ class TraitsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-    def post(self, request, character_id):
-        """Create and update a character's traits"""
-        character = models.Character.objects.get(pk=character_id)
-        formset_cls = self._generate_formset()
-        formset = formset_cls(request.POST, instance=character)
-        if formset.is_valid():
-            formset.save()
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-traits-update-form',
-                args=[character_id]
-            ))
-        else:
-            # Put formset data into session. Destination view will use it.
-            request.session['form_data'] = json.dumps(formset.data)
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-traits-update-form'
-            ))
-
 class HitLocations(View):
     """Handle a request for ``character/<id>/hit-locations``."""
     def get(self, request, character_id):
@@ -682,6 +682,24 @@ class HitLocations(View):
             'gurps_manager/character_templates/character-id-hit-locations.html',
             {'character': character, 'table': table, 'request': request}
         )
+
+    def post(self, request, character_id):
+        """Create and update a character's hit-locations"""
+        character = models.Character.objects.get(pk=character_id)
+        formset_cls = self._generate_formset()
+        formset = formset_cls(request.POST, instance=character)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-hit-locations-update-form',
+                args=[character_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-character-id-hit-locations-update-form'
+            ))
 
 class HitLocationsUpdateForm(View):
     """Handle a request for ``character/<id>/hit-locations/update-form``."""
@@ -712,24 +730,6 @@ class HitLocationsUpdateForm(View):
             'gurps_manager/character_templates/character-id-hit-locations-update-form.html', # pylint: disable=C0301
             {'character': character, 'formset': formset}
         )
-
-    def post(self, request, character_id):
-        """Create and update a character's hit-locations"""
-        character = models.Character.objects.get(pk=character_id)
-        formset_cls = self._generate_formset()
-        formset = formset_cls(request.POST, instance=character)
-        if formset.is_valid():
-            formset.save()
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-hit-locations-update-form',
-                args=[character_id]
-            ))
-        else:
-            # Put formset data into session. Destination view will use it.
-            request.session['form_data'] = json.dumps(formset.data)
-            return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-hit-locations-update-form'
-            ))
 
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.

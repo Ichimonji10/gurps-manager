@@ -621,11 +621,10 @@ class CharacterIdSkillsUpdateFormTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -674,10 +673,11 @@ class CharacterIdSkillsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
+    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        response = self.client.post(self.path)
-        self.assertEqual(response.status_code, 405)
+        # TODO: Find out how to make this test work
+        pass
 
     def test_get(self):
         """GET ``self.path``."""
@@ -726,11 +726,10 @@ class CharacterIdSpellsUpdateFormTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -779,10 +778,11 @@ class CharacterIdSpellsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
+    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        response = self.client.post(self.path)
-        self.assertEqual(response.status_code, 405)
+        # TODO: Find out how to make this test work
+        pass
 
     def test_get(self):
         """GET ``self.path``."""
@@ -831,11 +831,10 @@ class CharacterIdPossessionsUpdateFormTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -884,10 +883,11 @@ class CharacterIdPossessionsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
+    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        response = self.client.post(self.path)
-        self.assertEqual(response.status_code, 405)
+        # TODO: Find out how to make this test work
+        pass
 
     def test_get(self):
         """GET ``self.path``."""
@@ -936,11 +936,10 @@ class CharacterIdTraitsUpdateFormTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -989,10 +988,11 @@ class CharacterIdTraitsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
+    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        response = self.client.post(self.path)
-        self.assertEqual(response.status_code, 405)
+        # TODO: Find out how to make this test work
+        pass
 
     def test_get(self):
         """GET ``self.path``."""
@@ -1041,11 +1041,10 @@ class CharacterIdHitLocationsUpdateFormTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        response = self.client.post(self.path)
+        self.assertEqual(response.status_code, 405)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -1094,10 +1093,11 @@ class CharacterIdHitLocationsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
+    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        response = self.client.post(self.path)
-        self.assertEqual(response.status_code, 405)
+        # TODO: Find out how to make this test work
+        pass
 
     def test_get(self):
         """GET ``self.path``."""

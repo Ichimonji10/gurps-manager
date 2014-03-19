@@ -18,18 +18,18 @@ URL                                            POST     GET    PUT      DELETE
 ``character/``                                 *        *
 ``character/create-form/``                              *
 ``character/<id>/``                                     *      *        *
-``character/<id>/update-form/``                         *
 ``character/<id>/delete-form/``                         *
-``character/<id>/skills/``                              *
-``character/<id>/spells/``                              *
-``character/<id>/possessions/``                         *
-``character/<id>/traits/``                              *
-``character/<id>/hit-locations/``                       *
-``character/<id>/skills/update-form/``         *        *
-``character/<id>/spells/update-form/``         *        *
-``character/<id>/possessions/update-form/``    *        *
-``character/<id>/traits/update-form/``         *        *
-``character/<id>/hit-locations/update-form/``  *        *
+``character/<id>/hit-locations/``              *        *
+``character/<id>/hit-locations/update-form/``           *
+``character/<id>/possessions/``                *        *
+``character/<id>/possessions/update-form/``             *
+``character/<id>/skills/``                     *        *
+``character/<id>/skills/update-form/``                  *
+``character/<id>/spells/``                     *        *
+``character/<id>/spells/update-form/``                  *
+``character/<id>/traits/``                     *        *
+``character/<id>/traits/update-form/``                  *
+``character/<id>/update-form/``                         *
 ============================================== ======== ====== ======== ========
 
 Web browsers only support ``POST`` and ``GET`` operations; ``PUT`` and
