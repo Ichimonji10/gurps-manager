@@ -7,7 +7,6 @@ from django import http
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from django.views.generic.base import View
-from django.forms.models import inlineformset_factory
 from gurps_manager import forms, models, tables
 import json
 
@@ -381,7 +380,7 @@ class CharacterIdSkills(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset(character)
+        formset_cls = forms.character_skill_formset(character)
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -398,25 +397,6 @@ class CharacterIdSkills(View):
 
 class CharacterIdSkillsUpdateForm(View):
     """Handle a request for ``character/<id>/skills/update-form``."""
-    @classmethod
-    def _generate_formset(cls, character):
-        """Generate an inline formset class for ``CharacterSkill`` objects.
-
-        ``character`` is a ``Character`` model object.
-
-        The inline formset can be used to edit ``CharacterSkill`` objects
-        belonging to ``character``. For details on how each individual form in
-        the inline formset behaves, see the documentation for function
-        ``forms.generate_character_skill_form``.
-
-        """
-        return inlineformset_factory(
-            models.Character,
-            models.CharacterSkill,
-            extra=5,
-            form=forms.generate_character_skill_form(character)
-        )
-
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s skills."""
         # Check whether the character exists, and whether we own it.
@@ -425,7 +405,7 @@ class CharacterIdSkillsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = self._generate_formset(character)
+        formset_cls = forms.character_skill_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
@@ -467,7 +447,7 @@ class CharacterIdSpells(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.character_spell_formset()
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -484,20 +464,6 @@ class CharacterIdSpells(View):
 
 class CharacterIdSpellsUpdateForm(View):
     """Handle a request for ``character/<id>/spells/update-form``."""
-    @classmethod
-    def _generate_formset(cls):
-        """Generate an inline formset class for ``CharacterSpell`` objects.
-
-        The inline formset class can be used to edit ``CharacterSpell`` objects
-        belonging to a particular ``Character`` object.
-
-        """
-        return inlineformset_factory(
-            models.Character,
-            models.CharacterSpell,
-            extra=5
-        )
-
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s spells."""
         # Check whether the character exists, and whether the user owns it.
@@ -506,7 +472,7 @@ class CharacterIdSpellsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.character_spell_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
@@ -548,7 +514,7 @@ class CharacterIdPossessions(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.character_spell_formset()
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -565,20 +531,6 @@ class CharacterIdPossessions(View):
 
 class CharacterIdPossessionsUpdateForm(View):
     """Handle a request for ``character/<id>/possessions/update-form``."""
-    @classmethod
-    def _generate_formset(cls):
-        """Generate an inline formset class for ``Possession`` objects.
-
-        The inline formset class can be used to edit ``Possession`` objects
-        belonging to a particular ``Character`` object.
-
-        """
-        return inlineformset_factory(
-            models.Character,
-            models.Possession,
-            extra=5
-        )
-
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s possessions.""" # pylint: disable=C0301
         # Check whether the character exists, and whether the user owns it.
@@ -587,7 +539,7 @@ class CharacterIdPossessionsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.possession_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
@@ -629,7 +581,7 @@ class Traits(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.trait_formset()
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -646,15 +598,6 @@ class Traits(View):
 
 class TraitsUpdateForm(View):
     """Handle a request for ``character/<id>/traits/update-form``."""
-    @classmethod
-    def _generate_formset(cls):
-        """Generate an inline formset class for ``Trait`` objects."""
-        return inlineformset_factory(
-            models.Character,
-            models.Trait,
-            extra=5
-        )
-
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s traits.""" # pylint: disable=C0301
         # Check whether the character exists, and whether the user owns it.
@@ -663,7 +606,7 @@ class TraitsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.trait_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
@@ -705,7 +648,7 @@ class HitLocations(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.hit_location_formset()
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -722,15 +665,6 @@ class HitLocations(View):
 
 class HitLocationsUpdateForm(View):
     """Handle a request for ``character/<id>/hit-locations/update-form``."""
-    @classmethod
-    def _generate_formset(cls):
-        """Generate an inline formset class for ``HitLocation`` objects."""
-        return inlineformset_factory(
-            models.Character,
-            models.HitLocation,
-            extra=5
-        )
-
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s hit-locations.""" # pylint: disable=C0301
         # Check whether the character exists, and whether the user owns it.
@@ -739,7 +673,7 @@ class HitLocationsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = self._generate_formset()
+        formset_cls = forms.hit_location_formset()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
