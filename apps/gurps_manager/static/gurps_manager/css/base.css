@@ -27,7 +27,7 @@ body {
     /* Separate <body> tag from its content. */
     padding: 0.5em 0.5em 1px 0.5em;
     /* Visually promote the body, relative to the background. */
-    background-color: #A4A4A4;
+    background-color: white;
     box-shadow: 0 0 0.2em 0.2em #8291A0;
 }
 
