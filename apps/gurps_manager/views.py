@@ -385,7 +385,7 @@ class CharacterIdSkills(View):
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-skills-update-form',
+                'gurps-manager-character-id-skills',
                 args=[character_id]
             ))
         else:
@@ -452,7 +452,7 @@ class CharacterIdSpells(View):
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-spells-update-form',
+                'gurps-manager-character-id-spells',
                 args=[character_id]
             ))
         else:
@@ -519,7 +519,7 @@ class CharacterIdPossessions(View):
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-possessions-update-form',
+                'gurps-manager-character-id-possessions',
                 args=[character_id]
             ))
         else:
@@ -586,7 +586,7 @@ class Traits(View):
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-traits-update-form',
+                'gurps-manager-character-id-traits',
                 args=[character_id]
             ))
         else:
@@ -653,7 +653,7 @@ class HitLocations(View):
         if formset.is_valid():
             formset.save()
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-hit-locations-update-form',
+                'gurps-manager-character-id-hit-locations',
                 args=[character_id]
             ))
         else:
