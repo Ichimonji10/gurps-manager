@@ -82,6 +82,15 @@ class CharacterTable(tables.Table):
 
         ``value`` represents a single cell of data from the table.
 
+        >>> from gurps_manager.models import Character
+        >>> table = CharacterTable(Character.objects.all())
+        >>> string = 'a' * 130
+        >>> table.render_description(string) == _truncate_string(string)
+        True
+        >>> string = 'a' * 150
+        >>> table.render_description(string) == _truncate_string(string)
+        True
+
         """
         return _truncate_string(value)
 
