@@ -82,6 +82,15 @@ class CharacterTable(tables.Table):
 
         ``value`` represents a single cell of data from the table.
 
+        >>> from gurps_manager.models import Character
+        >>> table = CharacterTable(Character.objects.all())
+        >>> string = 'a' * 130
+        >>> table.render_description(string) == _truncate_string(string)
+        True
+        >>> string = 'a' * 150
+        >>> table.render_description(string) == _truncate_string(string)
+        True
+
         """
         return _truncate_string(value)
 
@@ -262,6 +271,22 @@ class PossessionTable(tables.Table):
 
         """
         return '{:.2f} lbs.'.format(record.item.weight * record.quantity)
+
+class TraitTable(tables.Table):
+    """An HTML table displaying ``Trait`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Trait
+        exclude = ('character',)
+
+class HitLocationTable(tables.Table):
+    """An HTML table displaying ``HitLocation`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.HitLocation
+        exclude = ('character',)
 
 # private methods --------------------------------------------------------------
 
