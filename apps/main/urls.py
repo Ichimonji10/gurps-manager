@@ -21,9 +21,12 @@ URL                POST     GET    PUT      DELETE
 
 """
 from django.conf.urls import patterns, include, url
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns( # pylint: disable=C0103
     '',
     url(r'^$', 'main.views.index'),
     url(r'^gurps-manager/', include('gurps_manager.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 )
