@@ -73,6 +73,9 @@ STATIC_ROOT = os.path.abspath(os.path.join(
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
+# Needed to make Admin work
+SITE_ID = 1
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ''
 
@@ -86,6 +89,7 @@ INSTALLED_APPS = (
     'django_tables2',
     'gurps_manager',
 
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -93,6 +97,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+)
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
