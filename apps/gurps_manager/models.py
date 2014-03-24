@@ -615,6 +615,9 @@ class Spell(models.Model):
         (4, 'Very Hard'),
     )
 
+    # key fields
+    campaign = models.ForeignKey(Campaign)
+
     # string-based fields
     name = models.CharField(max_length=MAX_LEN_NAME)
     school = models.CharField(max_length=MAX_LEN_SCHOOL)
@@ -700,6 +703,9 @@ class Item(models.Model):
     """An item that a character may possess"""
     MAX_LEN_NAME = 50
     MAX_LEN_DESCRIPTION = 2000
+
+    # key fields
+    campaign = models.ForeignKey(Campaign)
 
     # string-based fields
     name = models.CharField(max_length=MAX_LEN_NAME)
