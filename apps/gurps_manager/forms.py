@@ -147,3 +147,29 @@ def hit_location_formset():
         models.HitLocation,
         extra=5
     )
+
+def campaign_spells_formset():
+    """Generate an inline formset class for ``Spell`` objects.
+
+    The inline formset can be used to edit ``Spell`` objects belonging to
+    a particular ``Campaign`` object.
+
+    """
+    return inlineformset_factory(
+        models.Campaign,
+        models.Spell,
+        extra=5
+    )
+
+def campaign_items_formset():
+    """Generate an inline formset class for ``Item`` objects.
+
+    The inline formset can be used to edit ``Item`` objects belonging to
+    a particular ``Campaign`` object.
+
+    """
+    return inlineformset_factory(
+        models.Campaign,
+        models.Item,
+        extra=5
+    )
