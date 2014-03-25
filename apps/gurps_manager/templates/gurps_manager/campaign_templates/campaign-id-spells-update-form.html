@@ -1,0 +1,20 @@
+{% extends 'gurps_manager/index.html' %}
+
+{% block title %}Campaign {{ campaign.name  }} Spells{% endblock %}
+
+{% block body %}
+    <h1>Update Spells for Campaign "{{ campaign.name }}"</h1>
+    <form method='post' action='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'>
+        {% csrf_token %}
+        <input type='hidden' name='_method' value='PUT' />
+        {{ formset.management_form }}
+        <table>
+            {% for form in formset %}
+            <tbody class="form">
+            {{ form }}
+            </tbody>
+            {% endfor %}
+        </table>
+        <p><button>Submit</button></p>
+    </form>
+{% endblock %}
