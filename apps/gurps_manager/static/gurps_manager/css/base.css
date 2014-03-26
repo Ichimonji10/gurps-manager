@@ -50,15 +50,13 @@ body > form:first-child p {
  *         <li><a>...</a></li>
  *         <li><a>...</a></li>
  *     </ul>
+ *     <ol>
+ *         <li><a>...</a></li>
+ *         <li><a>...</a></li>
+ *     </ol>
  * </nav>
  *
  */
-
-/* Start by creating the basic layout. */
-nav > ul li { float: left; }
-nav > ul, nav + * {
-    clear: left;
-}
 
 /* Remove ugly space around the banner image. */
 nav > p {
@@ -66,18 +64,38 @@ nav > p {
     margin-bottom: 0;
 }
 
-/* Make the links line up horizontally. */
-nav > ul {
+/* Float the list items to the left side of the page. This prevents them from consuming all horizontal width. */
+nav > ul li,
+nav > ol li { float: left; }
+
+/* Place the two lists on separate lines. */
+nav > ol { clear: left; }
+
+/* Clean up the lists. */
+nav > ul,
+nav > ol {
     list-style: none outside none;
     padding-left: 0;
     margin-top: 0;
-}
-nav > ul li {
-    display: block;
-    margin: 0.5em;
+    margin-bottom: 0;
 }
 
-nav {border-bottom: medium solid #8291A0;}
+/* Separate list items from each other. */
+nav > ul li,
+nav > ol li {
+    margin: 0.2em 0.5em 0.2em 0;
+}
+
+/* Clean up links. */
+nav a {text-decoration: none;}
+nav a:hover {text-decoration: underline;}
+
+/* There are no markers (e.g. bullets, numbers) for the lists, so insert pipes and double right-arrows for the unordered and ordered lists, respectively. */
+nav > ul li:not(:last-child):after {color: #8291A0; content: " | ";}
+nav > ol li:not(:last-child):after {color: #8291A0; content: " \BB ";}
+
+nav {border-bottom: thin solid #8291A0;}
+footer { border-top: thin solid #8291A0;}
 
 /*------------------------------------------------------------------------------
  * Tables
