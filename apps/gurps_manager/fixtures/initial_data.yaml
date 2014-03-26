@@ -3121,55 +3121,146 @@
     pk: 431
     fields:
         skillset: 21
-        name: <Custom Skill: Mental Easy>
+        name: <Custom Skill- Mental Easy>
         category: 1
         difficulty: 1
 -   model: gurps_manager.Skill
     pk: 432
     fields:
         skillset: 21
-        name: <Custom Skill: Mental Average>
+        name: <Custom Skill- Mental Average>
         category: 1
         difficulty: 2
 -   model: gurps_manager.Skill
     pk: 433
     fields:
         skillset: 21
-        name: <Custom Skill: Mental Hard>
+        name: <Custom Skill- Mental Hard>
         category: 1
         difficulty: 3
 -   model: gurps_manager.Skill
     pk: 434
     fields:
         skillset: 21
-        name: <Custom Skill: Mental Very-Hard>
+        name: <Custom Skill- Mental Very-Hard>
         category: 1
         difficulty: 4
 -   model: gurps_manager.Skill
     pk: 435
     fields:
         skillset: 21
-        name: <Custom Skill: Mental (health) Easy>
+        name: <Custom Skill- Mental (health) Easy>
         category: 2
         difficulty: 1
 -   model: gurps_manager.Skill
     pk: 436
     fields:
         skillset: 21
-        name: <Custom Skill: Mental (health) Average>
+        name: <Custom Skill- Mental (health) Average>
         category: 2
         difficulty: 2
 -   model: gurps_manager.Skill
     pk: 437
     fields:
         skillset: 21
-        name: <Custom Skill: Mental (health) Hard>
+        name: <Custom Skill- Mental (health) Hard>
         category: 2
         difficulty: 3
 -   model: gurps_manager.Skill
     pk: 438
     fields:
         skillset: 21
-        name: <Custom Skill: Mental (health) Very-Hard>
+        name: <Custom Skill- Mental (health) Very-Hard>
         category: 2
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 439
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical Easy>
+        category: 3
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 440
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical Average>
+        category: 3
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 441
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical Hard>
+        category: 3
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 442
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (health) Easy>
+        category: 4
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 443
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (health) Average>
+        category: 4
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 444
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (health) Hard>
+        category: 4
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 445
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (strength) Easy>
+        category: 5
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 446
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (strength) Average>
+        category: 5
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 447
+    fields:
+        skillset: 21
+        name: <Custom Skill- Physical (strength) Hard>
+        category: 5
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 448
+    fields:
+        skillset: 21
+        name: <Custom Skill- Psionic Easy>
+        category: 6
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 449
+    fields:
+        skillset: 21
+        name: <Custom Skill- Psionic Average>
+        category: 6
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 450
+    fields:
+        skillset: 21
+        name: <Custom Skill- Psionic Hard>
+        category: 6
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 451
+    fields:
+        skillset: 21
+        name: <Custom Skill- Psionic Very-Hard>
+        category: 6
         difficulty: 4
