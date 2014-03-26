@@ -2,6 +2,21 @@
 
 {% block title %}Character {{ character.name }} Skills{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-skills' character.id %}'
+            >Skills</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-skills-update-form' character.id %}'
+            >Update Form</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     <h1>Update Skills for Character "{{ character.name }}"</h1>
     <form method='post' action='{% url 'gurps-manager-character-id-skills' character.id %}'>

@@ -2,6 +2,15 @@
 
 {% block title %}Create Character{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-create-form' %}'
+            >New Character</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h1>Create Character</h1>
 <form method='post' action='{% url 'gurps-manager-character' %}'>

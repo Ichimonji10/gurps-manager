@@ -3,6 +3,12 @@
 
 {% block title %}Characters{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     <h1>Characters</h1>
     <p>

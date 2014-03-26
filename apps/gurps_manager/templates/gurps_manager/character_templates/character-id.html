@@ -2,6 +2,15 @@
 
 {% block title %}Character {{ character.id }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     {% block character %}
         <h1>Character {{ character.id }}</h1>

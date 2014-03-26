@@ -3,8 +3,20 @@
 
 {% block title %}Hit Locations{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-hit-locations' character.id %}'
+            >Hit Locations</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
-    <h1>Spells</h1>
+    <h1>Hit Locations</h1>
     <p>
         Add or update hit locations <a
         href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'>here</a>.
