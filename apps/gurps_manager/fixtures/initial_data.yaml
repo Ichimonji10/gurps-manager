@@ -79,6 +79,10 @@
     pk: 20
     fields:
         name: Military
+-   model: gurps_manager.SkillSet
+    pk: 21
+    fields:
+        name: Custom
 
 # Pre-population values for the Skill table
 -   model: gurps_manager.Skill
@@ -3113,3 +3117,59 @@
         name: Zoology <TL>
         category: 1
         difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 431
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental Easy>
+        category: 1
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 432
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental Average>
+        category: 1
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 433
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental Hard>
+        category: 1
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 434
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental Very-Hard>
+        category: 1
+        difficulty: 4
+-   model: gurps_manager.Skill
+    pk: 435
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental (health) Easy>
+        category: 2
+        difficulty: 1
+-   model: gurps_manager.Skill
+    pk: 436
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental (health) Average>
+        category: 2
+        difficulty: 2
+-   model: gurps_manager.Skill
+    pk: 437
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental (health) Hard>
+        category: 2
+        difficulty: 3
+-   model: gurps_manager.Skill
+    pk: 438
+    fields:
+        skillset: 21
+        name: <Custom Skill: Mental (health) Very-Hard>
+        category: 2
+        difficulty: 4
