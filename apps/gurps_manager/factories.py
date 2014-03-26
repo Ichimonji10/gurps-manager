@@ -467,14 +467,16 @@ def trait_points():
 class ItemFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Item`` object.
 
-    >>> ItemFactory.build().full_clean()
-    >>> ItemFactory.create().id is None
+    >>> item = ItemFactory.create()
+    >>> item.full_clean()
+    >>> item.id is None
     False
 
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
     FACTORY_FOR = models.Item
+    campaign = SubFactory(CampaignFactory)
     name = FuzzyAttribute(lambda: item_name()) # pylint: disable=W0108
     value = FuzzyAttribute(lambda: item_value()) # pylint: disable=W0108
     weight = FuzzyAttribute(lambda: item_weight()) # pylint: disable=W0108
@@ -549,14 +551,16 @@ def possession_quantity():
 class SpellFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.Spell`` object.
 
-    >>> SpellFactory.build().full_clean()
-    >>> SpellFactory.create().id is None
+    >>> spell = SpellFactory.create()
+    >>> spell.full_clean()
+    >>> spell.id is None
     False
 
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
     FACTORY_FOR = models.Spell
+    campaign = SubFactory(CampaignFactory)
     name = FuzzyAttribute(lambda: spell_name()) # pylint: disable=W0108
     school = FuzzyAttribute(lambda: spell_school()) # pylint: disable=W0108
     resist = FuzzyAttribute(lambda: spell_resist()) # pylint: disable=W0108
