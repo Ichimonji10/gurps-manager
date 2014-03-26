@@ -1,7 +1,12 @@
 {% extends 'gurps_manager/index.html' %}
 {% load render_table from django_tables2 %}
+{% load static from staticfiles %}
 
 {% block title %}Spells{% endblock %}
+
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/django-tables2.css' %}'>
+{% endblock %}
 
 {% block breadcrumb %}
     <ol>

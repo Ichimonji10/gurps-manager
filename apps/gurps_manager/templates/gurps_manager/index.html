@@ -6,6 +6,7 @@
     <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
     <link rel='stylesheet' href='{% static 'gurps_manager/css/base.css' %}'>
+    {% block head %}{% endblock %}
 </head>
 <body>
     <form method='post' action='{% url 'gurps-manager-login' %}'>

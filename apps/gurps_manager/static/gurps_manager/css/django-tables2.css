@@ -1,0 +1,13 @@
+/* These rules are indended for use on any page which contains a table generated
+ * by django_tables2.
+ */
+
+/* Separate cells */
+th, td {
+    padding: 0.5em;
+    border-bottom: thin solid #2C5873;
+}
+
+/* Add up-arrows and down-arrows, indicating how the column is being sorted. */
+th.asc:after {content: '\2193';}
+th.desc:after {content: '\2191';}
