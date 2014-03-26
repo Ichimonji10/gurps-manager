@@ -1,6 +1,11 @@
 {% extends 'gurps_manager/index.html' %}
+{% load static from staticfiles %}
 
 {% block title %}Campaign {{ campaign.id }}{% endblock %}
+
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>
+{% endblock %}
 
 {% block breadcrumb %}
     <ol>
@@ -13,10 +18,14 @@
 
 {% block body %}
     <h1>Campaign {{ campaign.id }}</h1>
+    <p>
+        <a href='{% url 'gurps-manager-campaign-id-update-form' campaign.id %}'>Edit</a> or
+        <a href='{% url 'gurps-manager-campaign-id-delete-form' campaign.id %}'>Delete</a>
+    </p>
     <dl>
         <dt>Name</dt>
         <dd>{{ campaign.name }}</dd>
         <dt>Description</dt>
-        <dd>{{ campaign.description }}</dd>
+        <dd>{{ campaign.description|default:'No description.' }}</dd>
     </dl>
 {% endblock %}

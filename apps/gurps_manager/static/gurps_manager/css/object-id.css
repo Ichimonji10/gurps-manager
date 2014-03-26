@@ -1,0 +1,10 @@
+/* This stylesheet can be used with any of the "object id" templates, such as
+ * campaign/3/, character/15/. Sample HTML:
+ *
+ * <h1>...</h1>
+ * <p><a>Edit</a> or <a>Delete</a></p>
+ */
+
+/* For the headline and associated links at the top of the page. */
+nav + h1 {margin-bottom: 0;}
+nav + h1 + p {margin-top: 0;}

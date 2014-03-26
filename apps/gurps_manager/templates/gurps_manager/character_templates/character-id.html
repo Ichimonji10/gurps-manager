@@ -1,6 +1,11 @@
 {% extends 'gurps_manager/index.html' %}
+{% load static from staticfiles %}
 
 {% block title %}Character {{ character.id }}{% endblock %}
+
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>
+{% endblock %}
 
 {% block breadcrumb %}
     <ol>
@@ -14,6 +19,10 @@
 {% block body %}
     {% block character %}
         <h1>Character {{ character.id }}</h1>
+        <p>
+            <a href='{% url 'gurps-manager-character-id-update-form' character.id %}'>Edit</a> or
+            <a href='{% url 'gurps-manager-character-id-delete-form' character.id %}'>Delete</a>
+        </p>
         <section>
             <h1>Basic Information</h1>
             <dl>
