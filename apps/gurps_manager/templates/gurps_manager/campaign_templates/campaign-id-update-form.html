@@ -2,6 +2,18 @@
 
 {% block title %}Update Campaign "{{ campaign.name }}"{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+        <li><a
+            href='{% url 'gurps-manager-campaign-id' campaign.id %}'
+            >{{ campaign.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-campaign-id-update-form' campaign.id %}'
+            >Update Form</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h1>Update Campaign "{{ campaign.name }}"</h1>
 <form method='post' action='{% url 'gurps-manager-campaign-id' campaign.id %}'>

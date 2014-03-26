@@ -37,6 +37,7 @@
             <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
             <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
         </ul>
+        {% block breadcrumb %}{% endblock %}
     </nav>
     {% block body %}
     <h1>GURPS Manager</h1>

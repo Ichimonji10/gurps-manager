@@ -2,6 +2,15 @@
 
 {% block title %}Campaign {{ campaign.id }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+        <li><a
+            href='{% url 'gurps-manager-campaign-id' campaign.id %}'
+            >{{ campaign.name }}</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     <h1>Campaign {{ campaign.id }}</h1>
     <dl>

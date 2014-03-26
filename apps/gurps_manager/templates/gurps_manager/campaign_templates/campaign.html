@@ -3,6 +3,12 @@
 
 {% block title %}Campaigns{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     <h1>Campaigns</h1>
     <p>
