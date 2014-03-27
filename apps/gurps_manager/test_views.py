@@ -93,7 +93,7 @@ class CampaignTestCase(TestCase):
 
     def setUp(self):
         """Authenticate the test client."""
-        _login(self.client)
+        self.user = _login(self.client)[0]
 
     def test_login_required(self):
         """Ensure user must be logged in to GET this URL."""
@@ -105,7 +105,7 @@ class CampaignTestCase(TestCase):
         # remote objects, and place their IDs in a dict.
         campaign_attrs = factories.CampaignFactory.attributes()
         campaign_attrs['owner'].save()
-        campaign_attrs['owner'] = campaign_attrs['owner'].id
+        campaign_attrs['owner'] = self.user.id
 
         num_campaigns = models.Campaign.objects.count()
         response = self.client.post(self.PATH, campaign_attrs)
@@ -147,7 +147,7 @@ class CampaignCreateFormTestCase(TestCase):
 
     def setUp(self):
         """Authenticate the test client."""
-        _login(self.client)
+        self.user = _login(self.client)[0]
 
     def test_login_required(self):
         """Ensure user must be logged in to GET this URL."""
@@ -181,8 +181,8 @@ class CampaignIdTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
-        _login(self.client)
-        self.campaign = factories.CampaignFactory.create()
+        user = _login(self.client)[0]
+        self.campaign = factories.CampaignFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-campaign-id',
             args=[self.campaign.id]
@@ -212,7 +212,7 @@ class CampaignIdTestCase(TestCase):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CampaignFactory.attributes()
         data['owner'].save()
-        data['owner'] = data['owner'].id
+        data['owner'] = self.campaign.owner.id
         data['_method'] = 'PUT'
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
@@ -243,8 +243,8 @@ class CampaignIdUpdateFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
-        _login(self.client)
-        self.campaign = factories.CampaignFactory.create()
+        user = _login(self.client)[0]
+        self.campaign = factories.CampaignFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-campaign-id-update-form',
             args=[self.campaign.id]
@@ -288,8 +288,8 @@ class CampaignIdDeleteFormTestCase(TestCase):
         The created campaign is accessible as ``self.campaign``.
 
         """
-        _login(self.client)
-        self.campaign = factories.CampaignFactory.create()
+        user = _login(self.client)[0]
+        self.campaign = factories.CampaignFactory.create(owner=user)
         self.path = reverse(
             'gurps-manager-campaign-id-delete-form',
             args=[self.campaign.id]

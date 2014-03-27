@@ -131,6 +131,8 @@ class CampaignId(View):
     def get(self, request, campaign_id):
         """Return information about campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
         return render(
             request,
             'gurps_manager/campaign_templates/campaign-id.html',
@@ -145,6 +147,8 @@ class CampaignId(View):
 
         """
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
         form = forms.CampaignForm(request.POST, instance=campaign)
         if form.is_valid():
             form.save()
@@ -165,7 +169,10 @@ class CampaignId(View):
         After delete, redirect user to ``Campaign`` view.
 
         """
-        _get_model_object_or_404(models.Campaign, campaign_id).delete()
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+        campaign.delete()
         return http.HttpResponseRedirect(reverse('gurps-manager-campaign'))
 
     def dispatch(self, request, *args, **kwargs):
@@ -178,6 +185,8 @@ class CampaignIdUpdateForm(View):
     def get(self, request, campaign_id):
         """Return a form for updating campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             form = forms.CampaignForm(instance=campaign)
@@ -194,6 +203,8 @@ class CampaignIdDeleteForm(View):
     def get(self, request, campaign_id):
         """Return a form for deleting campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
         return render(
             request,
             'gurps_manager/campaign_templates/campaign-id-delete-form.html',
@@ -687,6 +698,73 @@ class HitLocationsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
+class Items(View):
+    """Handle a request for ``campaign/<id>/items``."""
+    def get(self, request, campaign_id):
+        """Return information about campaign ``campaign_id``'s items.""" # pylint: disable=C0301
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Generate a reply.
+        table = tables.ItemTable(
+            models.Item.objects.filter(campaign=campaign_id)
+        )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/campaign_templates/campaign-id-items.html',
+            {'campaign': campaign, 'table': table, 'request': request}
+        )
+
+    def post(self, request, campaign_id):
+        """Create and update a campaign's items"""
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = forms.campaign_items_formset()
+        formset = formset_cls(request.POST, instance=campaign)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-items',
+                args=[campaign_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-items-update-form'
+            ))
+
+class ItemsUpdateForm(View):
+    """Handle a request for ``campaign/<id>/items/update-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for updating campaign ``campaign_id``'s items.""" # pylint: disable=C0301
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Generate a form.
+        formset_cls = forms.campaign_items_formset()
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            formset = formset_cls(instance=campaign)
+        else:
+            formset = formset_cls(json.loads(form_data))
+
+        # Reply.
+        return render(
+            request,
+            'gurps_manager/campaign_templates/campaign-id-items-update-form.html', # pylint: disable=C0301
+            {'campaign': campaign, 'formset': formset}
+        )
+
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
 
@@ -758,6 +836,25 @@ def _user_owns_character(user, character):
 
     """
     if character.owner == user or character.campaign.owner == user:
+        return True
+    return False
+
+def _user_owns_campaign(user, campaign):
+    """Check whether ``user`` owns ``campaign``, directly or indirectly.
+
+    Return ``True`` if ``user`` owns ``campaign``, or if ``user`` owns the
+    campaign to which ``campaign`` belongs. Else, return ``False``.
+
+    >>> from gurps_manager import factories
+    >>> campaign = factories.CampaignFactory.create()
+    >>> _user_owns_campaign(campaign.owner, campaign)
+    True
+    >>> other_user = factories.UserFactory.create()
+    >>> _user_owns_campaign(other_user, campaign)
+    False
+
+    """
+    if campaign.owner == user:
         return True
     return False
 
