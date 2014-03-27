@@ -22,6 +22,19 @@
         <a href='{% url 'gurps-manager-character-id-update-form' character.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-character-id-delete-form' character.id %}'>Delete</a>
     </p>
+    <p>
+        This character has {{character.hitlocation_set.count}} <a
+        href='{% url 'gurps-manager-character-id-hit-locations' character.id %}'
+        >hit locations</a>, {{character.possession_set.count}} unique <a
+        href='{% url 'gurps-manager-character-id-possessions' character.id %}'
+        >possessions</a>, {{character.skills.count}} <a
+        href='{% url 'gurps-manager-character-id-skills' character.id %}'
+        >skills</a>, {{character.spells.count}} <a
+        href='{% url 'gurps-manager-character-id-spells' character.id %}'
+        >spells</a> and {{character.trait_set.count}} <a
+        href='{% url 'gurps-manager-character-id-traits' character.id %}'
+        >traits</a>.
+    </p>
     <section>
         <h1>Basic Information</h1>
         <dl>
