@@ -207,6 +207,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.initial_fatigue_cost
 
     def render_maintenance_fatigue_cost(self, record):
+        # pylint: disable=C0301
         """Define how the ``maintenance fatigue cost`` column should be rendered.
 
         ``record`` represents a row of data from this table
