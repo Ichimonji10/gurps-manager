@@ -2,6 +2,18 @@
 
 {% block title %}Delete Character "{{ character.name }}"{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-delete-form' character.id %}'
+            >Deletion Form</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h1>Delete Character "{{ character.name }}"</h1>
 <p>Are you <strong>sure</strong> you want to delete this character?</p>

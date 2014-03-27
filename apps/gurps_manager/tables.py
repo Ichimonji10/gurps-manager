@@ -31,6 +31,8 @@ class CampaignTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.Campaign
+        exclude = ('id',)
+        sequence = ('name', 'description', 'owner', '...')
 
     def render_description(self, value):
         """Define how the ``description`` column should be rendered.
@@ -112,7 +114,8 @@ class CharacterSkillTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.CharacterSkill
-        exclude = ('character',)
+        exclude = ('character', 'id')
+        sequence = ('skill', '...')
 
     def render_difficulty(self, record):
         """Define how the ``difficulty`` column should be rendered.
@@ -152,7 +155,8 @@ class CharacterSpellTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.CharacterSpell
-        exclude = ('character',)
+        exclude = ('character', 'id')
+        sequence = ('spell', '...')
 
     def render_score(self, record):
         """Define how the ``score`` column should be rendered.
@@ -230,7 +234,8 @@ class PossessionTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.Possession
-        exclude = ('character',)
+        exclude = ('character', 'id')
+        sequence = ('item', '...')
 
     def render_description(self, record):
         """Define how the ``description`` column should be rendered.
@@ -278,7 +283,8 @@ class TraitTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.Trait
-        exclude = ('character',)
+        exclude = ('character', 'id')
+        sequence = ('name', 'description', '...')
 
 class HitLocationTable(tables.Table):
     """An HTML table displaying ``HitLocation`` objects."""
@@ -286,7 +292,8 @@ class HitLocationTable(tables.Table):
     class Meta(object):
         """Table attributes that are not custom fields."""
         model = models.HitLocation
-        exclude = ('character',)
+        exclude = ('character', 'id')
+        sequence = ('name', '...')
 
 # private methods --------------------------------------------------------------
 

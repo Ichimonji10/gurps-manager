@@ -6,6 +6,7 @@
     <meta charset='utf-8'>
     <title>{% block title %}{% endblock %}</title>
     <link rel='stylesheet' href='{% static 'gurps_manager/css/base.css' %}'>
+    {% block head %}{% endblock %}
 </head>
 <body>
     <form method='post' action='{% url 'gurps-manager-login' %}'>
@@ -37,6 +38,7 @@
             <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
             <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
         </ul>
+        {% block breadcrumb %}{% endblock %}
     </nav>
     {% block body %}
     <h1>GURPS Manager</h1>

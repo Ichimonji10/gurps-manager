@@ -2,6 +2,21 @@
 
 {% block title %}Character {{ character.name }} Possessions{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-possessions' character.id %}'
+            >Possessions</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-possessions-update-form' character.id %}'
+            >Update Form</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
     <h1>Update Possessions for Character "{{ character.name }}"</h1>
     <form method='post' action='{% url 'gurps-manager-character-id-possessions' character.id %}'>

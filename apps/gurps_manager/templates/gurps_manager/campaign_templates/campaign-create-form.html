@@ -2,6 +2,15 @@
 
 {% block title %}Create Campaign{% endblock %}
 
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+        <li><a
+            href='{% url 'gurps-manager-campaign-create-form' %}'
+            >New Campaign</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
 <h1>Create Campaign</h1>
 <form method='post' action='{% url 'gurps-manager-campaign' %}'>

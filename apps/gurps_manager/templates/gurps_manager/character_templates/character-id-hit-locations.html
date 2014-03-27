@@ -1,13 +1,34 @@
 {% extends 'gurps_manager/index.html' %}
 {% load render_table from django_tables2 %}
+{% load static from staticfiles %}
 
 {% block title %}Hit Locations{% endblock %}
 
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/django-tables2.css' %}'>
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{ character.name }}</a></li>
+        <li><a
+            href='{% url 'gurps-manager-character-id-hit-locations' character.id %}'
+            >Hit Locations</a></li>
+    </ol>
+{% endblock %}
+
 {% block body %}
-    <h1>Spells</h1>
+    <h1>Hit Locations</h1>
+    <p><a href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'
+        >Edit</a></p>
     <p>
         Add or update hit locations <a
-        href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'>here</a>.
+        href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'
+        >here</a>.
     </p>
     {% render_table table %}
 {% endblock %}
