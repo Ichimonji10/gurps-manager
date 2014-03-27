@@ -115,7 +115,7 @@ class CharacterSkillTable(tables.Table):
         exclude = ('character',)
 
     def render_difficulty(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``difficulty`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -123,7 +123,7 @@ class CharacterSkillTable(tables.Table):
         return record.skill.get_difficulty_display
 
     def render_category(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``category`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -163,7 +163,7 @@ class CharacterSpellTable(tables.Table):
         return record.score()
 
     def render_school(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``school`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -171,7 +171,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.school
 
     def render_resist(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``resist`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -179,7 +179,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.resist
 
     def render_duration(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``duration`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -187,7 +187,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.duration
 
     def render_cast_time(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``cast time`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -195,7 +195,7 @@ class CharacterSpellTable(tables.Table):
         return str(record.spell.cast_time) + ' seconds'
 
     def render_initial_fatigue_cost(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``initial fatigue cost`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -203,7 +203,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.initial_fatigue_cost
 
     def render_maintenance_fatigue_cost(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``maintenance fatigue cost`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -211,7 +211,7 @@ class CharacterSpellTable(tables.Table):
         return record.spell.maintenance_fatigue_cost
 
     def render_difficulty(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``difficulty`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -233,7 +233,7 @@ class PossessionTable(tables.Table):
         exclude = ('character',)
 
     def render_description(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``description`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -241,7 +241,7 @@ class PossessionTable(tables.Table):
         return _truncate_string(record.item.description)
 
     def render_value(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``value`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -249,7 +249,7 @@ class PossessionTable(tables.Table):
         return '{:.2f}'.format(record.item.value)
 
     def render_total_value(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``total value`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -257,7 +257,7 @@ class PossessionTable(tables.Table):
         return '{:.2f}'.format(record.item.value * record.quantity)
 
     def render_weight(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``weight`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
@@ -265,7 +265,7 @@ class PossessionTable(tables.Table):
         return '{:.2f} lbs.'.format(record.item.weight)
 
     def render_total_weight(self, record):
-        """Define how the ``score`` column should be rendered.
+        """Define how the ``total weight`` column should be rendered.
 
         ``record`` represents a row of data from this table
 
