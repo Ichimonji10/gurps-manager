@@ -296,6 +296,31 @@ class HitLocationTable(tables.Table):
         exclude = ('character', 'id')
         sequence = ('name', '...')
 
+class ItemTable(tables.Table):
+    """An HTML table displaying ``Item`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Item
+        exclude = ('campaign', 'id',)
+
+class SpellTable(tables.Table):
+    """An HTML table displaying ``Spell`` objects."""
+
+    class Meta(object):
+        """Table attributes that are not custom fields."""
+        model = models.Spell
+        sequence = ('name', 'difficulty', '...',)
+        exclude = ('campaign', 'id',)
+
+    def render_difficulty(self, record):
+        """Define how the ``difficulty`` column should be rendered.
+
+        ``record`` represents a row of data from this table
+
+        """
+        return record.get_difficulty_display
+
 # private methods --------------------------------------------------------------
 
 def _read_url(resource, resource_id):
