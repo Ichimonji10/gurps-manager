@@ -765,6 +765,73 @@ class ItemsUpdateForm(View):
             {'campaign': campaign, 'formset': formset}
         )
 
+class Spells(View):
+    """Handle a request for ``campaign/<id>/spells``."""
+    def get(self, request, campaign_id):
+        """Return information about campaign ``campaign_id``'s spells.""" # pylint: disable=C0301
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Generate a reply.
+        table = tables.SpellTable(
+            models.Spell.objects.filter(campaign=campaign_id)
+        )
+        RequestConfig(request).configure(table)
+        return render(
+            request,
+            'gurps_manager/campaign_templates/campaign-id-spells.html',
+            {'campaign': campaign, 'table': table, 'request': request}
+        )
+
+    def post(self, request, campaign_id):
+        """Create and update a campaign's spells"""
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Attempt to save changes. Reply.
+        formset_cls = forms.campaign_spells_formset()
+        formset = formset_cls(request.POST, instance=campaign)
+        if formset.is_valid():
+            formset.save()
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-spells',
+                args=[campaign_id]
+            ))
+        else:
+            # Put formset data into session. Destination view will use it.
+            request.session['form_data'] = json.dumps(formset.data)
+            return http.HttpResponseRedirect(reverse(
+                'gurps-manager-campaign-id-spells-update-form'
+            ))
+
+class SpellsUpdateForm(View):
+    """Handle a request for ``campaign/<id>/spells/update-form``."""
+    def get(self, request, campaign_id):
+        """Return a form for updating campaign ``campaign_id``'s spells.""" # pylint: disable=C0301
+        # Check whether the campaign exists, and whether the user owns it.
+        campaign = _get_model_object_or_404(models.Campaign, campaign_id)
+        if not _user_owns_campaign(request.user, campaign):
+            return http.HttpResponseForbidden()
+
+        # Generate a form.
+        formset_cls = forms.campaign_spells_formset()
+        form_data = request.session.pop('form_data', None)
+        if form_data is None:
+            formset = formset_cls(instance=campaign)
+        else:
+            formset = formset_cls(json.loads(form_data))
+
+        # Reply.
+        return render(
+            request,
+            'gurps_manager/campaign_templates/campaign-id-spells-update-form.html', # pylint: disable=C0301
+            {'campaign': campaign, 'formset': formset}
+        )
+
 def _decode_request(request):
     """Determine what HTTP method ``request.method`` represents.
 
@@ -833,9 +900,14 @@ def _user_owns_character(user, character):
     >>> other_user = factories.UserFactory.create()
     >>> _user_owns_character(other_user, character)
     False
+    >>> other_user.is_superuser = True
+    >>> _user_owns_character(other_user, character)
+    True
 
     """
     if character.owner == user or character.campaign.owner == user:
+        return True
+    elif user.is_superuser:
         return True
     return False
 
@@ -852,9 +924,14 @@ def _user_owns_campaign(user, campaign):
     >>> other_user = factories.UserFactory.create()
     >>> _user_owns_campaign(other_user, campaign)
     False
+    >>> other_user.is_superuser = True
+    >>> _user_owns_campaign(other_user, campaign)
+    True
 
     """
     if campaign.owner == user:
+        return True
+    elif user.is_superuser:
         return True
     return False
 

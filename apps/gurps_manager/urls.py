@@ -15,6 +15,10 @@ URL                                            POST     GET    PUT      DELETE
 ``campaign/<id>/``                                      *      *        *
 ``campaign/<id>/update-form/``                          *
 ``campaign/<id>/delete-form/``                          *
+``campaign/<id>/items/``                       *        *
+``campaign/<id>/items/update-form/``                    *
+``campaign/<id>/spells/``                      *        *
+``campaign/<id>/spells/update-form/``                   *
 ``character/``                                 *        *
 ``character/create-form/``                              *
 ``character/<id>/``                                     *      *        *
@@ -100,6 +104,26 @@ urlpatterns = patterns( # pylint: disable=C0103
         r'^campaign/(\d+)/delete-form/$',
         login_required(views.CampaignIdDeleteForm.as_view()),
         name='gurps-manager-campaign-id-delete-form',
+    ),
+    url(
+        r'^campaign/(\d+)/items/$',
+        login_required(views.Items.as_view()),
+        name='gurps-manager-campaign-id-items',
+    ),
+    url(
+        r'^campaign/(\d+)/items/update-form/$',
+        login_required(views.ItemsUpdateForm.as_view()),
+        name='gurps-manager-campaign-id-items-update-form',
+    ),
+    url(
+        r'^campaign/(\d+)/spells/$',
+        login_required(views.Spells.as_view()),
+        name='gurps-manager-campaign-id-spells',
+    ),
+    url(
+        r'^campaign/(\d+)/spells/update-form/$',
+        login_required(views.SpellsUpdateForm.as_view()),
+        name='gurps-manager-campaign-id-spells-update-form',
     ),
 
     # character-related paths
