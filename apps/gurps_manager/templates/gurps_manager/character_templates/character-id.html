@@ -42,10 +42,10 @@
             <dd>{{ character.name }}</dd>
 
             <dt>Description</dt>
-            <dd>{{ character.description }}</dd>
+            <dd>{{ character.description|default:'No description.' }}</dd>
 
             <dt>Story</dt>
-            <dd>{{ character.story }}</dd>
+            <dd>{{ character.story|default:'No story.' }}</dd>
 
             <dt>Character points limit</dt>
             <dd>{{ character.total_points }}</dd>
