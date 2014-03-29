@@ -627,10 +627,10 @@ class Spell(models.Model):
     # integer fields
     cast_time = models.IntegerField(validators=[validate_not_negative])
     initial_fatigue_cost = models.IntegerField(
-        validators=[validate_not_negative],verbose_name='IFC'
+        validators=[validate_not_negative], verbose_name='IFC'
     )
     maintenance_fatigue_cost = models.IntegerField(
-        validators=[validate_not_negative],verbose_name='MFC'
+        validators=[validate_not_negative], verbose_name='MFC'
     )
 
     # lookup fields
