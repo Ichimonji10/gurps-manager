@@ -1,7 +1,11 @@
 """Create a command named ``make_user``."""
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-# TODO: This is deprecated, figure out the newer way of doing this.
+# optparse is deprecated in the version of python we're using
+# however, Django has not moved to argparse for commands yet
+# this is because the minimum version of python that Django requires
+# is prior to the addition of argparse
+# TODO: wait until Django updates to argparse
 from optparse import make_option
 
 class Command(BaseCommand):
