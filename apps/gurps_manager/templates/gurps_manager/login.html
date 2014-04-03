@@ -1,20 +1,19 @@
-{% load staticfiles %}
+{% load static from staticfiles %}
 
 <!DOCTYPE HTML>
 <html lang='en'>
     <head>
         <meta charset='utf-8'>
         <title>GURPS Manager Login</title>
-        {{ head }}
+        <link rel='stylesheet' href='{% static 'gurps_manager/css/site-wide.css' %}'>
+        <link rel='stylesheet' href='{% static 'gurps_manager/css/login.css' %}'>
     </head>
     <body>
-        <div>
-            <h1>GURPS Manager</h1>
-            <form method='post' action='{% url 'gurps-manager-login' %}'>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <p><button>Submit</button></p>
-            </form>
-        </div>
+        <h1>GURPS Manager</h1>
+        <form method='post' action='{% url 'gurps-manager-login' %}'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><button>Submit</button></p>
+        </form>
     </body>
 </html>

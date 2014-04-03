@@ -1,0 +1,8 @@
+body {
+    max-width: 25em;
+    text-align: center;
+}
+
+/* The "text-align: center;" rule can separate the bullets from their
+ * corresponding text. It's nicer to just hide the bullet points. */
+ul.errorlist {list-style-type: none;}
