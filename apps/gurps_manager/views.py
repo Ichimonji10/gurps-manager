@@ -132,8 +132,10 @@ class CampaignId(View):
     def get(self, request, campaign_id):
         """Return information about campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
-        if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+        if campaign not in _viewable_campaigns(request.user):
+            return http.HttpResponseForbidden(
+                'Error: you do not own this campaign.'
+            )
         return render(
             request,
             'gurps_manager/campaign_templates/campaign-id.html',
@@ -172,7 +174,9 @@ class CampaignId(View):
         """
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this campaign.'
+            )
         campaign.delete()
         return http.HttpResponseRedirect(reverse('gurps-manager-campaign'))
 
@@ -187,7 +191,9 @@ class CampaignIdUpdateForm(View):
         """Return a form for updating campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this campaign.'
+            )
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             form = forms.CampaignForm(instance=campaign)
@@ -205,7 +211,9 @@ class CampaignIdDeleteForm(View):
         """Return a form for deleting campaign ``campaign_id``."""
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this campaign.'
+            )
         return render(
             request,
             'gurps_manager/campaign_templates/campaign-id-delete-form.html',
@@ -1022,9 +1030,17 @@ def _viewable_campaigns(user):
     True
 
     """
-    #
+
+    characters = models.Character.objects.filter(owner=user)
+    participating_campaigns = set()
+    for character in characters:
+        participating_campaigns.add(character.campaign)
+
+    owned_campaigns = set()
+    for campaign in models.Campaign.objects.filter(owner__exact=user):
+        owned_campaigns.add(campaign)
 
     if user.is_superuser:
         return models.Campaign.objects.all()
     else:
-        return models.Campaign.objects.filter(owner__exact=user)
+        return participating_campaigns.union(owned_campaigns)
