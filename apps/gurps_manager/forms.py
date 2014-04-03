@@ -96,7 +96,41 @@ def character_skill_formset(character):
         form=character_skill_form(character)
     )
 
-def character_spell_formset():
+def character_spell_form(character):
+    """Generate a form class for ``CharacterSkill`` objects.
+
+    ``character`` is a ``Character`` model object.
+
+    The form class returned is suitable for creating, editing and deleting
+    ``CharacterSpell``s belonging to character ``character``. Not all spells can
+    be assigned to ``character``. Instead, a spell will only be available if
+    that spell belongs to ``character``'s campaign.
+
+    >>> from gurps_manager import factories
+    >>> from django.forms.models import ModelForm
+    >>> character = factories.CharacterFactory.create()
+    >>> formset_cls = character_spell_form(character)
+    >>> formset_cls.__name__
+    'CharacterSpellForm'
+    >>> ModelForm in formset_cls.__bases__
+    True
+
+    """
+    class CharacterSpellForm(ModelForm):
+        """A form for creating or editing a ``CharacterSpell`` object."""
+        spell = ModelChoiceField(
+            queryset=models.Spell.objects.filter( # pylint: disable=E1101
+                campaign=character.campaign
+            )
+        )
+
+        class Meta(object):
+            """Form attributes that are not custom fields."""
+            model = models.CharacterSpell
+
+    return CharacterSpellForm
+
+def character_spell_formset(character):
     """Generate an inline formset class for ``CharacterSpell`` objects.
 
     The inline formset class can be used to edit ``CharacterSpell`` objects
@@ -106,10 +140,45 @@ def character_spell_formset():
     return inlineformset_factory(
         models.Character,
         models.CharacterSpell,
-        extra=5
+        extra=5,
+        form=character_skill_form(character)
     )
 
-def possession_formset():
+def possession_form(character):
+    """Generate a form class for ``Possession`` objects.
+
+    ``character`` is a ``Character`` model object.
+
+    The form class returned is suitable for creating, editing and deleting
+    ``Possession``s belonging to character ``character``. Not all items can
+    be assigned to ``character``. Instead, a item will only be available if
+    that item belongs to ``character``'s campaign.
+
+    >>> from gurps_manager import factories
+    >>> from django.forms.models import ModelForm
+    >>> character = factories.CharacterFactory.create()
+    >>> formset_cls = possession_form(character)
+    >>> formset_cls.__name__
+    'PossessionForm'
+    >>> ModelForm in formset_cls.__bases__
+    True
+
+    """
+    class PossessionForm(ModelForm):
+        """A form for creating or editing a ``Possession`` object."""
+        item = ModelChoiceField(
+            queryset=models.Spell.objects.filter( # pylint: disable=E1101
+                campaign=character.campaign
+            )
+        )
+
+        class Meta(object):
+            """Form attributes that are not custom fields."""
+            model = models.Possession
+
+    return PossessionForm
+
+def possession_formset(character):
     """Generate an inline formset class for ``Possession`` objects.
 
     The inline formset class can be used to edit ``Possession`` objects
@@ -119,7 +188,8 @@ def possession_formset():
     return inlineformset_factory(
         models.Character,
         models.Possession,
-        extra=5
+        extra=5,
+        form=character_skill_form(character)
     )
 
 def trait_formset():

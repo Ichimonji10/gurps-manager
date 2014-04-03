@@ -458,7 +458,7 @@ class CharacterIdSpells(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = forms.character_spell_formset()
+        formset_cls = forms.character_spell_formset(character)
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -483,7 +483,7 @@ class CharacterIdSpellsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = forms.character_spell_formset()
+        formset_cls = forms.character_spell_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
@@ -525,7 +525,7 @@ class CharacterIdPossessions(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = forms.character_spell_formset()
+        formset_cls = forms.character_spell_formset(character)
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
@@ -550,7 +550,7 @@ class CharacterIdPossessionsUpdateForm(View):
             return http.HttpResponseForbidden()
 
         # Generate a form.
-        formset_cls = forms.possession_formset()
+        formset_cls = forms.possession_formset(character)
         form_data = request.session.pop('form_data', None)
         if form_data is None:
             formset = formset_cls(instance=character)
