@@ -23,13 +23,26 @@
         <a href='{% url 'gurps-manager-campaign-id-delete-form' campaign.id %}'>Delete</a>
     </p>
     <p>
-        This campaign has {{campaign.character_set.count}}
-        characters, {{campaign.item_set.count}}
+        This campaign has {{campaign.item_set.count}}
         <a href='{% url 'gurps-manager-campaign-id-items' campaign.id %}'
         >items</a> and {{campaign.spell_set.count}}
         <a href='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'
-        >spells</a>.
+        >spells</a>. There are {{campaign.character_set.count}} characters in
+        this
+        {% if campaign.character_set.count %}campaign:
+        {% else %}campaign.
+        {% endif %}
     </p>
+    {% if campaign.character_set.count %}
+    <ul>
+        {% for character in campaign.character_set.all %}
+        <li>
+            <a href='{% url 'gurps-manager-character-id' character.id %}'
+            >{{character.name}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <h2>Description</h2>
     <p>{{ campaign.description|default:'No description.' }}</p>
 {% endblock %}
