@@ -22,6 +22,14 @@
         <a href='{% url 'gurps-manager-campaign-id-update-form' campaign.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-campaign-id-delete-form' campaign.id %}'>Delete</a>
     </p>
+    <p>
+        This campaign has {{campaign.character_set.count}}
+        characters, {{campaign.item_set.count}}
+        <a href='{% url 'gurps-manager-campaign-id-items' campaign.id %}'
+        >items</a> and {{campaign.spell_set.count}}
+        <a href='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'
+        >spells</a>.
+    </p>
     <dl>
         <dt>Name</dt>
         <dd>{{ campaign.name }}</dd>
