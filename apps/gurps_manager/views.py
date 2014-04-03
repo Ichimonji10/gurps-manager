@@ -102,8 +102,9 @@ class Campaign(View):
             ))
 
     def get(self, request):
-        """Return a list of all campaigns."""
-        table = tables.CampaignTable(models.Campaign.objects.all())
+        """Return a list of all campaigns viewable by a user."""
+        campaigns = _viewable_campaigns(request.user)
+        table = tables.CampaignTable(campaigns)
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -944,6 +945,7 @@ def _viewable_characters(user):
     Only return characters that fulfill one of the following conditions:
     * the user owns that character
     * the user is the game master for that character's campaign
+    * the user is an Admin
 
     Additionally, include other characters in the same campaigns as the
     characters above.
@@ -989,3 +991,40 @@ def _viewable_characters(user):
 
     # finally, find all "related" characters
     return models.Character.objects.filter(campaign__in=campaigns)
+
+def _viewable_campaigns(user):
+    """Return a list of campaigns that ``user`` can view.
+
+    ``user`` is a ``User`` model object. That is, ``user`` is a user of the
+    application.
+
+    Only return campaigns that fulfill one of the following conditions:
+    * the user owns that character
+    * the user is the game master for that character's campaign
+    * the user is an Admin
+
+    Additionally, include other campaigns in the same campaigns as the
+    campaigns above.
+
+    >>> from gurps_manager import factories
+    >>> user = factories.UserFactory.create()
+    >>> other_user = factories.UserFactory.create()
+    >>> campaign = factories.CampaignFactory.create(owner=user)
+    >>> campaigns = _viewable_campaigns(user)
+    >>> campaign in campaigns
+    True
+    >>> campaigns = _viewable_campaigns(other_user)
+    >>> campaign in campaigns
+    False
+    >>> other_user.is_superuser = True
+    >>> campaigns = _viewable_campaigns(other_user)
+    >>> campaign in campaigns
+    True
+
+    """
+    #
+
+    if user.is_superuser:
+        return models.Campaign.objects.all()
+    else:
+        return models.Campaign.objects.filter(owner__exact=user)
