@@ -1,35 +1,4 @@
-/*------------------------------------------------------------------------------
- * Basic Layout
- *
- * The following rules specify rules that can be applied to all pages in the
- * entire app, with the exception of the login page. Sample HTML:
- *
- * <body>
- *     <form>...</form>
- *     <nav>...</nav>
- *     ...
- * </body>
- *----------------------------------------------------------------------------*/
-
-html {
-    /* Demote the visual importance of whitespace. */
-    background-color: #E4E3E8;
-    /* Separate the browser viewport from the <body> tag. */
-    padding: 0.5em;
-}
-
-/* Style the page contents. */
-body {
-    /* Center the page contents. */
-    max-width: 60em;
-    margin-left: auto;
-    margin-right: auto;
-    /* Separate <body> tag from its content. */
-    padding: 0.5em 0.5em 1px 0.5em;
-    /* Visually promote the body, relative to the background. */
-    background-color: white;
-    box-shadow: 0 0 0.2em 0.2em #8291A0;
-}
+body {max-width: 60em;}
 
 /* Style the log out form. */
 body > form:first-child {
