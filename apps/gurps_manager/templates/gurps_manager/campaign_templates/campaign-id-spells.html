@@ -1,13 +1,29 @@
 {% extends 'gurps_manager/index.html' %}
 {% load render_table from django_tables2 %}
+{% load static from staticfiles %}
 
 {% block title %}Spells{% endblock %}
+
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/django-tables2.css' %}'>
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol>
+        <li><a href='{% url 'gurps-manager-campaign' %}'>Campaigns</a></li>
+        <li><a href='{% url 'gurps-manager-campaign-id' campaign.id %}'
+            >{{ campaign.name }}</a></li>
+        <li><a href='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'
+            >Spells</a></li>
+    </ol>
+{% endblock %}
 
 {% block body %}
     <h1>Spells</h1>
     <p>
-        Add or update spells <a
-        href='{% url 'gurps-manager-campaign-id-spells-update-form' campaign.id %}'>here</a>.
+        <a href='{% url 'gurps-manager-campaign-id-spells-update-form' campaign.id %}'
+        >Edit</a>
     </p>
     {% render_table table %}
 {% endblock %}

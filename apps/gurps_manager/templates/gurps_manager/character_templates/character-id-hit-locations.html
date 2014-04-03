@@ -22,13 +22,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Hit Locations</h1>
-    <p><a href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'
-        >Edit</a></p>
+    <h1>{{ character.name }}'s Hit Locations</h1>
     <p>
-        Add or update hit locations <a
-        href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'
-        >here</a>.
+        <a href='{% url 'gurps-manager-character-id-hit-locations-update-form' character.id %}'
+        >Edit</a>
     </p>
     {% render_table table %}
 {% endblock %}

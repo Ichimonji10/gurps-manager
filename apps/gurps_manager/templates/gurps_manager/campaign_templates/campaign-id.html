@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Campaign {{ campaign.id }}</h1>
+    <h1>{{ campaign.name }}</h1>
     <p>
         <a href='{% url 'gurps-manager-campaign-id-update-form' campaign.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-campaign-id-delete-form' campaign.id %}'>Delete</a>
@@ -30,10 +30,6 @@
         <a href='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'
         >spells</a>.
     </p>
-    <dl>
-        <dt>Name</dt>
-        <dd>{{ campaign.name }}</dd>
-        <dt>Description</dt>
-        <dd>{{ campaign.description|default:'No description.' }}</dd>
-    </dl>
+    <h2>Description</h2>
+    <p>{{ campaign.description|default:'No description.' }}</p>
 {% endblock %}

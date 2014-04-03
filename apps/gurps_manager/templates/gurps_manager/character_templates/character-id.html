@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Character {{ character.id }}</h1>
+    <h1>{{ character.name }}</h1>
     <p>
         <a href='{% url 'gurps-manager-character-id-update-form' character.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-character-id-delete-form' character.id %}'>Delete</a>
@@ -33,14 +33,13 @@
         href='{% url 'gurps-manager-character-id-spells' character.id %}'
         >spells</a> and {{character.trait_set.count}} <a
         href='{% url 'gurps-manager-character-id-traits' character.id %}'
-        >traits</a>.
+        >traits</a>. They are participating in the campaign "<a
+        href='{% url 'gurps-manager-campaign-id' character.campaign.id %}'
+        >{{character.campaign.name}}</a>".
     </p>
     <section>
         <h1>Basic Information</h1>
         <dl>
-            <dt>Name</dt>
-            <dd>{{ character.name }}</dd>
-
             <dt>Description</dt>
             <dd>{{ character.description|default:'No description.' }}</dd>
 
@@ -77,10 +76,6 @@
             <dd>{{ character.points_in_health }} points</dd>
         </dl>
         <p>Points in attributes: {{character.total_points_in_attributes }}</p>
-    </section>
-    <section>
-        <h1>Campaign Information</h1>
-        <p>This character belongs to Campaign {{ character.campaign.id }}: {{ character.campaign.name }}</p>
     </section>
     <section>
         <h1>Derived Stats</h1>
