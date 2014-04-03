@@ -14,12 +14,15 @@ belong here.
 """
 import os
 
-# NEVER deploy a site into production with DEBUG turned on!
-DEBUG = True
+# NEVER deploy a site into production with DEBUG turned on! It's useful for
+# development work, though.
+DEBUG = False
 # Display a detailed report for any exception raised during template rendering.
 # Django only displays fancy error pages if DEBUG is True, so you'll want to set
 # that to take advantage of this setting.
 TEMPLATE_DEBUG = DEBUG
+# Who may use this application?
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = 'gurps-manager-login'
 

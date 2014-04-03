@@ -41,8 +41,13 @@ environment can be activated and deactivated like so::
     $ source <destination_directory>/GURPS-ENV/bin/activate
     $ deactivate
 
-You'll also need to edit the file ``apps/main/settings.py`` and provide a value
-for the ``SECRET_KEY`` variable. A default value `cannot be provided`_.
+You'll also need to edit the file ``apps/main/settings.py`` and make several
+changes:
+
+* Provide a value for the ``SECRET_KEY`` variable. A default value `cannot be
+  provided`_.
+* If deploying for development purposes, you may wish to set ``DEBUG`` to
+  ``True``.
 
 Development Setup
 -----------------
