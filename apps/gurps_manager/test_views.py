@@ -883,11 +883,55 @@ class CharacterIdSkillsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        self.character.campaign.skillsets.add(
+            models.SkillSet.objects.get(name__exact='Custom')
+        )
+        data = {
+            'characterskill_set-0-bonus_level': ['0'],
+            'characterskill_set-0-character': [str(self.character.id)],
+            'characterskill_set-0-comments': [''],
+            'characterskill_set-0-id': [''],
+            'characterskill_set-0-points': ['3.0'],
+            'characterskill_set-0-skill': [str(
+                # This skill belongs to the 'Custom' skillset.
+                models.Skill.objects.get(
+                    name__exact='<Custom Skill- Mental Easy>'
+                ).id
+            )],
+            'characterskill_set-INITIAL_FORMS': ['0'],
+            'characterskill_set-TOTAL_FORMS': ['1'],
+            'characterskill_set-MAX_NUM_FORMS': ['10'],
+            '_method': ['PUT'],
+        }
+
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-skills',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure(self):
+        """POST ``self.path``, incorrectly."""
+        # Management form data must be present, or else an exception is thrown.
+        data = {
+            'characterskill_set-INITIAL_FORMS': ['0'],
+            'characterskill_set-TOTAL_FORMS': ['1'],
+            'characterskill_set-MAX_NUM_FORMS': ['10'],
+            '_method': ['PUT'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-skills-update-form',
+                args=[self.character.id]
+            )
+        )
 
     def test_get(self):
         """GET ``self.path``."""

@@ -414,7 +414,8 @@ class CharacterIdSkills(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-skills-update-form'
+                'gurps-manager-character-id-skills-update-form',
+                args=[character_id]
             ))
 
 class CharacterIdSkillsUpdateForm(View):
