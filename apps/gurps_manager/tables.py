@@ -23,87 +23,140 @@ import django_tables2 as tables
 #
 # pylint: disable=R0201
 # Framework requires use of methods rather than functions
+def campaign_table(user):
+    """Generate a table class for ``Campaign`` objects.
 
-class CampaignTable(tables.Table):
-    """An HTML table displaying ``Campaign`` objects."""
-    actions = tables.Column(empty_values=(), orderable=False)
+    ``user`` is a ``User`` model object.
 
-    class Meta(object):
-        """Table attributes that are not custom fields."""
-        model = models.Campaign
-        exclude = ('id',)
-        sequence = ('name', 'description', 'owner', '...')
+    The table class returned is suitable for displaying characters
 
-    def render_description(self, value):
-        """Define how the ``description`` column should be rendered.
+    >>> from django.core.urlresolvers import reverse
+    >>> from django.utils.safestring import mark_safe
+    >>> from gurps_manager import models
+    >>> import django_tables2 as tables
+    >>> from gurps_manager import factories
+    >>> user = factories.UserFactory.create()
+    >>> table_cls = campaign_table(user)
+    >>> table_cls.__name__
+    'CampaignTable'
+    >>> tables.Table in table_cls.__bases__
+    True
 
-        ``value`` represents a single cell of data from the table.
+    """
+    class CampaignTable(tables.Table):
+        """An HTML table displaying ``Campaign`` objects."""
+        actions = tables.Column(empty_values=(), orderable=False)
 
-        >>> from gurps_manager.models import Campaign
-        >>> from gurps_manager.tables import _truncate_string
-        >>> table = CampaignTable(Campaign.objects.all())
-        >>> string = 'a' * 130
-        >>> table.render_description(string) == _truncate_string(string)
-        True
-        >>> string = 'a' * 150
-        >>> table.render_description(string) == _truncate_string(string)
-        True
+        class Meta(object):
+            """Table attributes that are not custom fields."""
+            model = models.Campaign
+            exclude = ('id',)
+            sequence = ('name', 'description', 'owner', '...')
 
-        """
-        return _truncate_string(value)
+        def render_description(self, value):
+            """Define how the ``description`` column should be rendered.
 
-    def render_actions(self, record):
-        """Define how the ``actions`` column should be rendered.
+            ``value`` represents a single cell of data from the table.
 
-        ``record`` represents a row of data from the database (and,
-        consequently, a row in the table).
+            >>> from gurps_manager.models import Campaign
+            >>> from gurps_manager.tables import _truncate_string
+            >>> table = CampaignTable(Campaign.objects.all())
+            >>> string = 'a' * 130
+            >>> table.render_description(string) == _truncate_string(string)
+            True
+            >>> string = 'a' * 150
+            >>> table.render_description(string) == _truncate_string(string)
+            True
 
-        """
-        return mark_safe(_restful_links('campaign', record.id))
+            """
+            return _truncate_string(value)
 
-class CharacterTable(tables.Table):
-    """An HTML table displaying ``Character`` objects."""
-    spent_points = tables.Column(empty_values=(), orderable=False)
-    actions = tables.Column(empty_values=(), orderable=False)
+        def render_actions(self, record):
+            """Define how the ``actions`` column should be rendered.
 
-    class Meta(object):
-        """Table attributes that are not custom fields."""
-        model = models.Character
-        fields = ('name', 'description', 'total_points')
+            ``record`` represents a row of data from the database (and,
+            consequently, a row in the table).
 
-    def render_spent_points(self, record):
-        """Define how the ``spent_points`` column should be rendered.
+            """
+            if record.owner == user:
+                return mark_safe(_restful_links('campaign', record.id))
+            else:
+                return mark_safe('<a href="{}">View</a>'.format( \
+                    _read_url('campaign', record.id) \
+                ))
 
-        ``record`` represents a row of data from this table.
+    return CampaignTable
 
-        """
-        return record.total_points_spent()
+def character_table(user):
+    """Generate a table class for ``Character`` objects.
 
-    def render_description(self, value):
-        """Define how the ``description`` column should be rendered.
+    ``user`` is a ``User`` model object.
 
-        ``value`` represents a single cell of data from the table.
+    The table class returned is suitable for displaying characters
 
-        >>> from gurps_manager.models import Character
-        >>> table = CharacterTable(Character.objects.all())
-        >>> string = 'a' * 130
-        >>> table.render_description(string) == _truncate_string(string)
-        True
-        >>> string = 'a' * 150
-        >>> table.render_description(string) == _truncate_string(string)
-        True
+    >>> from django.core.urlresolvers import reverse
+    >>> from django.utils.safestring import mark_safe
+    >>> from gurps_manager import models
+    >>> import django_tables2 as tables
+    >>> from gurps_manager import factories
+    >>> user = factories.UserFactory.create()
+    >>> table_cls = character_table(user)
+    >>> table_cls.__name__
+    'CharacterTable'
+    >>> tables.Table in table_cls.__bases__
+    True
 
-        """
-        return _truncate_string(value)
+    """
+    class CharacterTable(tables.Table):
+        """An HTML table displaying ``Character`` objects."""
+        spent_points = tables.Column(empty_values=(), orderable=False)
+        actions = tables.Column(empty_values=(), orderable=False)
 
-    def render_actions(self, record):
-        """Define how the ``actions`` column should be rendered.
+        class Meta(object):
+            """Table attributes that are not custom fields."""
+            model = models.Character
+            fields = ('name', 'description', 'total_points')
 
-        ``record`` represents a row of data from the database (and,
-        consequently, a row in the table).
+        def render_spent_points(self, record):
+            """Define how the ``spent_points`` column should be rendered.
 
-        """
-        return mark_safe(_restful_links('character', record.id))
+            ``record`` represents a row of data from this table.
+
+            """
+            return record.total_points_spent()
+
+        def render_description(self, value):
+            """Define how the ``description`` column should be rendered.
+
+            ``value`` represents a single cell of data from the table.
+
+            >>> from gurps_manager.models import Character
+            >>> table = CharacterTable(Character.objects.all())
+            >>> string = 'a' * 130
+            >>> table.render_description(string) == _truncate_string(string)
+            True
+            >>> string = 'a' * 150
+            >>> table.render_description(string) == _truncate_string(string)
+            True
+
+            """
+            return _truncate_string(value)
+
+        def render_actions(self, record):
+            """Define how the ``actions`` column should be rendered.
+
+            ``record`` represents a row of data from the database (and,
+            consequently, a row in the table).
+
+            """
+            if record.owner == user:
+                return mark_safe(_restful_links('character', record.id))
+            else:
+                return mark_safe('<a href="{}">View</a>'.format( \
+                    _read_url('character', record.id) \
+                ))
+
+    return CharacterTable
 
 class CharacterSkillTable(tables.Table):
     """An HTML table displaying ``CharacterSkill`` objects."""

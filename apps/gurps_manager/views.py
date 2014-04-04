@@ -104,7 +104,8 @@ class Campaign(View):
     def get(self, request):
         """Return a list of all campaigns viewable by a user."""
         campaigns = _viewable_campaigns(request.user)
-        table = tables.CampaignTable(campaigns)
+        campaign_table_cls = tables.campaign_table(request.user)
+        table = campaign_table_cls(campaigns)
         RequestConfig(request).configure(table)
         return render(
             request,
@@ -250,7 +251,8 @@ class Character(View):
 
         """
         characters = _viewable_characters(request.user)
-        table = tables.CharacterTable(characters)
+        character_table_cls = tables.character_table(request.user)
+        table = character_table_cls(characters)
         RequestConfig(request).configure(table)
         return render(
             request,
