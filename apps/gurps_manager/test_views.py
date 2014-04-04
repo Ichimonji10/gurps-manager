@@ -886,24 +886,22 @@ class CharacterIdSkillsTestCase(TestCase):
     def test_post(self):
         """POST ``self.path``."""
         self.character.campaign.skillsets.add(
-            models.SkillSet.objects.get(name__exact='Custom')
+            models.SkillSet.objects.get(name__exact='Professional')
         )
         data = {
-            'characterskill_set-0-bonus_level': ['0'],
-            'characterskill_set-0-character': [str(self.character.id)],
-            'characterskill_set-0-comments': [''],
-            'characterskill_set-0-id': [''],
-            'characterskill_set-0-points': ['3.0'],
-            'characterskill_set-0-skill': [str(
-                # This skill belongs to the 'Custom' skillset.
-                models.Skill.objects.get(
-                    name__exact='<Custom Skill- Mental Easy>'
-                ).id
-            )],
             'characterskill_set-INITIAL_FORMS': ['0'],
             'characterskill_set-TOTAL_FORMS': ['1'],
             'characterskill_set-MAX_NUM_FORMS': ['10'],
-            '_method': ['PUT'],
+
+            'characterskill_set-0-id': [''],
+            'characterskill_set-0-character': [str(self.character.id)],
+            'characterskill_set-0-bonus_level': ['0'],
+            'characterskill_set-0-comments': [''],
+            'characterskill_set-0-points': ['3.0'],
+            'characterskill_set-0-skill': [str(
+                # This skill belongs to the 'General' skillset.
+                models.Skill.objects.get(name__exact='Abacus').id
+            )],
         }
 
         response = self.client.post(self.path, data)
@@ -922,7 +920,6 @@ class CharacterIdSkillsTestCase(TestCase):
             'characterskill_set-INITIAL_FORMS': ['0'],
             'characterskill_set-TOTAL_FORMS': ['1'],
             'characterskill_set-MAX_NUM_FORMS': ['10'],
-            '_method': ['PUT'],
         }
         response = self.client.post(self.path, data)
         self.assertRedirects(
