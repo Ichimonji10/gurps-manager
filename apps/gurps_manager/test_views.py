@@ -58,7 +58,7 @@ class LoginTestCase(TestCase):
     PATH = reverse('gurps-manager-login')
 
     def test_post(self):
-        """POST ``self.PATH``, thus logging in."""
+        """Log in sucessfully."""
         user, password = factories.create_user()
         response = self.client.post(
             self.PATH,
@@ -66,13 +66,32 @@ class LoginTestCase(TestCase):
         )
         self.assertRedirects(response, reverse('gurps-manager-index'))
 
-    def test_post_failure(self):
-        """POST ``self.PATH``, incorrectly."""
+    def test_post_failure_v1(self):
+        """Log in, but do not provide any credentials."""
         response = self.client.post(self.PATH, {})
         self.assertRedirects(response, self.PATH)
 
+    def test_post_failure_v2(self):
+        """Log in with an invalid username/password combination."""
+        response = self.client.post(
+            self.PATH,
+            {'username': 'foo', 'password': 'bar'}
+        )
+        self.assertRedirects(response, self.PATH)
+
+    def test_post_failure_v3(self):
+        """Log in with an inactive user."""
+        user, password = factories.create_user()
+        user.is_active = False
+        user.save()
+        response = self.client.post(
+            self.PATH,
+            {'username': user.username, 'password': password}
+        )
+        self.assertRedirects(response, self.PATH)
+
     def test_get(self):
-        """GET ``self.PATH``."""
+        """Get the login page."""
         response = self.client.get(self.PATH)
         self.assertEqual(response.status_code, 200)
 
