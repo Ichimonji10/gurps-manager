@@ -167,7 +167,7 @@ def possession_form(character):
     class PossessionForm(ModelForm):
         """A form for creating or editing a ``Possession`` object."""
         item = ModelChoiceField(
-            queryset=models.Spell.objects.filter( # pylint: disable=E1101
+            queryset=models.Item.objects.filter( # pylint: disable=E1101
                 campaign=character.campaign
             )
         )
@@ -189,7 +189,7 @@ def possession_formset(character):
         models.Character,
         models.Possession,
         extra=5,
-        form=character_skill_form(character)
+        form=possession_form(character)
     )
 
 def trait_formset():

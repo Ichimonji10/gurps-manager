@@ -538,7 +538,7 @@ class CharacterIdPossessions(View):
             return http.HttpResponseForbidden()
 
         # Attempt to save changes. Reply.
-        formset_cls = forms.character_spell_formset(character)
+        formset_cls = forms.possession_formset(character)
         formset = formset_cls(request.POST, instance=character)
         if formset.is_valid():
             formset.save()
