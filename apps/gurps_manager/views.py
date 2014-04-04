@@ -479,7 +479,8 @@ class CharacterIdSpells(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-spells-update-form'
+                'gurps-manager-character-id-spells-update-form',
+                args=[character_id]
             ))
 
 class CharacterIdSpellsUpdateForm(View):
@@ -546,7 +547,8 @@ class CharacterIdPossessions(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-possessions-update-form'
+                'gurps-manager-character-id-possessions-update-form',
+                args=[character_id]
             ))
 
 class CharacterIdPossessionsUpdateForm(View):
@@ -613,7 +615,8 @@ class Traits(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-traits-update-form'
+                'gurps-manager-character-id-traits-update-form',
+                args=[character_id]
             ))
 
 class TraitsUpdateForm(View):
@@ -680,7 +683,8 @@ class HitLocations(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-character-id-hit-locations-update-form'
+                'gurps-manager-character-id-hit-locations-update-form',
+                args=[character_id]
             ))
 
 class HitLocationsUpdateForm(View):
@@ -747,7 +751,8 @@ class Items(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-campaign-id-items-update-form'
+                'gurps-manager-campaign-id-items-update-form',
+                args=[campaign_id]
             ))
 
 class ItemsUpdateForm(View):
@@ -814,7 +819,8 @@ class Spells(View):
             # Put formset data into session. Destination view will use it.
             request.session['form_data'] = json.dumps(formset.data)
             return http.HttpResponseRedirect(reverse(
-                'gurps-manager-campaign-id-spells-update-form'
+                'gurps-manager-campaign-id-spells-update-form',
+                args=[campaign_id]
             ))
 
 class SpellsUpdateForm(View):
