@@ -1134,11 +1134,63 @@ class CharacterIdPossessionsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
         """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        self.character.campaign.skillsets.add(
+            models.SkillSet.objects.get(name__exact='Professional')
+        )
+        item = factories.ItemFactory.create(campaign=self.character.campaign)
+        data = {
+            'possession_set-INITIAL_FORMS': ['0'],
+            'possession_set-TOTAL_FORMS': ['1'],
+            'possession_set-MAX_NUM_FORMS': ['10'],
+
+            'possession_set-0-id': [''],
+            'possession_set-0-character': [str(self.character.id)],
+            'possession_set-0-quantity': ['1'],
+            'possession_set-0-skill': [str(
+                # This skill belongs to the 'General' skillset.
+                models.Skill.objects.get(name__exact='Abacus').id
+            )],
+            'possession_set-0-item': [str(item.id)],
+        }
+
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-possessions',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure(self):
+        """POST ``self.path``, incorrectly."""
+        self.character.campaign.skillsets.clear()
+        item = factories.ItemFactory.create(campaign=self.character.campaign)
+        data = {
+            'possession_set-INITIAL_FORMS': ['0'],
+            'possession_set-TOTAL_FORMS': ['1'],
+            'possession_set-MAX_NUM_FORMS': ['10'],
+
+            'possession_set-0-id': [''],
+            'possession_set-0-character': [str(self.character.id)],
+            'possession_set-0-quantity': ['1'],
+            'possession_set-0-skill': [str(
+                # No skills are available, b/c skillsets.clear() was called.
+                models.Skill.objects.get(name__exact='Abacus').id
+            )],
+            'possession_set-0-item': [str(item.id)],
+        }
+
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-possessions',
+                args=[self.character.id]
+            )
+        )
 
     def test_get(self):
         """GET ``self.path``."""
