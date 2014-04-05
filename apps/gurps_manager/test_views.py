@@ -1101,11 +1101,60 @@ class CharacterIdSpellsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
-        """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        """Create a new CharacterSpell object."""
+        # Give character access to a skill.
+        self.character.campaign.skillsets.add(
+            models.SkillSet.objects.get(name__exact='Professional')
+        )
+        skill = models.Skill.objects.get(name__exact='Abacus')
+        # Give character access to a spell.
+        spell = factories.SpellFactory.create(campaign=self.character.campaign)
+        # Construct form data.
+        data = {
+            'characterspell_set-INITIAL_FORMS': ['0'],
+            'characterspell_set-TOTAL_FORMS': ['1'],
+            'characterspell_set-MAX_NUM_FORMS': ['10'],
+            'characterspell_set-0-id': [''], # no id, b/c creating a new spell
+            'characterspell_set-0-character': [str(self.character.id)],
+            'characterspell_set-0-bonus_level': ['0'],
+            'characterspell_set-0-points': ['0'],
+            'characterspell_set-0-skill': [str(skill.id)],
+            'characterspell_set-0-spell': [str(spell.id)],
+        }
+
+        # Create new CharacterSpell object.
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-spells',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v1(self):
+        """Update a character's spells, but with invalid data."""
+        data = {
+            'characterspell_set-INITIAL_FORMS': ['0'],
+            'characterspell_set-TOTAL_FORMS': ['1'],
+            'characterspell_set-MAX_NUM_FORMS': ['10'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-spells-update-form',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v2(self):
+        """Update a character's spells, but without the rights to do so."""
+        character = factories.CharacterFactory.create()
+        path = reverse('gurps-manager-character-id-spells', args=[character.id])
+        response = self.client.post(path, {})
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -1221,7 +1270,7 @@ class CharacterIdPossessionsTestCase(TestCase):
             'possession_set-0-character': [str(self.character.id)],
             'possession_set-0-quantity': ['1'],
             'possession_set-0-skill': [str(
-                # This skill belongs to the 'General' skillset.
+                # This skill belongs to the 'Professional' skillset.
                 models.Skill.objects.get(name__exact='Abacus').id
             )],
             'possession_set-0-item': [str(item.id)],

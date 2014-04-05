@@ -21,7 +21,6 @@
     <h1>Update Spells for Character "{{ character.name }}"</h1>
     <form method='post' action='{% url 'gurps-manager-character-id-spells' character.id %}'>
         {% csrf_token %}
-        <input type='hidden' name='_method' value='PUT' />
         {{ formset.management_form }}
         <table>
             {% for form in formset %}
