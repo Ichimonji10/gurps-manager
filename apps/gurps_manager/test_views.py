@@ -1413,11 +1413,63 @@ class CharacterIdTraitsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
-        """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        """Create a trait for a character."""
+        data = {
+            'trait_set-INITIAL_FORMS': ['0'],
+            'trait_set-TOTAL_FORMS': ['1'],
+            'trait_set-MAX_NUM_FORMS': ['10'],
+            'trait_set-0-character': [str(self.character.id)],
+            'trait_set-0-id': [''], # no id, b/c creating new trait
+            'trait_set-0-name': ['bombastic'],
+            'trait_set-0-description': [''],
+            'trait_set-0-points': ['1'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-traits',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v1(self):
+        """Create a trait, but for a non-existent character."""
+        self.character.delete()
+        response = self.client.post(self.path, {})
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_failure_v2(self):
+        """Create a trait for a character, but with invalid data."""
+        data = {
+            'trait_set-INITIAL_FORMS': ['0'],
+            'trait_set-TOTAL_FORMS': ['1'],
+            'trait_set-MAX_NUM_FORMS': ['10'],
+            'trait_set-0-points': ['-1'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-traits-update-form',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v3(self):
+        """Create a trait for a character, but without rights to do so."""
+        path = reverse(
+            'gurps-manager-character-id-traits',
+            args=[factories.CharacterFactory.create().id]
+        )
+        data = {
+            'trait_set-INITIAL_FORMS': ['0'],
+            'trait_set-TOTAL_FORMS': ['1'],
+            'trait_set-MAX_NUM_FORMS': ['10'],
+        }
+        response = self.client.post(path, data)
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
