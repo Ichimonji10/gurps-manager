@@ -208,7 +208,7 @@ class CampaignIdTestCase(TestCase):
         )
 
     def test_login_required(self):
-        """Ensure user must be logged in to GET this URL."""
+        """Ensure user must be logged in to get info about a campaign."""
         _test_login_required(self, self.path)
 
     def test_post(self):
@@ -217,21 +217,18 @@ class CampaignIdTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_get(self):
-        """GET ``self.path``."""
+        """Get info about a campaign."""
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
 
     def test_get_bad_id(self):
-        """GET ``self.path`` with a bad ID."""
+        """Get info about a non-existent campaign."""
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
 
     def test_get_failure(self):
-        """Get information about a campaign, without rights to view that
-        campaign.
-
-        """
+        """Get info about a campaign, without rights to view that campaign."""
         campaign = factories.CampaignFactory.create()
         response = self.client.get(reverse(
             'gurps-manager-campaign-id',
@@ -240,7 +237,7 @@ class CampaignIdTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_put(self):
-        """POST ``self.path`` and emulate a PUT request."""
+        """Update a campaign."""
         data = factories.CampaignFactory.attributes()
         data['owner'].save()
         data['owner'] = self.campaign.owner.id
@@ -248,8 +245,8 @@ class CampaignIdTestCase(TestCase):
         response = self.client.post(self.path, data)
         self.assertRedirects(response, self.path)
 
-    def test_put_failure(self):
-        """POST ``self.path`` and emulate a PUT request, incorrectly."""
+    def test_put_failure_v1(self):
+        """Update a campaign, using invalid data."""
         # A CampaignForm requires more than just a name.
         data = {'_method': 'PUT', 'name': ''}
         response = self.client.post(self.path, data)
@@ -261,10 +258,29 @@ class CampaignIdTestCase(TestCase):
             )
         )
 
+    def test_put_failure_v2(self):
+        """Update a campaign, without rights to update that campaign."""
+        campaign = factories.CampaignFactory.create()
+        response = self.client.post(
+            reverse('gurps-manager-campaign-id', args=[campaign.id]),
+            {'_method': 'PUT'}
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_delete(self):
-        """POST ``self.path`` and emulate a DELETE request."""
+        """Delete a campaign."""
         response = self.client.post(self.path, {'_method': 'DELETE'})
         self.assertRedirects(response, reverse('gurps-manager-campaign'))
+
+    def test_delete_failure(self):
+        """Delete a campaign, without rights to delete that campaign."""
+        campaign = factories.CampaignFactory.create()
+        response = self.client.post(
+            reverse('gurps-manager-campaign-id', args=[campaign.id]),
+            {'_method': 'DELETE'}
+        )
+        self.assertEqual(response.status_code, 403)
+
 
 class CampaignIdUpdateFormTestCase(TestCase):
     """Tests for the ``campaign/<id>/update-form/`` path."""
