@@ -1293,22 +1293,13 @@ class CharacterIdPossessionsTestCase(TestCase):
             'possession_set-INITIAL_FORMS': ['0'],
             'possession_set-TOTAL_FORMS': ['1'],
             'possession_set-MAX_NUM_FORMS': ['10'],
-
-            'possession_set-0-id': [''],
-            'possession_set-0-character': [str(self.character.id)],
-            'possession_set-0-quantity': ['1'],
-            'possession_set-0-skill': [str(
-                # No skills are available, b/c skillsets.clear() was called.
-                models.Skill.objects.get(name__exact='Abacus').id
-            )],
-            'possession_set-0-item': [str(item.id)],
+            'possession_set-0-quantity': ['-1'],
         }
-
         response = self.client.post(self.path, data)
         self.assertRedirects(
             response,
             reverse(
-                'gurps-manager-character-id-possessions',
+                'gurps-manager-character-id-possessions-update-form',
                 args=[self.character.id]
             )
         )
