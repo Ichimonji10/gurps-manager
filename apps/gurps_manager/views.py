@@ -135,7 +135,7 @@ class CampaignId(View):
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if campaign not in _viewable_campaigns(request.user):
             return http.HttpResponseForbidden(
-                'Error: you do not own this campaign.'
+                'Error: you do not have the rights to view this campaign.'
             )
         return render(
             request,

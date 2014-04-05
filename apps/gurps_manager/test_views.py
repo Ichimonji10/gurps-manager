@@ -227,6 +227,18 @@ class CampaignIdTestCase(TestCase):
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
 
+    def test_get_failure(self):
+        """Get information about a campaign, without rights to view that
+        campaign.
+
+        """
+        campaign = factories.CampaignFactory.create()
+        response = self.client.get(reverse(
+            'gurps-manager-campaign-id',
+            args=[campaign.id]
+        ))
+        self.assertEqual(response.status_code, 403)
+
     def test_put(self):
         """POST ``self.path`` and emulate a PUT request."""
         data = factories.CampaignFactory.attributes()
