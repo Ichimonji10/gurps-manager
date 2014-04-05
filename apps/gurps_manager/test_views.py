@@ -949,7 +949,7 @@ class CharacterIdSkillsTestCase(TestCase):
         _test_login_required(self, self.path)
 
     def test_post(self):
-        """POST ``self.path``."""
+        """Update a character's skills."""
         self.character.campaign.skillsets.add(
             models.SkillSet.objects.get(name__exact='Professional')
         )
@@ -978,8 +978,8 @@ class CharacterIdSkillsTestCase(TestCase):
             )
         )
 
-    def test_post_failure(self):
-        """POST ``self.path``, incorrectly."""
+    def test_post_failure_v1(self):
+        """Update a character's skills, but with invalid data."""
         # Management form data must be present, or else an exception is thrown.
         data = {
             'characterskill_set-INITIAL_FORMS': ['0'],
@@ -994,6 +994,13 @@ class CharacterIdSkillsTestCase(TestCase):
                 args=[self.character.id]
             )
         )
+
+    def test_post_failure_v2(self):
+        """Update a character's skills, without the rights to do so."""
+        character = factories.CharacterFactory.create()
+        path = reverse('gurps-manager-character-id-skills', args=[character.id])
+        response = self.client.post(path, {})
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
@@ -1200,7 +1207,7 @@ class CharacterIdPossessionsTestCase(TestCase):
         _test_login_required(self, self.path)
 
     def test_post(self):
-        """POST ``self.path``."""
+        """Update a character's possessions."""
         self.character.campaign.skillsets.add(
             models.SkillSet.objects.get(name__exact='Professional')
         )
@@ -1229,8 +1236,8 @@ class CharacterIdPossessionsTestCase(TestCase):
             )
         )
 
-    def test_post_failure(self):
-        """POST ``self.path``, incorrectly."""
+    def test_post_failure_v1(self):
+        """Update a character's possessions, but with invalid data."""
         self.character.campaign.skillsets.clear()
         item = factories.ItemFactory.create(campaign=self.character.campaign)
         data = {
@@ -1256,6 +1263,16 @@ class CharacterIdPossessionsTestCase(TestCase):
                 args=[self.character.id]
             )
         )
+
+    def test_post_failure_v2(self):
+        """Update a character's possessions, but without the rights to do so."""
+        character = factories.CharacterFactory.create()
+        path = reverse(
+            'gurps-manager-character-id-possessions',
+            args=[character.id]
+        )
+        response = self.client.post(path, {})
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
