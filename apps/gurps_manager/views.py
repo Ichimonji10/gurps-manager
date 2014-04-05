@@ -152,7 +152,9 @@ class CampaignId(View):
         """
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this campaign.'
+            )
         form = forms.CampaignForm(request.POST, instance=campaign)
         if form.is_valid():
             form.save()
@@ -267,7 +269,7 @@ class CharacterId(View):
         character = _get_model_object_or_404(models.Character, character_id)
         if character not in _viewable_characters(request.user):
             return http.HttpResponseForbidden(
-                'Error: you do not own this character.'
+                'Error: you do not have the rights to view this character.'
             )
         return render(
             request,
@@ -286,7 +288,9 @@ class CharacterId(View):
         # update this character?
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         form = forms.CharacterForm(request.POST, instance=character)
@@ -311,7 +315,9 @@ class CharacterId(View):
         """
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
         character.delete()
         return http.HttpResponseRedirect(reverse('gurps-manager-character'))
 
@@ -381,7 +387,9 @@ class CharacterIdSkills(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Reply.
         table = tables.CharacterSkillTable(
@@ -399,7 +407,9 @@ class CharacterIdSkills(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.character_skill_formset(character)
@@ -425,7 +435,9 @@ class CharacterIdSkillsUpdateForm(View):
         # Check whether the character exists, and whether we own it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.character_skill_formset(character)
@@ -449,7 +461,9 @@ class CharacterIdSpells(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Reply.
         table = tables.CharacterSpellTable(
@@ -467,7 +481,9 @@ class CharacterIdSpells(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.character_spell_formset(character)
@@ -493,7 +509,9 @@ class CharacterIdSpellsUpdateForm(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.character_spell_formset(character)
@@ -517,7 +535,9 @@ class CharacterIdPossessions(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a reply.
         table = tables.PossessionTable(
@@ -535,7 +555,9 @@ class CharacterIdPossessions(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.possession_formset(character)
@@ -561,7 +583,9 @@ class CharacterIdPossessionsUpdateForm(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.possession_formset(character)
@@ -585,7 +609,9 @@ class Traits(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a reply.
         table = tables.TraitTable(
@@ -603,7 +629,9 @@ class Traits(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.trait_formset()
@@ -629,7 +657,9 @@ class TraitsUpdateForm(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.trait_formset()
@@ -653,7 +683,9 @@ class HitLocations(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a reply.
         table = tables.HitLocationTable(
@@ -671,7 +703,9 @@ class HitLocations(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.hit_location_formset()
@@ -697,7 +731,9 @@ class HitLocationsUpdateForm(View):
         # Check whether the character exists, and whether the user owns it.
         character = _get_model_object_or_404(models.Character, character_id)
         if not _user_owns_character(request.user, character):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.hit_location_formset()
@@ -721,7 +757,9 @@ class Items(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a reply.
         table = tables.ItemTable(
@@ -739,7 +777,9 @@ class Items(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.campaign_items_formset()
@@ -765,7 +805,9 @@ class ItemsUpdateForm(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.campaign_items_formset()
@@ -789,7 +831,9 @@ class Spells(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a reply.
         table = tables.SpellTable(
@@ -807,7 +851,9 @@ class Spells(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Attempt to save changes. Reply.
         formset_cls = forms.campaign_spells_formset()
@@ -833,7 +879,9 @@ class SpellsUpdateForm(View):
         # Check whether the campaign exists, and whether the user owns it.
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
-            return http.HttpResponseForbidden()
+            return http.HttpResponseForbidden(
+                'Error: you do not own this character.'
+            )
 
         # Generate a form.
         formset_cls = forms.campaign_spells_formset()
