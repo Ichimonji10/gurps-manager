@@ -228,7 +228,7 @@ class CampaignIdTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_get_failure(self):
-        """Get info about a campaign, without rights to view that campaign."""
+        """Get info about a campaign, without the necessary rights."""
         campaign = factories.CampaignFactory.create()
         response = self.client.get(reverse(
             'gurps-manager-campaign-id',
@@ -259,7 +259,7 @@ class CampaignIdTestCase(TestCase):
         )
 
     def test_put_failure_v2(self):
-        """Update a campaign, without rights to update that campaign."""
+        """Update a campaign, without the necessary rights."""
         campaign = factories.CampaignFactory.create()
         response = self.client.post(
             reverse('gurps-manager-campaign-id', args=[campaign.id]),
@@ -273,7 +273,7 @@ class CampaignIdTestCase(TestCase):
         self.assertRedirects(response, reverse('gurps-manager-campaign'))
 
     def test_delete_failure(self):
-        """Delete a campaign, without rights to delete that campaign."""
+        """Delete a campaign, without the necessary rights."""
         campaign = factories.CampaignFactory.create()
         response = self.client.post(
             reverse('gurps-manager-campaign-id', args=[campaign.id]),
@@ -307,15 +307,24 @@ class CampaignIdUpdateFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_get(self):
-        """GET ``self.path``."""
+        """Get a campaign update form."""
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
 
     def test_get_bad_id(self):
-        """GET ``self.path`` with a bad ID."""
+        """Get a campaign update form for a non-existent campaign."""
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Get a campaign update form, without the necessary rights."""
+        campaign = factories.CampaignFactory.create()
+        response = self.client.get(reverse(
+            'gurps-manager-campaign-id-update-form',
+            args=[campaign.id]
+        ))
+        self.assertEqual(response.status_code, 403)
 
     def test_put(self):
         """POST ``self.path`` and emulate a PUT request."""
@@ -352,15 +361,24 @@ class CampaignIdDeleteFormTestCase(TestCase):
         self.assertEqual(response.status_code, 405)
 
     def test_get(self):
-        """GET ``self.path``."""
+        """Get a campaign deletion form, without the necessary rights."""
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 200)
 
     def test_get_bad_id(self):
-        """GET ``self.path`` with a bad ID."""
+        """Get a campaign deletion form for a non-existent campaign."""
         self.campaign.delete()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 404)
+
+    def test_get_failure(self):
+        """Get a campaign deletion form, without the necessary rights."""
+        campaign = factories.CampaignFactory.create()
+        response = self.client.get(reverse(
+            'gurps-manager-campaign-id-delete-form',
+            args=[campaign.id]
+        ))
+        self.assertEqual(response.status_code, 403)
 
     def test_put(self):
         """POST ``self.path`` and emulate a PUT request."""
