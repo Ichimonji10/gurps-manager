@@ -602,7 +602,7 @@ class CharacterIdPossessionsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-class Traits(View):
+class CharacterIdTraits(View):
     """Handle a request for ``character/<id>/traits/``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s traits."""
@@ -650,7 +650,7 @@ class Traits(View):
                 args=[character_id]
             ))
 
-class TraitsUpdateForm(View):
+class CharacterIdTraitsUpdateForm(View):
     """Handle a request for ``character/<id>/traits/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s traits.""" # pylint: disable=C0301
@@ -676,7 +676,7 @@ class TraitsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-class HitLocations(View):
+class CharacterIdHitLocations(View):
     """Handle a request for ``character/<id>/hit-locations``."""
     def get(self, request, character_id):
         """Return information about character ``character_id``'s hit-locations.""" # pylint: disable=C0301
@@ -724,7 +724,7 @@ class HitLocations(View):
                 args=[character_id]
             ))
 
-class HitLocationsUpdateForm(View):
+class CharacterIdHitLocationsUpdateForm(View):
     """Handle a request for ``character/<id>/hit-locations/update-form``."""
     def get(self, request, character_id):
         """Return a form for updating character ``character_id``'s hit-locations.""" # pylint: disable=C0301

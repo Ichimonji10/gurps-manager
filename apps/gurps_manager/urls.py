@@ -184,22 +184,22 @@ urlpatterns = patterns( # pylint: disable=C0103
     ),
     url(
         r'^character/(\d+)/traits/$',
-        login_required(views.Traits.as_view()),
+        login_required(views.CharacterIdTraits.as_view()),
         name='gurps-manager-character-id-traits',
     ),
     url(
         r'^character/(\d+)/traits/update-form/$',
-        login_required(views.TraitsUpdateForm.as_view()),
+        login_required(views.CharacterIdTraitsUpdateForm.as_view()),
         name='gurps-manager-character-id-traits-update-form',
     ),
     url(
         r'^character/(\d+)/hit-locations/$',
-        login_required(views.HitLocations.as_view()),
+        login_required(views.CharacterIdHitLocations.as_view()),
         name='gurps-manager-character-id-hit-locations',
     ),
     url(
         r'^character/(\d+)/hit-locations/update-form/$',
-        login_required(views.HitLocationsUpdateForm.as_view()),
+        login_required(views.CharacterIdHitLocationsUpdateForm.as_view()),
         name='gurps-manager-character-id-hit-locations-update-form',
     ),
 )
