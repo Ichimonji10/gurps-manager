@@ -1570,11 +1570,65 @@ class CharacterIdHitLocationsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
-        """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        """Create a hit location on a character."""
+        data = {
+            'hitlocation_set-INITIAL_FORMS': ['0'],
+            'hitlocation_set-TOTAL_FORMS': ['1'],
+            'hitlocation_set-MAX_NUM_FORMS': ['10'],
+            'hitlocation_set-0-id': [''],
+            'hitlocation_set-0-character': [str(self.character.id)],
+            'hitlocation_set-0-damage_resistance': ['3'],
+            'hitlocation_set-0-damage_taken': ['0'],
+            'hitlocation_set-0-name': ['head'],
+            'hitlocation_set-0-passive_damage_resistance': ['2'],
+            'hitlocation_set-0-status': [''],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-hit-locations',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v1(self):
+        """Create a hit location, but for a non-existent character."""
+        self.character.delete()
+        response = self.client.post(self.path, {})
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_failure_v2(self):
+        """Create a hit location for a character, but with invalid data."""
+        data = {
+            'hitlocation_set-INITIAL_FORMS': ['0'],
+            'hitlocation_set-TOTAL_FORMS': ['1'],
+            'hitlocation_set-MAX_NUM_FORMS': ['10'],
+            'hitlocation_set-0-damage_taken': ['-1'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-character-id-hit-locations-update-form',
+                args=[self.character.id]
+            )
+        )
+
+    def test_post_failure_v3(self):
+        """Create a hit location for a character, but without rights to do so."""
+        path = reverse(
+            'gurps-manager-character-id-hit-locations',
+            args=[factories.CharacterFactory.create().id]
+        )
+        data = {
+            'trait_set-INITIAL_FORMS': ['0'],
+            'trait_set-TOTAL_FORMS': ['1'],
+            'trait_set-MAX_NUM_FORMS': ['10'],
+        }
+        response = self.client.post(path, data)
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
