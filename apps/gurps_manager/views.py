@@ -750,7 +750,7 @@ class CharacterIdHitLocationsUpdateForm(View):
             {'character': character, 'formset': formset}
         )
 
-class Items(View):
+class CampaignIdItems(View):
     """Handle a request for ``campaign/<id>/items``."""
     def get(self, request, campaign_id):
         """Return information about campaign ``campaign_id``'s items.""" # pylint: disable=C0301
@@ -798,7 +798,7 @@ class Items(View):
                 args=[campaign_id]
             ))
 
-class ItemsUpdateForm(View):
+class CampaignIdItemsUpdateForm(View):
     """Handle a request for ``campaign/<id>/items/update-form``."""
     def get(self, request, campaign_id):
         """Return a form for updating campaign ``campaign_id``'s items.""" # pylint: disable=C0301
@@ -824,7 +824,7 @@ class ItemsUpdateForm(View):
             {'campaign': campaign, 'formset': formset}
         )
 
-class Spells(View):
+class CampaignIdSpells(View):
     """Handle a request for ``campaign/<id>/spells``."""
     def get(self, request, campaign_id):
         """Return information about campaign ``campaign_id``'s spells.""" # pylint: disable=C0301
@@ -872,7 +872,7 @@ class Spells(View):
                 args=[campaign_id]
             ))
 
-class SpellsUpdateForm(View):
+class CampaignIdSpellsUpdateForm(View):
     """Handle a request for ``campaign/<id>/spells/update-form``."""
     def get(self, request, campaign_id):
         """Return a form for updating campaign ``campaign_id``'s spells.""" # pylint: disable=C0301

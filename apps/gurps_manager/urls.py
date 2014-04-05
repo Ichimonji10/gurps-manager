@@ -107,22 +107,22 @@ urlpatterns = patterns( # pylint: disable=C0103
     ),
     url(
         r'^campaign/(\d+)/items/$',
-        login_required(views.Items.as_view()),
+        login_required(views.CampaignIdItems.as_view()),
         name='gurps-manager-campaign-id-items',
     ),
     url(
         r'^campaign/(\d+)/items/update-form/$',
-        login_required(views.ItemsUpdateForm.as_view()),
+        login_required(views.CampaignIdItemsUpdateForm.as_view()),
         name='gurps-manager-campaign-id-items-update-form',
     ),
     url(
         r'^campaign/(\d+)/spells/$',
-        login_required(views.Spells.as_view()),
+        login_required(views.CampaignIdSpells.as_view()),
         name='gurps-manager-campaign-id-spells',
     ),
     url(
         r'^campaign/(\d+)/spells/update-form/$',
-        login_required(views.SpellsUpdateForm.as_view()),
+        login_required(views.CampaignIdSpellsUpdateForm.as_view()),
         name='gurps-manager-campaign-id-spells-update-form',
     ),
 
