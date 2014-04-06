@@ -81,8 +81,8 @@ def campaign_table(user):
             if record.owner == user:
                 return mark_safe(_restful_links('campaign', record.id))
             else:
-                return mark_safe('<a href="{}">View</a>'.format( \
-                    _read_url('campaign', record.id) \
+                return mark_safe('<a href="{}">View</a>'.format(
+                    _read_url('campaign', record.id)
                 ))
 
     return CampaignTable
@@ -152,8 +152,8 @@ def character_table(user):
             if record.owner == user:
                 return mark_safe(_restful_links('character', record.id))
             else:
-                return mark_safe('<a href="{}">View</a>'.format( \
-                    _read_url('character', record.id) \
+                return mark_safe('<a href="{}">View</a>'.format(
+                    _read_url('character', record.id)
                 ))
 
     return CharacterTable
