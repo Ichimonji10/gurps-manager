@@ -566,11 +566,64 @@ class CampaignIdItemsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
-        """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        """Create an item for a campaign."""
+        data = {
+            'item_set-INITIAL_FORMS': ['0'],
+            'item_set-TOTAL_FORMS': ['1'],
+            'item_set-MAX_NUM_FORMS': ['10'],
+            'item_set-0-id': [''], # blank, b/c creating new item
+            'item_set-0-campaign': [str(self.campaign.id)],
+            'item_set-0-name': ['Bladed Pinions'],
+            'item_set-0-description': [''],
+            'item_set-0-value': ['2.0'],
+            'item_set-0-weight': ['3.0'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-campaign-id-items',
+                args=[self.campaign.id]
+            )
+        )
+
+    def test_post_failure_v1(self):
+        """Create an item for a non-existent campaign."""
+        self.campaign.delete()
+        response = self.client.post(self.path, {})
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_failure_v2(self):
+        """Create an item for a campaign, but with invalid data."""
+        data = {
+            'item_set-INITIAL_FORMS': ['0'],
+            'item_set-TOTAL_FORMS': ['1'],
+            'item_set-MAX_NUM_FORMS': ['10'],
+            'item_set-0-weight': ['-1.0'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-campaign-id-items-update-form',
+                args=[self.campaign.id]
+            )
+        )
+
+    def test_post_failure_v3(self):
+        """Create an item for a campaign, but without rights to do so."""
+        path = reverse(
+            'gurps-manager-campaign-id-items',
+            args=[factories.CampaignFactory.create().id]
+        )
+        data = {
+            'item_set-INITIAL_FORMS': ['0'],
+            'item_set-TOTAL_FORMS': ['1'],
+            'item_set-MAX_NUM_FORMS': ['10'],
+        }
+        response = self.client.post(path, data)
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""

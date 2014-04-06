@@ -18,7 +18,6 @@
     <h1>Update Items for Campaign "{{ campaign.name }}"</h1>
     <form method='post' action='{% url 'gurps-manager-campaign-id-items' campaign.id %}'>
         {% csrf_token %}
-        <input type='hidden' name='_method' value='PUT' />
         {{ formset.management_form }}
         <table>
             {% for form in formset %}
