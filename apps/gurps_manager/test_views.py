@@ -461,11 +461,68 @@ class CampaignIdSpellsTestCase(TestCase):
         """Ensure user must be logged in to GET this URL."""
         _test_login_required(self, self.path)
 
-    @unittest.skip('Have not figured out how to correctly construct this test.')
     def test_post(self):
-        """POST ``self.path``."""
-        # TODO: Find out how to make this test work
-        pass
+        """Create a spell for a campaign."""
+        data = {
+            'spell_set-INITIAL_FORMS': ['0'],
+            'spell_set-TOTAL_FORMS': ['1'],
+            'spell_set-MAX_NUM_FORMS': ['10'],
+            'spell_set-0-id': [''], # blank, b/c creating a new spell
+            'spell_set-0-campaign': [str(self.campaign.id)],
+            'spell_set-0-name': ['Magic Missile'],
+            'spell_set-0-school': ['magic 101'],
+            'spell_set-0-cast_time': ['10'],
+            'spell_set-0-resist': ['1'],
+            'spell_set-0-duration': ['2'],
+            'spell_set-0-difficulty': ['3'],
+            'spell_set-0-initial_fatigue_cost': ['4'],
+            'spell_set-0-maintenance_fatigue_cost': ['5'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-campaign-id-spells',
+                args=[self.campaign.id]
+            )
+        )
+
+    def test_post_failure_v1(self):
+        """Create an spell for a non-existent campaign."""
+        self.campaign.delete()
+        response = self.client.post(self.path, {})
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_failure_v2(self):
+        """Create an spell for a campaign, but with invalid data."""
+        data = {
+            'spell_set-INITIAL_FORMS': ['0'],
+            'spell_set-TOTAL_FORMS': ['1'],
+            'spell_set-MAX_NUM_FORMS': ['10'],
+            'spell_set-0-duration': ['-1'],
+        }
+        response = self.client.post(self.path, data)
+        self.assertRedirects(
+            response,
+            reverse(
+                'gurps-manager-campaign-id-spells-update-form',
+                args=[self.campaign.id]
+            )
+        )
+
+    def test_post_failure_v3(self):
+        """Create a spell for a campaign, but without rights to do so."""
+        path = reverse(
+            'gurps-manager-campaign-id-spells',
+            args=[factories.CampaignFactory.create().id]
+        )
+        data = {
+            'item_set-INITIAL_FORMS': ['0'],
+            'item_set-TOTAL_FORMS': ['1'],
+            'item_set-MAX_NUM_FORMS': ['10'],
+        }
+        response = self.client.post(path, data)
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         """GET ``self.path``."""
