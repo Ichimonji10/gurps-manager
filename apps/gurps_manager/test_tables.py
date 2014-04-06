@@ -25,7 +25,7 @@ class CampaignTableTestCase(TestCase):
         self.table = table_cls(models.Campaign.objects.all())
 
     def test_render_description(self):
-        """Test method ``render_description``, with a short description."""
+        """Test method ``render_description``."""
         string = factories._random_str(130, 150)
         self.assertEqual(
             self.table.render_description(string),
@@ -45,5 +45,45 @@ class CampaignTableTestCase(TestCase):
         campaign = factories.CampaignFactory.create(owner=self.user)
         self.assertTrue(issubclass(
             type(self.table.render_actions(campaign)),
+            str
+        ))
+
+class CharacterTableTestCase(TestCase):
+    """Tests for ``CharacterTable``."""
+    def setUp(self):
+        """Instantiate a ``CharacterTable`` object."""
+        self.user = factories.UserFactory.create()
+        table_cls = tables.character_table(self.user)
+        self.table = table_cls(models.Character.objects.all())
+
+    def test_render_spent_points(self):
+        """Test method ``render_spent_points``."""
+        character = factories.CharacterFactory.create()
+        self.assertEqual(
+            self.table.render_spent_points(character),
+            character.total_points_spent()
+        )
+
+    def test_render_description(self):
+        """Test method ``render_description``."""
+        string = factories._random_str(130, 150)
+        self.assertEqual(
+            self.table.render_description(string),
+            tables._truncate_string(string)
+        )
+
+    def test_render_actions_v1(self):
+        """Test method ``render_actions``."""
+        character = factories.CharacterFactory.create()
+        self.assertTrue(issubclass(
+            type(self.table.render_actions(character)),
+            str
+        ))
+
+    def test_render_actions_v2(self):
+        """Test method ``render_actions``."""
+        character = factories.CharacterFactory.create(owner=self.user)
+        self.assertTrue(issubclass(
+            type(self.table.render_actions(character)),
             str
         ))
