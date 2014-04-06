@@ -58,16 +58,6 @@ def campaign_table(user):
 
             ``value`` represents a single cell of data from the table.
 
-            >>> from gurps_manager.models import Campaign
-            >>> from gurps_manager.tables import _truncate_string
-            >>> table = CampaignTable(Campaign.objects.all())
-            >>> string = 'a' * 130
-            >>> table.render_description(string) == _truncate_string(string)
-            True
-            >>> string = 'a' * 150
-            >>> table.render_description(string) == _truncate_string(string)
-            True
-
             """
             return _truncate_string(value)
 
