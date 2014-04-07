@@ -317,9 +317,8 @@ sqlite
 ------
 
 By default, this project uses sqlite as a database backend. This directory
-houses that sqlite database file.
-
-The contents of the this folder should *not* be version controlled.
+houses that sqlite database file. The contents of this folder should *not* be
+version controlled.
 
 .. _cannot be provided: https://docs.djangoproject.com/en/1.6/ref/settings/#std:setting-SECRET_KEY
 .. _Django documentation: https://docs.djangoproject.com/en/dev/
