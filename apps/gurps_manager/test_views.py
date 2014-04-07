@@ -7,7 +7,6 @@ Each test case  in this module tests a single view. For example,
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from gurps_manager import factories, models
-import unittest
 
 # pylint: disable=E1101
 # Class 'Campaign' has no 'objects' member (no-member)
@@ -1398,7 +1397,6 @@ class CharacterIdPossessionsTestCase(TestCase):
     def test_post_failure_v1(self):
         """Update a character's possessions, but with invalid data."""
         self.character.campaign.skillsets.clear()
-        item = factories.ItemFactory.create(campaign=self.character.campaign)
         data = {
             'possession_set-INITIAL_FORMS': ['0'],
             'possession_set-TOTAL_FORMS': ['1'],
@@ -1710,7 +1708,7 @@ class CharacterIdHitLocationsTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post_failure_v2(self):
-        """Create a hit location for a character, but with invalid data."""
+        """Create a hit location, but with invalid data."""
         data = {
             'hitlocation_set-INITIAL_FORMS': ['0'],
             'hitlocation_set-TOTAL_FORMS': ['1'],
@@ -1727,7 +1725,7 @@ class CharacterIdHitLocationsTestCase(TestCase):
         )
 
     def test_post_failure_v3(self):
-        """Create a hit location for a character, but without rights to do so."""
+        """Create a hit location, but without rights to do so."""
         path = reverse(
             'gurps-manager-character-id-hit-locations',
             args=[factories.CharacterFactory.create().id]

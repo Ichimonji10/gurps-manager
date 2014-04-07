@@ -29,7 +29,7 @@ class CampaignTableTestCase(TestCase):
         string = factories._random_str(130, 150)
         self.assertEqual(
             self.table.render_description(string),
-            tables._truncate_string(string)
+            tables._truncate_string(string) # pylint: disable=W0212
         )
 
     def test_render_actions_v1(self):
@@ -69,7 +69,7 @@ class CharacterTableTestCase(TestCase):
         string = factories._random_str(130, 150)
         self.assertEqual(
             self.table.render_description(string),
-            tables._truncate_string(string)
+            tables._truncate_string(string) # pylint: disable=W0212
         )
 
     def test_render_actions_v1(self):
