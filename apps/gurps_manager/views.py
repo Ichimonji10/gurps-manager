@@ -758,7 +758,7 @@ class CampaignIdItems(View):
         campaign = _get_model_object_or_404(models.Campaign, campaign_id)
         if not _user_owns_campaign(request.user, campaign):
             return http.HttpResponseForbidden(
-                'Error: you do not own this character.'
+                'Error: you do not own this campaign.'
             )
 
         # Generate a reply.
