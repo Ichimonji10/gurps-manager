@@ -59,7 +59,8 @@ nav > ol li {
 nav a {text-decoration: none;}
 nav a:hover {text-decoration: underline;}
 
-/* There are no markers (e.g. bullets, numbers) for the lists, so insert pipes and double right-arrows for the unordered and ordered lists, respectively. */
+/* There are no markers (e.g. bullets, numbers) for the lists, so insert pipes
+ * and double right-arrows for the unordered and ordered lists, respectively. */
 nav > ul li:not(:last-child):after {color: #8291A0; content: " | ";}
 nav > ol li:not(:last-child):after {color: #8291A0; content: " \BB ";}
 
@@ -88,8 +89,14 @@ footer { border-top: thin solid #8291A0;}
 Other Rules
 ------------------------------------------------------------------------------*/
 
-/* Push textareas down below their label. */
+/* Push textareas and multi-selects onto separate lines from their associated
+ * text. */
 textarea {display: block;}
+select[multiple='multiple'] {
+    display: block;
+    min-width: 10em;
+    min-height: 10em;
+}
 
 /* FIXME: place in separate stylesheet */
 /* This stylesheet can be used with any of the "object" templates, such as
