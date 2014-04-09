@@ -39,7 +39,7 @@ def campaign_table(user):
     >>> table_cls = campaign_table(user)
     >>> table_cls.__name__
     'CampaignTable'
-    >>> tables.Table in table_cls.__bases__
+    >>> issubclass(table_cls, tables.Table)
     True
 
     """
@@ -93,7 +93,7 @@ def character_table(user):
     >>> table_cls = character_table(user)
     >>> table_cls.__name__
     'CharacterTable'
-    >>> tables.Table in table_cls.__bases__
+    >>> issubclass(table_cls, tables.Table)
     True
 
     """
