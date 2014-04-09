@@ -289,27 +289,21 @@ class Character(models.Model):
 
     def points_in_strength(self):
         """Returns the points a character has spent in strength"""
-        return self._points_in_attribute(
-            self.strength - self.free_strength
-            )
+        return self._points_in_attribute(self.strength - self.free_strength)
 
     def points_in_dexterity(self):
         """Returns the points a character has spent in dexterity"""
-        return self._points_in_attribute(
-            self.dexterity - self.free_dexterity
-            )
+        return self._points_in_attribute(self.dexterity - self.free_dexterity)
 
     def points_in_intelligence(self):
         """Returns the points a character has spent in intelligence"""
         return self._points_in_attribute(
             self.intelligence - self.free_intelligence
-            )
+        )
 
     def points_in_health(self):
         """Returns the points a character has spent in health"""
-        return self._points_in_attribute(
-            self.health - self.free_health
-            )
+        return self._points_in_attribute(self.health - self.free_health)
 
     @classmethod
     def _points_in_attribute(cls, level):
