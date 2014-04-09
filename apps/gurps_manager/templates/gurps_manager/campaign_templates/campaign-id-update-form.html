@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Update Campaign "{{ campaign.name }}"</h1>
+<h1>Update "{{ campaign.name }}"</h1>
 <form method='post' action='{% url 'gurps-manager-campaign-id' campaign.id %}'>
     {% csrf_token %}
     <input type='hidden' name='_method' value='PUT' />

@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Update Spells for Campaign "{{ campaign.name }}"</h1>
+    <h1>Update Spells in "{{ campaign.name }}"</h1>
     <form method='post' action='{% url 'gurps-manager-campaign-id-spells' campaign.id %}'>
         {% csrf_token %}
         {{ formset.management_form }}

@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Update Character "{{ character.name }}"</h1>
+<h1>Update {{ character.name }}</h1>
 <form method='post' action='{% url 'gurps-manager-character-id' character.id %}'>
     {% csrf_token %}
     <input type='hidden' name='_method' value='PUT' />

@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Update Traits for Character "{{ character.name }}"</h1>
+    <h1>Update {{ character.name }}'s Traits</h1>
     <form method='post' action='{% url 'gurps-manager-character-id-traits' character.id %}'>
         {% csrf_token %}
         {{ formset.management_form }}

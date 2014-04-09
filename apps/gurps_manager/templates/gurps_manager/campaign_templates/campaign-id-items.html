@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Items</h1>
+    <h1>Items in "{{ campaign.name }}"</h1>
     <p>
         <a href='{% url 'gurps-manager-campaign-id-items-update-form' campaign.id %}'
         >Edit</a>
