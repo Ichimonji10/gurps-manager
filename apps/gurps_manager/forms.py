@@ -141,7 +141,7 @@ def character_spell_formset(character):
         models.Character,
         models.CharacterSpell,
         extra=5,
-        form=character_skill_form(character)
+        form=character_spell_form(character)
     )
 
 def possession_form(character):
