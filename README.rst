@@ -1,16 +1,22 @@
 gurps-manager
 =============
 
-This repository contains the source code for the GURPS campaign management
-system. You can get the full source code at
-https://github.com/Ichimonji10/gurps-manager.git. gurps-manager is written using
-the Django web app framework. For more on Django, read the excellent `Django
-documentation`_.
+GURPS Manager is a web application for managing tabletop role-playing campaigns.
+It solves common problems with the typical pen-and-paper medium, such as losing
+character sheets, updating numerous derived stats, and performing mundane and
+repetitive calculations.
 
-This document contains commands that should be run from a shell (command line).
-Your shell's current working directory should be the root directory of this
+This document describes how to deploy GURPS Manager, and it provides a basic
+explanation of how the source code is laid out. This document contains commands
+that should be run from a shell (command line). When running those commands,
+your shell's current working directory should be the root directory of this
 repository. That is, you should ``cd`` to the directory containing this
 document.
+
+You can get the source code for GURPS Manager at
+https://github.com/Ichimonji10/gurps-manager.git.
+
+.. contents::
 
 Deployment Guide
 ================
