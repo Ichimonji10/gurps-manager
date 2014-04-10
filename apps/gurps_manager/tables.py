@@ -68,7 +68,7 @@ def campaign_table(user):
             consequently, a row in the table).
 
             """
-            if record.owner == user:
+            if record.owner == user or user.is_superuser:
                 return mark_safe(_restful_links('campaign', record.id))
             else:
                 return mark_safe('<a href="{}">View</a>'.format(
@@ -130,7 +130,7 @@ def character_table(user):
             consequently, a row in the table).
 
             """
-            if record.owner == user:
+            if record.owner == user or user.is_superuser:
                 return mark_safe(_restful_links('character', record.id))
             else:
                 return mark_safe('<a href="{}">View</a>'.format(

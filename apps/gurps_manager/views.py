@@ -1055,7 +1055,10 @@ def _viewable_characters(user):
         campaigns.add(character.campaign)
 
     # finally, find all "related" characters
-    return models.Character.objects.filter(campaign__in=campaigns)
+    if user.is_superuser:
+        return models.Character.objects.all()
+    else:
+        return models.Character.objects.filter(campaign__in=campaigns)
 
 def _viewable_campaigns(user):
     """Return a list of campaigns that ``user`` can view.
