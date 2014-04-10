@@ -1,0 +1,36 @@
+/* This stylesheet can be used with plain old forms, or forms whose contents are
+ * split into sections. Sample HTML:
+ *
+ * <h1>...</h1>
+ * <form>
+ *     <input type='hidden' />
+ *     <p>...</p>
+ *     <p>...</p>
+ *     <p>...</p>
+ *     <p><button>Submit</button></p>
+ * </form>
+ */
+
+/* Create a basic multi-column layout. */
+h1 + form {
+    margin-bottom: 1em;
+
+    column-width: 25em;
+    column-rule: thin solid #8291A0;
+    -moz-column-width: 25em;
+    -moz-column-rule: thin solid #8291A0;
+    -webkit-column-width: 25em;
+    -webkit-column-rule: thin solid #8291A0;
+}
+
+/* Each section is approximately the same size, as each one has the same set of
+ * form inputs. These rules take advantage of that fact to lay out sections in a
+ * grid-like fashion. */
+h1 + form section {
+    break-inside: avoid;
+    border-bottom: thin solid #8291A0;
+}
+
+/* The top margin of the first section's first paragraph pushes down the entire
+ * first column. */
+h1 + form input + section p:first-child {margin-top: 0;}

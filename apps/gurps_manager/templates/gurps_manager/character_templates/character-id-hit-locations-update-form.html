@@ -1,6 +1,11 @@
 {% extends 'gurps_manager/index.html' %}
+{% load static from staticfiles %}
 
 {% block title %}Update Character {{ character.name }} Hit Locations{% endblock %}
+
+{% block head %}
+    <link rel='stylesheet' href='{% static 'gurps_manager/css/multicolumn-form.css' %}'>
+{% endblock %}
 
 {% block breadcrumb %}
     <ol>
@@ -23,13 +28,9 @@
         {% csrf_token %}
         <input type='hidden' name='_method' value='PUT' />
         {{ formset.management_form }}
-        <table>
-            {% for form in formset %}
-            <tbody>
-            {{ form }}
-            </tbody>
-            {% endfor %}
-        </table>
+        {% for element in formset %}
+            <section>{{ element.as_p }}</section>
+        {% endfor %}
         <p><button>Submit</button></p>
     </form>
 {% endblock %}
