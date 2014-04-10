@@ -78,6 +78,11 @@ class Login(View):
         auth.logout(request)
         return http.HttpResponseRedirect(reverse('gurps-manager-login'))
 
+    def dispatch(self, request, *args, **kwargs):
+        """Override normal method dispatching behaviour."""
+        request.method = _decode_request(request)
+        return super().dispatch(request, *args, **kwargs)
+
 class Campaign(View):
     """Handle a request for ``campaign/``."""
     def post(self, request):
