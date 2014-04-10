@@ -1,7 +1,7 @@
 {% extends 'gurps_manager/index.html' %}
 {% load static from staticfiles %}
 
-{% block title %}Character {{ character.id }}{% endblock %}
+{% block title %}Character {{ character.name }}{% endblock %}
 
 {% block head %}
     <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>

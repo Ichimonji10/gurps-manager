@@ -2,7 +2,7 @@
 {% load render_table from django_tables2 %}
 {% load static from staticfiles %}
 
-{% block title %}Items{% endblock %}
+{% block title %}Campaign {{ campaign.name  }} Items{% endblock %}
 
 {% block head %}
     <link rel='stylesheet' href='{% static 'gurps_manager/css/django-tables2.css' %}'>
