@@ -2,6 +2,21 @@
 
 {% block title %}Update Character "{{ character.name }}"{% endblock %}
 
+{% block head %}
+    <style type='text/css'>
+        h1 + form {
+            margin-bottom: 1em;
+
+            column-width: 25em;
+            column-rule: thin solid #8291A0;
+            -moz-column-width: 25em;
+            -moz-column-rule: thin solid #8291A0;
+            -webkit-column-width: 25em;
+            -webkit-column-rule: thin solid #8291A0;
+        }
+    </style>
+{% endblock %}
+
 {% block breadcrumb %}
     <ol>
         <li><a href='{% url 'gurps-manager-character' %}'>Characters</a></li>

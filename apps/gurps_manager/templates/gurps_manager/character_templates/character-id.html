@@ -5,6 +5,20 @@
 
 {% block head %}
     <link rel='stylesheet' href='{% static 'gurps_manager/css/object-id.css' %}'>
+    <style type='text/css'>
+        section > dl {
+            column-width: 19em;
+            column-rule: thin solid #8291A0;
+            -moz-column-width: 19em;
+            -moz-column-rule: thin solid #8291A0;
+            -webkit-column-width: 19em;
+            -webkit-column-rule: thin solid #8291A0;
+        }
+        section > dl dt {font-style: italic;}
+        section > dl dd {
+            break-before: avoid;
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumb %}
