@@ -145,7 +145,7 @@ class CampaignId(View):
         return render(
             request,
             'gurps_manager/campaign_templates/campaign-id.html',
-            {'campaign': campaign}
+            {'campaign': campaign, 'user': request.user}
         )
 
     def put(self, request, campaign_id):
@@ -279,7 +279,7 @@ class CharacterId(View):
         return render(
             request,
             'gurps_manager/character_templates/character-id.html',
-            {'character': character}
+            {'character': character, 'user': request.user}
         )
 
     def put(self, request, character_id):

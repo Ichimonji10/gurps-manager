@@ -33,8 +33,10 @@
 {% block body %}
     <h1>{{ character.name }}</h1>
     <p>
+        {% if user == character.owner or user.is_superuser %}
         <a href='{% url 'gurps-manager-character-id-update-form' character.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-character-id-delete-form' character.id %}'>Delete</a>
+        {% endif %}
     </p>
     <p>
         This character has {{character.hitlocation_set.count}} <a

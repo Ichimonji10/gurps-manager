@@ -19,8 +19,10 @@
 {% block body %}
     <h1>{{ campaign.name }}</h1>
     <p>
+        {% if user == campaign.owner or user.is_superuser %}
         <a href='{% url 'gurps-manager-campaign-id-update-form' campaign.id %}'>Edit</a> or
         <a href='{% url 'gurps-manager-campaign-id-delete-form' campaign.id %}'>Delete</a>
+        {% endif %}
     </p>
     <p>
         This campaign has {{campaign.item_set.count}}
