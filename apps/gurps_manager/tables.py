@@ -173,7 +173,7 @@ class CharacterSkillTable(tables.Table):
         ``record`` represents a row of data from this table
 
         """
-        return record.score()
+        return int(record.score())
 
 class CharacterSpellTable(tables.Table):
     """An HTML table displaying ``CharacterSpell`` objects."""
@@ -198,7 +198,7 @@ class CharacterSpellTable(tables.Table):
         ``record`` represents a row of data from this table
 
         """
-        return record.score()
+        return int(record.score())
 
     def render_school(self, record):
         """Define how the ``school`` column should be rendered.
