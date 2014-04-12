@@ -743,7 +743,7 @@ class HitLocation(models.Model):
     status = models.TextField(max_length=MAX_LEN_STATUS, blank=True)
 
     # integer fields
-    passive_damage_resistance = models.IntegerField(verbose_name='PDR')
+    passive_defense = models.IntegerField(verbose_name='PD')
     damage_resistance = models.IntegerField(verbose_name='DR')
     damage_taken = models.IntegerField(default=0)
 
