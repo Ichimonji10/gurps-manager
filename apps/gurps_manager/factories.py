@@ -727,8 +727,8 @@ class HitLocationFactory(DjangoModelFactory):
     name = FuzzyAttribute(lambda: hitlocation_name()) # pylint: disable=W0108
     damage_taken = FuzzyAttribute(lambda: hitlocation_damage_taken()) # pylint: disable=W0108
     damage_resistance = FuzzyAttribute(lambda: hitlocation_damage_resistance()) # pylint: disable=W0108
-    passive_damage_resistance = FuzzyAttribute(
-        lambda: hitlocation_passive_damage_resistance() # pylint: disable=W0108
+    passive_defense = FuzzyAttribute(
+        lambda: hitlocation_passive_defense() # pylint: disable=W0108
     )
 
 def hitlocation_name():
@@ -764,11 +764,11 @@ def hitlocation_damage_resistance():
     """
     return random.randrange(-1000, 10000)
 
-def hitlocation_passive_damage_resistance(): # pylint: disable=C0103
-    """Return a value for the ``HitLocation.passive_damage_resistance`` model
+def hitlocation_passive_defense():
+    """Return a value for the ``HitLocation.passive_defense`` model
     attribute.
 
-    >>> isinstance(hitlocation_passive_damage_resistance(), int)
+    >>> isinstance(hitlocation_passive_defense(), int)
     True
 
     """

@@ -1689,7 +1689,7 @@ class CharacterIdHitLocationsTestCase(TestCase):
             'hitlocation_set-0-damage_resistance': ['3'],
             'hitlocation_set-0-damage_taken': ['0'],
             'hitlocation_set-0-name': ['head'],
-            'hitlocation_set-0-passive_damage_resistance': ['2'],
+            'hitlocation_set-0-passive_defense': ['2'],
             'hitlocation_set-0-status': [''],
         }
         response = self.client.post(self.path, data)
