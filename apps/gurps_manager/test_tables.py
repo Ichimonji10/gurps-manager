@@ -72,6 +72,14 @@ class CharacterTableTestCase(TestCase):
             tables._truncate_string(string) # pylint: disable=W0212
         )
 
+    def test_render_story(self):
+        """Test method ``render_story``."""
+        string = factories._random_str(130, 150)
+        self.assertEqual(
+            self.table.render_story(string),
+            tables._truncate_string(string) # pylint: disable=W0212
+        )
+
     def test_render_actions_v1(self):
         """Test method ``render_actions``."""
         character = factories.CharacterFactory.create()
@@ -87,3 +95,45 @@ class CharacterTableTestCase(TestCase):
             type(self.table.render_actions(character)),
             str
         ))
+
+class TraitTableTestCase(TestCase):
+    """Tests for ``TraitTable``."""
+    def setUp(self):
+        """Instantiate a ``TraitTable`` object."""
+        self.table = tables.TraitTable(models.Trait.objects.all())
+
+    def test_render_description(self):
+        """Test method ``render_description``."""
+        string = factories._random_str(130, 150)
+        self.assertEqual(
+            self.table.render_description(string),
+            tables._truncate_string(string) # pylint: disable=W0212
+        )
+
+class HitLocationTableTestCase(TestCase):
+    """Tests for ``HitLocationTable``."""
+    def setUp(self):
+        """Instantiate a ``HitLocationTable`` object."""
+        self.table = tables.HitLocationTable(models.HitLocation.objects.all())
+
+    def test_render_status(self):
+        """Test method ``render_status``."""
+        string = factories._random_str(130, 150)
+        self.assertEqual(
+            self.table.render_status(string),
+            tables._truncate_string(string) # pylint: disable=W0212
+        )
+
+class ItemTableTestCase(TestCase):
+    """Tests for ``ItemTable``."""
+    def setUp(self):
+        """Instantiate a ``ItemTable`` object."""
+        self.table = tables.ItemTable(models.Item.objects.all())
+
+    def test_render_description(self):
+        """Test method ``render_description``."""
+        string = factories._random_str(130, 150)
+        self.assertEqual(
+            self.table.render_description(string),
+            tables._truncate_string(string) # pylint: disable=W0212
+        )

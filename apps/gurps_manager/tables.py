@@ -123,6 +123,14 @@ def character_table(user):
             """
             return _truncate_string(value)
 
+        def render_story(self, value):
+            """Define how the ``story`` column should be rendered.
+
+            ``value`` represents a single cell of data from the table.
+
+            """
+            return _truncate_string(value)
+
         def render_actions(self, record):
             """Define how the ``actions`` column should be rendered.
 
@@ -321,6 +329,14 @@ class TraitTable(tables.Table):
         exclude = ('character', 'id')
         sequence = ('name', 'description', '...')
 
+    def render_description(self, value):
+        """Define how the ``description`` column should be rendered.
+
+        ``value`` represents a single cell of data from the table.
+
+        """
+        return _truncate_string(value)
+
 class HitLocationTable(tables.Table):
     """An HTML table displaying ``HitLocation`` objects."""
 
@@ -330,6 +346,14 @@ class HitLocationTable(tables.Table):
         exclude = ('character', 'id')
         sequence = ('name', '...')
 
+    def render_status(self, value):
+        """Define how the ``status`` column should be rendered.
+
+        ``value`` represents a single cell of data from the table.
+
+        """
+        return _truncate_string(value)
+
 class ItemTable(tables.Table):
     """An HTML table displaying ``Item`` objects."""
 
@@ -337,6 +361,14 @@ class ItemTable(tables.Table):
         """Table attributes that are not custom fields."""
         model = models.Item
         exclude = ('campaign', 'id',)
+
+    def render_description(self, value):
+        """Define how the ``description`` column should be rendered.
+
+        ``value`` represents a single cell of data from the table.
+
+        """
+        return _truncate_string(value)
 
 class SpellTable(tables.Table):
     """An HTML table displaying ``Spell`` objects."""
