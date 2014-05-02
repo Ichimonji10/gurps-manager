@@ -39,19 +39,28 @@
         {% endif %}
     </p>
     <p>
-        This character has {{character.hitlocation_set.count}} <a
-        href='{% url 'gurps-manager-character-id-hit-locations' character.id %}'
-        >hit locations</a>, {{character.possession_set.count}} unique <a
-        href='{% url 'gurps-manager-character-id-possessions' character.id %}'
-        >possessions</a>, {{character.skills.count}} <a
-        href='{% url 'gurps-manager-character-id-skills' character.id %}'
-        >skills</a>, {{character.spells.count}} <a
-        href='{% url 'gurps-manager-character-id-spells' character.id %}'
-        >spells</a> and {{character.trait_set.count}} <a
-        href='{% url 'gurps-manager-character-id-traits' character.id %}'
-        >traits</a>. They are participating in the campaign "<a
-        href='{% url 'gurps-manager-campaign-id' character.campaign.id %}'
-        >{{character.campaign.name}}</a>".
+        {% if user == character.owner or user.is_superuser %}
+            This character has {{character.hitlocation_set.count}} <a
+            href='{% url 'gurps-manager-character-id-hit-locations' character.id %}'
+            >hit locations</a>, {{character.possession_set.count}} unique <a
+            href='{% url 'gurps-manager-character-id-possessions' character.id %}'
+            >possessions</a>, {{character.skills.count}} <a
+            href='{% url 'gurps-manager-character-id-skills' character.id %}'
+            >skills</a>, {{character.spells.count}} <a
+            href='{% url 'gurps-manager-character-id-spells' character.id %}'
+            >spells</a> and {{character.trait_set.count}} <a
+            href='{% url 'gurps-manager-character-id-traits' character.id %}'
+            >traits</a>. They are participating in the campaign "<a
+            href='{% url 'gurps-manager-campaign-id' character.campaign.id %}'
+            >{{character.campaign.name}}</a>".
+        {% else %}
+            This character has {{character.hitlocation_set.count}} hit locations,
+            {{character.possession_set.count}} unique possessions,
+            {{character.skills.count}} skills,
+            {{character.spells.count}} spells and
+            {{character.trait_set.count}} traits.
+            They are participating in the campaign "{{character.campaign.name}}".
+        {% endif %}
     </p>
     <section>
         <h1>Basic Information</h1>
