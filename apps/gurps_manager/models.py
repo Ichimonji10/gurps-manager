@@ -269,15 +269,16 @@ class Character(models.Model):
 
     def speed(self):
         """Returns a character's speed"""
-        default_speed = ((self.dexterity + self.health) / 4) + self.bonus_speed
-        for skill in CharacterSkill.objects.filter(character=self):
-            if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
-                return default_speed + (skill.score() / 8)
-        return default_speed
+        return ((self.dexterity + self.health) / 4) + self.bonus_speed
 
     def movement(self):
         """Returns a character's movement"""
-        return floor(self.speed()) \
+        # Factor in the running skill if they have it.
+        running_bonus = 0
+        for skill in CharacterSkill.objects.filter(character=self):
+            if re.search('^running$', skill.skill.name, flags=re.IGNORECASE):
+                running_bonus = (skill.score() / 8)
+        return floor(self.speed() + running_bonus) \
             - self.encumbrance_penalty() \
             + self.bonus_movement
 

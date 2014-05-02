@@ -199,17 +199,8 @@ class CharacterTestCase(TestCase):
     def test_speed(self):
         """Test the ``speed`` method."""
         char = factories.CharacterFactory.create()
-
-        # Character does not have the "running" skill.
         speed = ((char.dexterity + char.health) / 4) + char.bonus_speed
         self.assertEqual(char.speed(), speed)
-
-        # Create a "running" skill. Link it to the test character.
-        char_skill = factories.CharacterSkillFactory(
-            character=char,
-            skill=factories.SkillFactory(name='RuNnInG')
-        )
-        self.assertEqual(char.speed(), speed + (char_skill.score() / 8))
 
     def test_movement(self):
         """Test the ``movement`` method."""
@@ -217,7 +208,22 @@ class CharacterTestCase(TestCase):
         character_movement = floor(character.speed()) \
             - character.encumbrance_penalty() \
             + character.bonus_movement
+
+        # Without the running skill
         self.assertEqual(character.movement(), character_movement)
+
+        # Create a "running" skill. Link it to the test character.
+        char_skill = factories.CharacterSkillFactory(
+            character=character,
+            skill=factories.SkillFactory(name='RuNnInG')
+        )
+        character_movement = floor(character.speed() + (char_skill.score() / 8)) \
+            - character.encumbrance_penalty() \
+            + character.bonus_movement
+
+        # With the running skills
+        self.assertEqual(character.movement(), character_movement)
+
 
     def test_dodge(self):
         """Test the ``dodge`` method."""
