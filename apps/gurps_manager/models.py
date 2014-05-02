@@ -397,6 +397,15 @@ class Character(models.Model):
         """Returns a string representation of the object"""
         return self.name
 
+    def clean(self):
+        """Perform model-wide validation."""
+        # Don't allow the user to spend too many character points.
+        if self.total_points_spent() > self.total_points:
+            raise ValidationError(
+                'Too many character points spent. Only {} are available; you ' \
+                ' spent {}.'.format(self.total_points, self.total_points_spent())
+            )
+
 class Trait(models.Model):
     """An Advantage or Disadvantage that a character may have"""
     MAX_LEN_NAME = 50
