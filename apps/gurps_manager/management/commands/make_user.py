@@ -23,10 +23,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Create a User object."""
-        username = args[0]
-        password = args[1]
-        email = ''
+        try:
+            username = args[0]
+            password = args[1]
+        except IndexError:
+            raise CommandError('Too few arguments provided.')
 
+        email = ''
         user = User.objects.create_user(username, email, password)
         if options['admin']:
             user.is_staff = True
