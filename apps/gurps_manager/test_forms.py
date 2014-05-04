@@ -45,6 +45,7 @@ class CharacterFormTestCase(TestCase):
     @classmethod
     def _character_attributes(cls):
         """Return a dict of attributes for populating a CharacterForm."""
+        # This dict is based on class `CharacterFactory`.
         return {
             'campaign': factories.CampaignFactory.create().id,
             'owner': factories.UserFactory.create().id,
@@ -77,7 +78,7 @@ class CharacterFormTestCase(TestCase):
             'free_health': factories.character_intfield(),
 
             # float fields
-            'total_points': factories.character_floatfield(),
+            'total_points': 500000.0,
             'used_fatigue': factories.character_floatfield(),
 
             # lookup fields

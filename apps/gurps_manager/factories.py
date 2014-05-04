@@ -184,7 +184,10 @@ class CharacterFactory(DjangoModelFactory):
     free_health = FuzzyAttribute(lambda: character_intfield())
 
     # float-based fields
-    total_points = FuzzyAttribute(lambda: character_floatfield())
+    # Empirical testing has shown that 500,000 is a high enough limit. However,
+    # this has not been proved true mathematically, so the test suite could
+    # still conceivably fail b/c this number is not large enough.
+    total_points = 500000.0
     used_fatigue = FuzzyAttribute(lambda: character_floatfield())
 
     # lookup fields

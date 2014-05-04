@@ -400,10 +400,20 @@ class Character(models.Model):
     def clean(self):
         """Perform model-wide validation."""
         # Don't allow the user to spend too many character points.
-        if self.total_points_spent() > self.total_points:
+        try:
+            if self.total_points_spent() > self.total_points:
+                raise ValidationError(
+                    'Too many character points spent. Only {} are available; '
+                    'you spent {}.'.format(
+                    self.total_points,
+                    self.total_points_spent()
+                ))
+        except TypeError:
+            # This error occurs if, say, total_points_spent is 150 and
+            # total_points is None.
             raise ValidationError(
-                'Too many character points spent. Only {} are available; you ' \
-                ' spent {}.'.format(self.total_points, self.total_points_spent())
+                'Could not check if too many character points have been spent. '
+                'Have you set "total points" yet?'
             )
 
 class Trait(models.Model):
