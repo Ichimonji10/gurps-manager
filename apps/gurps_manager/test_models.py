@@ -217,7 +217,8 @@ class CharacterTestCase(TestCase):
             character=character,
             skill=factories.SkillFactory(name='RuNnInG')
         )
-        character_movement = floor(character.speed() + (char_skill.score() / 8)) \
+        character_movement = floor(character.speed() \
+            + (char_skill.score() / 8)) \
             - character.encumbrance_penalty() \
             + character.bonus_movement
 
