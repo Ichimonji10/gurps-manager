@@ -269,7 +269,11 @@ def character_appearance():
     True
 
     """
-    return random.choice([-30, -25, -20, -10, -5, 0, 5, 15, 25, 35])
+    return random.choice([
+        pair[0]
+        for pair
+        in models.Character.APPEARANCE_CHOICES
+    ])
 
 def character_wealth():
     """Return a value for the ``Character.wealth`` model attribute.
@@ -278,7 +282,11 @@ def character_wealth():
     True
 
     """
-    return random.choice([-25, -15, -10, 0, 10, 20, 30, 50])
+    return random.choice([
+        pair[0]
+        for pair
+        in models.Character.WEALTH_CHOICES
+    ])
 
 def character_eidetic_memory():
     """Return a value for the ``Character.eidetic_memory`` model attribute.
@@ -287,7 +295,11 @@ def character_eidetic_memory():
     True
 
     """
-    return random.choice([0, 30, 60])
+    return random.choice([
+        pair[0]
+        for pair
+        in models.Character.EIDETIC_MEMORY_CHOICES
+    ])
 
 def character_muscle_memory():
     """Return a value for the ``Character.muscle_memory`` model attribute.
@@ -296,7 +308,11 @@ def character_muscle_memory():
     True
 
     """
-    return random.choice([0, 30, 60])
+    return random.choice([
+        pair[0]
+        for pair
+        in models.Character.MUSCLE_MEMORY_CHOICES
+    ])
 
 class SkillSetFactory(DjangoModelFactory):
     """Instantiate a ``gurps_manager.models.SkillSet`` object.
