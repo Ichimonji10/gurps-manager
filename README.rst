@@ -7,7 +7,7 @@ gurps-manager
 GURPS Manager is a web application for managing tabletop role-playing campaigns.
 It solves common problems with the typical pen-and-paper medium, such as losing
 character sheets, updating numerous derived stats, and performing mundane and
-repetitive calculations.
+repetitive calculations. GURPS Manager supports the GURPS 3rd edition ruleset.
 
 This document describes how to deploy GURPS Manager, and it provides a basic
 explanation of how the source code is laid out. This document contains commands
