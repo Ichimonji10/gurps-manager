@@ -1,0 +1,6 @@
+language: python
+python:
+    - 3.4
+install: pip install -r requirements.txt
+before_script: sed -i -e "s/SECRET_KEY = ''/SECRET_KEY = 'foobar'/" apps/main/settings.py
+script: 'apps/manage.py test gurps_manager'
