@@ -1,0 +1,6 @@
+django==1.6
+django-extensions
+django-tables2
+factory_boy
+pylint
+PyYAML

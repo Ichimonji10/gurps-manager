@@ -25,21 +25,13 @@ This project is not dependent upon any particular web server, app server,
 communication protocol, or database backend. However, it is only tested with
 certain configurations. Directions for two simple deployments are listed below.
 
-Before proceeding, you'll need to install Python 3 and the following Python
-modules:
+Before proceeding, you'll need to install Python 3 and the Python modules listed
+in `requirements.txt <requirements.txt>`_. These modules can be installed via
+any of the usual methods: your package manager, manually, or with a pypi helper
+such as easy_install or pip. If you have virtualenv and pip installed, you can
+also use a convenience script::
 
-* django (version 1.6)
-* django-extensions
-* django-tables2
-* factory_boy
-* pylint
-* pyyaml
-
-These modules can be installed via any of the usual methods: your package
-manager, manually, or with a pypi helper such as easy_install or pip. If you
-have virtualenv and pip installed, you can also use a convenience script::
-
-    $ virtualenv-setup.sh <destination_directory>
+    $ virtualenv-setup.sh requirements.txt <destination_directory>
 
 This creates a virtualenv environment in ``destination_directory``. The
 environment can be activated and deactivated like so::
