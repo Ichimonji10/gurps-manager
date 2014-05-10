@@ -34,7 +34,7 @@ any of the usual methods: your package manager, manually, or with a pypi helper
 such as easy_install or pip. If you have virtualenv and pip installed, you can
 also use a convenience script::
 
-    $ virtualenv-setup.sh requirements.txt <destination_directory>
+    $ ./virtualenv-setup.sh requirements.txt <destination_directory>
 
 This creates a virtualenv environment in ``destination_directory``. The
 environment can be activated and deactivated like so::
