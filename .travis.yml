@@ -1,6 +1,8 @@
 language: python
-python:
-    - 3.4
-install: pip install -r requirements.txt
+python: 3.4
+install:
+    - pip install -r requirements.txt
+    - pip install coverage coveralls
 before_script: sed -i -e "s/SECRET_KEY = ''/SECRET_KEY = 'foobar'/" apps/main/settings.py
-script: 'apps/manage.py test gurps_manager'
+script: coverage run --source=apps apps/manage.py test gurps_manager
+after_success: coveralls

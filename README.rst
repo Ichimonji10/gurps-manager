@@ -3,6 +3,8 @@ gurps-manager
 
 .. image:: https://api.travis-ci.org/Ichimonji10/gurps-manager.png
     :target: https://travis-ci.org/Ichimonji10/gurps-manager
+.. image:: https://coveralls.io/repos/Ichimonji10/gurps-manager/badge.png
+    :target: https://coveralls.io/r/Ichimonji10/gurps-manager
 
 GURPS Manager is a web application for managing tabletop role-playing campaigns.
 It solves common problems with the typical pen-and-paper medium, such as losing
