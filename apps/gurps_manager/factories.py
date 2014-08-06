@@ -33,9 +33,11 @@ class UserFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = User
     username = Sequence(lambda n: user_username(n)) # pylint: disable=W0108
     password = FuzzyAttribute(lambda: user_password()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = User
 
 def user_username(prefix=''):
     """Return a value suitable for the ``User.username`` model attribute.
@@ -91,9 +93,11 @@ class CampaignFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Campaign
     name = FuzzyAttribute(lambda: campaign_name()) # pylint: disable=W0108
     owner = SubFactory(UserFactory)
+
+    class Meta(object):
+        model = models.Campaign
 
 def campaign_name():
     """Return a value for the ``Campaign.name`` model attribute.
@@ -157,8 +161,6 @@ class CharacterFactory(DjangoModelFactory):
     # pylint: disable=R0903
     # pylint: disable=W0232
     # pylint: disable=W0108
-    FACTORY_FOR = models.Character
-
     campaign = SubFactory(CampaignFactory)
     owner = SubFactory(UserFactory)
     name = FuzzyAttribute(lambda: character_name())
@@ -195,6 +197,10 @@ class CharacterFactory(DjangoModelFactory):
     wealth = FuzzyAttribute(lambda: character_wealth())
     eidetic_memory = FuzzyAttribute(lambda: character_eidetic_memory())
     muscle_memory = FuzzyAttribute(lambda: character_muscle_memory())
+
+    class Meta(object):
+        model = models.Character
+
 
 def character_name():
     """Return a value for the ``Character.name`` model attribute.
@@ -324,8 +330,10 @@ class SkillSetFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.SkillSet
     name = FuzzyAttribute(lambda: skillset_name()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = models.SkillSet
 
 def skillset_name():
     """Return a value for the ``SkillSet.name`` model attribute.
@@ -353,11 +361,13 @@ class SkillFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Skill
     name = FuzzyAttribute(lambda: skill_name()) # pylint: disable=W0108
     category = FuzzyAttribute(lambda: skill_category()) # pylint: disable=W0108
     difficulty = FuzzyAttribute(lambda: skill_difficulty()) # pylint: disable=W0108
     skillset = SubFactory(SkillSetFactory)
+
+    class Meta(object):
+        model = models.Skill
 
 def skill_name():
     """Return a value for the ``Skill.name`` model attribute.
@@ -413,11 +423,13 @@ class CharacterSkillFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.CharacterSkill
     skill = SubFactory(SkillFactory)
     character = SubFactory(CharacterFactory)
     bonus_level = FuzzyAttribute(lambda: characterskill_bonus_level()) # pylint: disable=W0108
     points = FuzzyAttribute(lambda: characterskill_points()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = models.CharacterSkill
 
 def characterskill_bonus_level():
     """Return a value for the ``CharacterSkill.bonus_level`` model attribute.
@@ -451,10 +463,12 @@ class TraitFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Trait
     name = FuzzyAttribute(lambda: trait_name()) # pylint: disable=W0108
     points = FuzzyAttribute(lambda: trait_points()) # pylint: disable=W0108
     character = SubFactory(CharacterFactory)
+
+    class Meta(object):
+        model = models.Trait
 
 def trait_name():
     """Return a value for the ``Trait.name`` model attribute.
@@ -494,11 +508,13 @@ class ItemFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Item
     campaign = SubFactory(CampaignFactory)
     name = FuzzyAttribute(lambda: item_name()) # pylint: disable=W0108
     value = FuzzyAttribute(lambda: item_value()) # pylint: disable=W0108
     weight = FuzzyAttribute(lambda: item_weight()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = models.Item
 
 def item_name():
     """Return a value for the ``Item.name`` model attribute.
@@ -550,10 +566,12 @@ class PossessionFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Possession
     character = SubFactory(CharacterFactory)
     item = SubFactory(ItemFactory)
     quantity = FuzzyAttribute(lambda: possession_quantity()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = models.Possession
 
 def possession_quantity():
     """Return a value for the ``Possession.quantity`` model attribute.
@@ -578,7 +596,6 @@ class SpellFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.Spell
     campaign = SubFactory(CampaignFactory)
     name = FuzzyAttribute(lambda: spell_name()) # pylint: disable=W0108
     school = FuzzyAttribute(lambda: spell_school()) # pylint: disable=W0108
@@ -590,6 +607,9 @@ class SpellFactory(DjangoModelFactory):
     maintenance_fatigue_cost = FuzzyAttribute(
         lambda: spell_maintenance_fatigue_cost() # pylint: disable=W0108
     )
+
+    class Meta(object):
+        model = models.Spell
 
 def spell_name():
     """Return a value for the ``Spell.name`` model attribute.
@@ -703,11 +723,13 @@ class CharacterSpellFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.CharacterSpell
     character = SubFactory(CharacterFactory)
     spell = SubFactory(SpellFactory)
     points = FuzzyAttribute(lambda: characterspell_points()) # pylint: disable=W0108
     bonus_level = FuzzyAttribute(lambda: characterspell_bonus_level()) # pylint: disable=W0108
+
+    class Meta(object):
+        model = models.CharacterSpell
 
 def characterspell_points():
     """Return a value for the ``CharacterSpell.points`` model attribute.
@@ -741,7 +763,6 @@ class HitLocationFactory(DjangoModelFactory):
     """
     # pylint: disable=R0903
     # pylint: disable=W0232
-    FACTORY_FOR = models.HitLocation
     character = SubFactory(CharacterFactory)
     name = FuzzyAttribute(lambda: hitlocation_name()) # pylint: disable=W0108
     damage_taken = FuzzyAttribute(lambda: hitlocation_damage_taken()) # pylint: disable=W0108
@@ -749,6 +770,9 @@ class HitLocationFactory(DjangoModelFactory):
     passive_defense = FuzzyAttribute(
         lambda: hitlocation_passive_defense() # pylint: disable=W0108
     )
+
+    class Meta(object):
+        model = models.HitLocation
 
 def hitlocation_name():
     """Return a value for the ``HitLocation.name`` model attribute.
