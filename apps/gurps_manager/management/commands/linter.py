@@ -10,12 +10,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Search for .py files and lint them."""
         python_files = []
-        for root, dirs, files in os.walk(os.path.join( # pylint: disable=W0612
-            os.path.dirname(os.path.realpath(__file__)),
-            '..',
-            '..',
-            '..'
-        )):
+        for root, _, files in os.walk(os.path.join(
+                os.path.dirname(os.path.realpath(__file__)),
+                '..',
+                '..',
+                '..')):
             for file in files:
                 if file.endswith(".py"):
                     python_files.append(

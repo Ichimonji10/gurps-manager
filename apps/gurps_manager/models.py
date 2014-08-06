@@ -405,9 +405,10 @@ class Character(models.Model):
                 raise ValidationError(
                     'Too many character points spent. Only {} are available; '
                     'you spent {}.'.format(
-                    self.total_points,
-                    self.total_points_spent()
-                ))
+                        self.total_points,
+                        self.total_points_spent()
+                    )
+                )
         except TypeError:
             # This error occurs if, say, total_points_spent is 150 and
             # total_points is None.

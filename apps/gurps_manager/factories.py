@@ -37,6 +37,7 @@ class UserFactory(DjangoModelFactory):
     password = FuzzyAttribute(lambda: user_password()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = User
 
 def user_username(prefix=''):
@@ -55,7 +56,7 @@ def user_username(prefix=''):
 
     """
     username = str(prefix)
-    for i in range(random.randint(1, 30 - len(username))):
+    for _ in range(random.randint(1, 30 - len(username))):
         username += random.choice(USERNAME_CHARSET)
     return username
 
@@ -97,6 +98,7 @@ class CampaignFactory(DjangoModelFactory):
     owner = SubFactory(UserFactory)
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Campaign
 
 def campaign_name():
@@ -199,6 +201,7 @@ class CharacterFactory(DjangoModelFactory):
     muscle_memory = FuzzyAttribute(lambda: character_muscle_memory())
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Character
 
 
@@ -333,6 +336,7 @@ class SkillSetFactory(DjangoModelFactory):
     name = FuzzyAttribute(lambda: skillset_name()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.SkillSet
 
 def skillset_name():
@@ -367,6 +371,7 @@ class SkillFactory(DjangoModelFactory):
     skillset = SubFactory(SkillSetFactory)
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Skill
 
 def skill_name():
@@ -429,6 +434,7 @@ class CharacterSkillFactory(DjangoModelFactory):
     points = FuzzyAttribute(lambda: characterskill_points()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.CharacterSkill
 
 def characterskill_bonus_level():
@@ -468,6 +474,7 @@ class TraitFactory(DjangoModelFactory):
     character = SubFactory(CharacterFactory)
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Trait
 
 def trait_name():
@@ -514,6 +521,7 @@ class ItemFactory(DjangoModelFactory):
     weight = FuzzyAttribute(lambda: item_weight()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Item
 
 def item_name():
@@ -571,6 +579,7 @@ class PossessionFactory(DjangoModelFactory):
     quantity = FuzzyAttribute(lambda: possession_quantity()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Possession
 
 def possession_quantity():
@@ -609,6 +618,7 @@ class SpellFactory(DjangoModelFactory):
     )
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.Spell
 
 def spell_name():
@@ -729,6 +739,7 @@ class CharacterSpellFactory(DjangoModelFactory):
     bonus_level = FuzzyAttribute(lambda: characterspell_bonus_level()) # pylint: disable=W0108
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.CharacterSpell
 
 def characterspell_points():
@@ -772,6 +783,7 @@ class HitLocationFactory(DjangoModelFactory):
     )
 
     class Meta(object):
+        """Non-field information about this factory."""
         model = models.HitLocation
 
 def hitlocation_name():
@@ -858,6 +870,6 @@ def _random_str(min_len=0, max_len=0):
 
     """
     string = ''
-    for i in range(_random_int(min_len, max_len)):
+    for _ in range(_random_int(min_len, max_len)):
         string += chr(random.randrange(0, 0xD7FF))
     return string
