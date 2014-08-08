@@ -40,3 +40,6 @@ body {
 
 /* Make errors more obvious. */
 ul.errorlist {color: red;}
+
+/* Make 'Create New' links stand out more */
+a.createnew {font-weight: bold;}

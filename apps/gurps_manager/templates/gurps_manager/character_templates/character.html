@@ -17,8 +17,9 @@
 {% block body %}
     <h1>Characters</h1>
     <p>
-        You can create a new character <a
-        href='{% url 'gurps-manager-character-create-form' %}'>here</a>.
+        <a class="createnew" href='{% url 'gurps-manager-character-create-form' %}'>
+        Create a new character
+        </a>
     </p>
     {% render_table table %}
 {% endblock %}
